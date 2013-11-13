@@ -1,144 +1,150 @@
-
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta charset='utf-8'>
-    <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <link href='https://fonts.googleapis.com/css?family=Chivo:900' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen" />
-    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen" />
-    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print" />
-    <!--[if lt IE 9]>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+	<META HTTP-EQUIV="CONTENT-TYPE" CONTENT="text/html; charset=utf-8">
+	<TITLE>Javascript by kxkyll</TITLE>
+	<META NAME="GENERATOR" CONTENT="LibreOffice 3.5  (Linux)">
+	<META NAME="CREATED" CONTENT="0;0">
+	<META NAME="CHANGEDBY" CONTENT="Marko Haanranta">
+	<META NAME="CHANGED" CONTENT="20131113;17534000">
+	<META NAME="" CONTENT="">
+	<META HTTP-EQUIV="X-UA-Compatible" CONTENT="chrome=1">
+	<!--[if lt IE 9]>
     <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
-    <title>Javascript by kxkyll</title>
-  </head>
-
-  <body>
-    <div id="container">
-      <div class="inner">
-
-        <header>
-          <h1>Javascript</h1>
-          <h2>2. viikko</h2>
-        </header>
-	
-	<p><em>Tekijät:</em> Marko Haanranta, Kasper Kivikataja,  Kati Kyllönen, Jussi Miestamo</p>
-
-	<p>
-		<a href="index.html">Pääsivu</a> <br />
-		<a href="week2.html">2. viikko</a> <br />
-		<a href="week3.html">3. viikko</a> <br />
-		<a href="week4.html">4. viikko</a> <br />
-	</p>
-<pre>
-	Viikko 2
-1. Hyviä ohjelmointikäytäntöjä:
-1.1 Tyyppiturvallisuuden tavoittelua
-
-Tekijät: Marko Haanranta, Kati Kyllönen, Jussi Miestamo, Kasper Kivikataja
-
-Javascriptissä muuttujat ja parametrit ovat tyypittömiä, mutta niiden arvoilla on tyypit. Javascriptin tietotyypit ovat merkkijono (string), luku (number), totuusarvo (boolean), taulukko (array), objekti (object), olematon (null) ja määrittelemätön (undefined). Vaikka muuttujilla ei olekaan tyyppiä, on arvojen tyyppejä syytä tarkistaa, jotta ohjelmat eivät tuottaisi odottamattomia tuloksia. Erityisesti käyttäjän syötteitä on hyvä tarkastella virheiden varalta. Javascriptissä yhteenlasku voidaan suorittaa ongelmitta luvun ja String-tyypin olion välillä.
-
-function sum(a,b){return (a+b)}
-write(sum(2,"w4"))                          //tulostaa "2w4"
-
-Javascript tarjoaa - kuten tunnettua - funktiot parseInt() ja parseFloat() kokonais- tai liukulukujen eristämiseen syötteestä: jos syöte alkaa numerolla, siitä erotetaan numero-osa, ja loppu jätetään huomiotta. Joissain tapauksessa tämä on täysin riittävä tapa varmistaa se, että syöte on kelvollista. Jos ohjelmoija odottaa saavansa syötteenä esimerkiksi kokonaisluvun, vaaraa ei ole, koska parseInt() palauttaa aina kokonaisluvun tai tietotyypin undefined. Tietysti ohjelmakoodin pitää olla rakennettu niin, että undefined:iin on varauduttu, mutta käytettiin mitä tahansa keinoa tyyppien tarkastamiseen, Undefined:iin on joka tapauksessa aina varauduttava, jotta ohjelman toiminta olisi ennakoitavaa.
-
-Vaikka yllä oleva esimerkki on yksinkertainen, pelkkä Undefined:iin varautuminen ei riitä. Koska oletettavaa on, että käyttäjä (tai funktiota kutsuva ohjelmoija) ei kirjoita syötteeseen lainausmerkkejä, esimerkin syötteen tekee kelvottomaksi todennäköisemmin käyttäjän lyöntivirhe:
-
-write(sum(2,w4))                   //Tulostaa konsoliin ReferenceError: w4 is not defined;
-
-Tällaisten tilanteiden varalta pitäisikin tarkistaa, onko syöte ylipäätään kokonaisluku. On onnekasta, jos syöte alkaa numeroilla, mutta jos ei ala, parseInt() ei pelasta.
-
-Tyyppien tarkistus ohjelmakoodissa on erityisen tärkeää juuri käyttäjän syötettä käsiteltäessä...
-
-Ehdotus kirjastofunktiosta tyyppitarkastusten tekemiseksi.
-
-    Tarkastusfunktio onko muuttujassa arvo
-
-function hasValue(value) {
-    if(value){
-        return true
-    }
-    return false
-}
-
-    Tarkastusfunktio numerolle
-
-function isNumber(value) {
-    return typeof value === 'number'
-}
-
-    Tarkastusfunktio kokonaisluvulle (jos value = 1.0, eli kun desimaaliosa on nolla, niin tulkitaan kokonaisluvuksi)
-
-function isInteger(value) {
-    return value === Math.floor(value)
-}
-
-    Tarkastusfunktio desimaaliluvulle (jos desimaaliosa on nolla, niin ei tulkita desimaaliluvuksi)
-
-function isDouble (value) { 
-    return typeof value === "number" && !isNaN(value) && value !== Math.floor(n)
-}
-
-se onko tälle käytännössä tarvetta, herätti keskustelua ryhmässämme. Toisaalta monet kirjastofunktiot tarjoavat usein palveluja, joiden käyttötarkoitusta voi vain arvailla.
-
-    Tarkastusfunktio merkkijonolle (tässä tyhjä merkkijono tulkitaan merkkijonoksi)
-
-function isString(value) {
-    return typeof value === 'string'
-}
-
-    Tarkastusfunktio funktiolle
-
-function isFunction(func) {
-   var getType = {};
-   return func && getType.toString.call(func) === '[object Function]';
-}
-
-    Tarkastusfunktio objektille
-
-function isObject(object) {
-   return typeof object === 'object';
-}
-
-    Tarkastusfunktio arraylle
-
-function isArray(value) {
-    return value instanceof Array;
-}
-
-    Tarkastusfunktio booleanille
-
-function isBoolean(value) {
-   return typeof value === 'boolean';
-}
-
-Esimerkkejä tyyppiturvallisuutta tavoittelevasta ohjelmointityylistä
-
-Yleisen tason pohdiskelua tyyppiturvallisuuden tavoittelusta
-
-Lomakkeiden validointi
-
-    Javascript kuitenkin luotu nettisivuja varten, sikäli on siis hiukan keinotekoista yrittää irrottaa JS:ää html:stä. Tässä siksi siis puhutaan stringien validoinnin yhteydessä lomakkeista ja tietysti säännöllisistä lausekkeista.
-
-Lähteet:
-
-http://www.w3schools.com/js/js_datatypes.asp
-
-http://www.cs.helsinki.fi/u/wikla/OTjs/materiaalia/tyyppeja/
-
-http://united-coders.com/matthias-reuter/handling-the-unexpected-type-safe-functions-in-javascript/
-
-</pre>
-        <footer>
-          Javascript is maintained by <a href="https://github.com/kxkyll">kxkyll</a><br>
-          This page was generated by <a href="http://pages.github.com">GitHub Pages</a>. Tactile theme by <a href="https://twitter.com/jasonlong">Jason Long</a>.
-        </footer>
-
-        
-      </div>
-    </div>
-  </body>
-</html>
+	<STYLE TYPE="text/css">
+	<!--
+		H1 { line-height: 100% }
+		P { line-height: 100% }
+		H2 { line-height: 100% }
+		H2.cjk { font-family: "WenQuanYi Zen Hei" }
+		H2.ctl { font-family: "Lohit Hindi" }
+		PRE { line-height: 100% }
+		PRE.cjk { font-family: "WenQuanYi Zen Hei Mono", monospace }
+		PRE.ctl { font-family: "Lohit Hindi", monospace }
+	-->
+	</STYLE>
+</HEAD>
+<BODY LANG="fi-FI" DIR="LTR" STYLE="border: none; padding: 0cm">
+<DIV ID="container" DIR="LTR">
+	<H1 LANG="en-GB">Javascript</H1>
+	<H2 LANG="en-GB" CLASS="western">2. viikko</H2>
+	<P LANG="en-GB"><EM>Tekijät:</EM> Marko Haanranta, Kasper
+	Kivikataja, Kati Kyllönen, Jussi Miestamo</P>
+	<P LANG="en-GB"><A HREF="index.html">Pääsivu</A> <BR><A HREF="">2.
+	viikko</A> <BR><A HREF="week3.html">3. viikko</A> <BR><A HREF="week4.html">4.
+	viikko</A> 
+	</P>
+	<PRE LANG="en-GB" CLASS="western"><A NAME="line1"></A>&lt;p&gt;Javascriptissä muuttujat ja parametrit ovat tyypittömiä, mutta niiden arvoilla on tyypit. Javascriptin tietotyypit ovat merkkijono (string), luku (number), totuusarvo (boolean), taulukko (array), objekti (object), olematon (null) ja määrittelemätön (undefined). Vaikka muuttujilla ei olekaan tyyppiä, on arvojen tyyppejä syytä tarkistaa, jotta ohjelmat eivät tuottaisi odottamattomia tuloksia. Erityisesti käyttäjän syötteitä on hyvä tarkastella virheiden varalta. Javascriptissä yhteenlasku voidaan suorittaa ongelmitta luvun ja String-tyypin olion välillä.&lt;/p&gt;
+<A NAME="line513"></A>
+<A NAME="line514"></A><SPAN LANG="en-GB">&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;sum&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;b&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;){&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;b&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)}&lt;/span&gt;</SPAN>
+<A NAME="line515"></A><SPAN LANG="en-GB">&lt;span class=&quot;nx&quot;&gt;write&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;sum&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;w4&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;                          &lt;span class=&quot;c1&quot;&gt;//tulostaa &quot;2w4&quot;&lt;/span&gt;</SPAN>
+<A NAME="line516"></A><SPAN LANG="en-GB">&lt;/pre&gt;&lt;/div&gt;</SPAN>
+<A NAME="line517"></A>
+<A NAME="line518"></A><SPAN LANG="en-GB">&lt;p&gt;Javascript tarjoaa - kuten tunnettua - funktiot &lt;code&gt;parseInt()&lt;/code&gt; ja &lt;code&gt;parseFloat()&lt;/code&gt; kokonais- tai liukulukujen eristämiseen syötteestä: jos syöte alkaa numerolla, siitä erotetaan numero-osa, ja loppu jätetään huomiotta. Joissain tapauksessa tämä on täysin riittävä tapa varmistaa se, että syöte on kelvollista. Jos ohjelmoija odottaa saavansa syötteenä esimerkiksi kokonaisluvun, vaaraa ei ole, koska &lt;code&gt;parseInt()&lt;/code&gt; palauttaa aina kokonaisluvun tai tietotyypin &lt;code&gt;undefined&lt;/code&gt;. Tietysti ohjelmakoodin pitää olla rakennettu niin, että &lt;code&gt;undefined&lt;/code&gt;:iin on varauduttu, mutta käytettiin mitä tahansa keinoa tyyppien tarkastamiseen, &lt;code&gt;Undefined&lt;/code&gt;:iin on joka tapauksessa aina varauduttava, jotta ohjelman toiminta olisi ennakoitavaa.&lt;/p&gt;</SPAN>
+<A NAME="line519"></A>
+<A NAME="line520"></A><SPAN LANG="en-GB">&lt;p&gt;Vaikka yllä oleva esimerkki on yksinkertainen, pelkkä &lt;code&gt;Undefined&lt;/code&gt;:iin varautuminen ei riitä. Koska oletettavaa on, että käyttäjä (tai funktiota kutsuva ohjelmoija) ei kirjoita syötteeseen lainausmerkkejä, esimerkin syötteen tekee kelvottomaksi todennäköisemmin käyttäjän lyöntivirhe:&lt;/p&gt;</SPAN>
+<A NAME="line521"></A>
+<A NAME="line522"></A><SPAN LANG="en-GB">&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;span class=&quot;n&quot;&gt;write&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;sum&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;w4&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;                   &lt;span class=&quot;c1&quot;&gt;//Tulostaa konsoliin ReferenceError: w4 is not defined;&lt;/span&gt;</SPAN>
+<A NAME="line523"></A><SPAN LANG="en-GB">&lt;/pre&gt;&lt;/div&gt;</SPAN>
+<A NAME="line524"></A>
+<A NAME="line525"></A><SPAN LANG="en-GB">&lt;p&gt;Tällaisten tilanteiden varalta pitäisikin tarkistaa, onko syöte ylipäätään kokonaisluku. On onnekasta, jos syöte alkaa numeroilla, mutta jos ei ala, &lt;code&gt;parseInt()&lt;/code&gt; ei pelasta.&lt;/p&gt;</SPAN>
+<A NAME="line526"></A>
+<A NAME="line527"></A><SPAN LANG="en-GB">&lt;p&gt;Tyyppien tarkistus ohjelmakoodissa on erityisen tärkeää juuri käyttäjän syötettä käsiteltäessä...&lt;/p&gt;</SPAN>
+<A NAME="line528"></A>
+<A NAME="line529"></A><SPAN LANG="en-GB">&lt;p&gt;Ehdotus kirjastofunktiosta tyyppitarkastusten tekemiseksi.&lt;/p&gt;</SPAN>
+<A NAME="line530"></A>
+<A NAME="line531"></A><SPAN LANG="en-GB">&lt;ul&gt;</SPAN>
+<A NAME="line532"></A><SPAN LANG="en-GB">&lt;li&gt;Tarkastusfunktio onko muuttujassa arvo&lt;/li&gt;</SPAN>
+<A NAME="line533"></A><SPAN LANG="en-GB">&lt;/ul&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;hasValue&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;value&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;</SPAN>
+<A NAME="line534"></A>    <SPAN LANG="en-GB">&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;value&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;){&lt;/span&gt;</SPAN>
+<A NAME="line535"></A>        <SPAN LANG="en-GB">&lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;true&lt;/span&gt;</SPAN>
+<A NAME="line536"></A>    <SPAN LANG="en-GB">&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;</SPAN>
+<A NAME="line537"></A>    <SPAN LANG="en-GB">&lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;false&lt;/span&gt;</SPAN>
+<A NAME="line538"></A><SPAN LANG="en-GB">&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;</SPAN>
+<A NAME="line539"></A><SPAN LANG="en-GB">&lt;/pre&gt;&lt;/div&gt;</SPAN>
+<A NAME="line540"></A>
+<A NAME="line541"></A><SPAN LANG="en-GB">&lt;ul&gt;</SPAN>
+<A NAME="line542"></A><SPAN LANG="en-GB">&lt;li&gt;Tarkastusfunktio numerolle&lt;/li&gt;</SPAN>
+<A NAME="line543"></A><SPAN LANG="en-GB">&lt;/ul&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;isNumber&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;value&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;</SPAN>
+<A NAME="line544"></A>    <SPAN LANG="en-GB">&lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;typeof&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;value&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;===&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'number'&lt;/span&gt;</SPAN>
+<A NAME="line545"></A><SPAN LANG="en-GB">&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;</SPAN>
+<A NAME="line546"></A><SPAN LANG="en-GB">&lt;/pre&gt;&lt;/div&gt;</SPAN>
+<A NAME="line547"></A>
+<A NAME="line548"></A><SPAN LANG="en-GB">&lt;ul&gt;</SPAN>
+<A NAME="line549"></A><SPAN LANG="en-GB">&lt;li&gt;Tarkastusfunktio kokonaisluvulle (jos value = 1.0, eli kun desimaaliosa on nolla, niin tulkitaan kokonaisluvuksi)&lt;/li&gt;</SPAN>
+<A NAME="line550"></A><SPAN LANG="en-GB">&lt;/ul&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;isInteger&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;value&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;</SPAN>
+<A NAME="line551"></A>    <SPAN LANG="en-GB">&lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;value&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;===&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;Math&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;floor&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;value&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;</SPAN>
+<A NAME="line552"></A><SPAN LANG="en-GB">&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;</SPAN>
+<A NAME="line553"></A><SPAN LANG="en-GB">&lt;/pre&gt;&lt;/div&gt;</SPAN>
+<A NAME="line554"></A>
+<A NAME="line555"></A><SPAN LANG="en-GB">&lt;ul&gt;</SPAN>
+<A NAME="line556"></A><SPAN LANG="en-GB">&lt;li&gt;Tarkastusfunktio desimaaliluvulle (jos desimaaliosa on nolla, niin ei tulkita desimaaliluvuksi)&lt;/li&gt;</SPAN>
+<A NAME="line557"></A><SPAN LANG="en-GB">&lt;/ul&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;isDouble&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;value&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; </SPAN>
+<A NAME="line558"></A>    <SPAN LANG="en-GB">&lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;typeof&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;value&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;===&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;number&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;isNaN&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;value&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;value&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;!==&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;Math&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;floor&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;n&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;</SPAN>
+<A NAME="line559"></A><SPAN LANG="en-GB">&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;</SPAN>
+<A NAME="line560"></A><SPAN LANG="en-GB">&lt;/pre&gt;&lt;/div&gt;</SPAN>
+<A NAME="line561"></A><SPAN LANG="en-GB">se onko tälle käytännössä tarvetta, herätti keskustelua ryhmässämme. Toisaalta monet kirjastofunktiot tarjoavat usein palveluja, joiden käyttötarkoitusta voi vain arvailla.</SPAN>
+<A NAME="line562"></A>
+<A NAME="line563"></A><SPAN LANG="en-GB">&lt;ul&gt;</SPAN>
+<A NAME="line564"></A><SPAN LANG="en-GB">&lt;li&gt;Tarkastusfunktio merkkijonolle (tässä tyhjä merkkijono tulkitaan merkkijonoksi)&lt;/li&gt;</SPAN>
+<A NAME="line565"></A><SPAN LANG="en-GB">&lt;/ul&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;isString&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;value&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;</SPAN>
+<A NAME="line566"></A>    <SPAN LANG="en-GB">&lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;typeof&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;value&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;===&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'string'&lt;/span&gt;</SPAN>
+<A NAME="line567"></A><SPAN LANG="en-GB">&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;</SPAN>
+<A NAME="line568"></A><SPAN LANG="en-GB">&lt;/pre&gt;&lt;/div&gt;</SPAN>
+<A NAME="line569"></A>
+<A NAME="line570"></A><SPAN LANG="en-GB">&lt;ul&gt;</SPAN>
+<A NAME="line571"></A><SPAN LANG="en-GB">&lt;li&gt;Tarkastusfunktio funktiolle&lt;/li&gt;</SPAN>
+<A NAME="line572"></A><SPAN LANG="en-GB">&lt;/ul&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;span class=&quot;n&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;isFunction&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;func&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;</SPAN>
+<A NAME="line573"></A>   <SPAN LANG="en-GB">&lt;span class=&quot;n&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;getType&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{};&lt;/span&gt;</SPAN>
+<A NAME="line574"></A>   <SPAN LANG="en-GB">&lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;getType&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;toString&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;call&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;func&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;===&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;object&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Function&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;</SPAN>
+<A NAME="line575"></A><SPAN LANG="en-GB">&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;</SPAN>
+<A NAME="line576"></A><SPAN LANG="en-GB">&lt;/pre&gt;&lt;/div&gt;</SPAN>
+<A NAME="line577"></A>
+<A NAME="line578"></A><SPAN LANG="en-GB">&lt;ul&gt;</SPAN>
+<A NAME="line579"></A><SPAN LANG="en-GB">&lt;li&gt;Tarkastusfunktio objektille&lt;/li&gt;</SPAN>
+<A NAME="line580"></A><SPAN LANG="en-GB">&lt;/ul&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;isObject&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;object&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;</SPAN>
+<A NAME="line581"></A>   <SPAN LANG="en-GB">&lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;typeof&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;object&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;===&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'object'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;</SPAN>
+<A NAME="line582"></A><SPAN LANG="en-GB">&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;</SPAN>
+<A NAME="line583"></A><SPAN LANG="en-GB">&lt;/pre&gt;&lt;/div&gt;</SPAN>
+<A NAME="line584"></A>
+<A NAME="line585"></A><SPAN LANG="en-GB">&lt;ul&gt;</SPAN>
+<A NAME="line586"></A><SPAN LANG="en-GB">&lt;li&gt;Tarkastusfunktio arraylle&lt;/li&gt;</SPAN>
+<A NAME="line587"></A><SPAN LANG="en-GB">&lt;/ul&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;isArray&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;value&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;</SPAN>
+<A NAME="line588"></A>    <SPAN LANG="en-GB">&lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;value&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;instanceof&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;Array&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;</SPAN>
+<A NAME="line589"></A><SPAN LANG="en-GB">&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;</SPAN>
+<A NAME="line590"></A><SPAN LANG="en-GB">&lt;/pre&gt;&lt;/div&gt;</SPAN>
+<A NAME="line591"></A>
+<A NAME="line592"></A><SPAN LANG="en-GB">&lt;ul&gt;</SPAN>
+<A NAME="line593"></A><SPAN LANG="en-GB">&lt;li&gt;Tarkastusfunktio booleanille&lt;/li&gt;</SPAN>
+<A NAME="line594"></A><SPAN LANG="en-GB">&lt;/ul&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;isBoolean&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;value&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;</SPAN>
+<A NAME="line595"></A>   <SPAN LANG="en-GB">&lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;typeof&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;value&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;===&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'boolean'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;</SPAN>
+<A NAME="line596"></A><SPAN LANG="en-GB">&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;</SPAN>
+<A NAME="line597"></A><SPAN LANG="en-GB">&lt;/pre&gt;&lt;/div&gt;</SPAN>
+<A NAME="line598"></A>
+<A NAME="line599"></A><SPAN LANG="en-GB">&lt;p&gt;Esimerkkejä tyyppiturvallisuutta tavoittelevasta ohjelmointityylistä&lt;/p&gt;</SPAN>
+<A NAME="line600"></A>
+<A NAME="line601"></A><SPAN LANG="en-GB">&lt;p&gt;Yleisen tason pohdiskelua tyyppiturvallisuuden tavoittelusta&lt;/p&gt;</SPAN>
+<A NAME="line602"></A>
+<A NAME="line603"></A><SPAN LANG="en-GB">&lt;p&gt;Lomakkeiden validointi&lt;/p&gt;</SPAN>
+<A NAME="line604"></A>
+<A NAME="line605"></A><SPAN LANG="en-GB">&lt;ul&gt;</SPAN>
+<A NAME="line606"></A><SPAN LANG="en-GB">&lt;li&gt;Javascript kuitenkin luotu nettisivuja varten, sikäli on siis hiukan keinotekoista yrittää irrottaa JS:ää html:stä. Tässä siksi siis puhutaan stringien validoinnin yhteydessä lomakkeista ja tietysti säännöllisistä lausekkeista.&lt;/li&gt;</SPAN>
+<A NAME="line607"></A><SPAN LANG="en-GB">&lt;/ul&gt;&lt;p&gt;Lähteet: &lt;/p&gt;</SPAN>
+<A NAME="line608"></A>
+<A NAME="line609"></A><SPAN LANG="en-GB">&lt;p&gt;&lt;a href=&quot;<A HREF="view-source:http://www.w3schools.com/js/js_datatypes.asp">http://www.w3schools.com/js/js_datatypes.asp</A>&quot;&gt;http://www.w3schools.com/js/js_datatypes.asp&lt;/a&gt;&lt;/p&gt;</SPAN>
+<A NAME="line610"></A>
+<A NAME="line611"></A><SPAN LANG="en-GB">&lt;p&gt;&lt;a href=&quot;<A HREF="view-source:http://www.cs.helsinki.fi/u/wikla/OTjs/materiaalia/tyyppeja/">http://www.cs.helsinki.fi/u/wikla/OTjs/materiaalia/tyyppeja/</A>&quot;&gt;http://www.cs.helsinki.fi/u/wikla/OTjs/materiaalia/tyyppeja/&lt;/a&gt;&lt;/p&gt;</SPAN>
+<A NAME="line612"></A>
+<A NAME="line613"></A><SPAN LANG="en-GB">&lt;p&gt;&lt;a href=&quot;<A HREF="view-source:http://united-coders.com/matthias-reuter/handling-the-unexpected-type-safe-functions-in-javascript/">http://united-coders.com/matthias-reuter/handling-the-unexpected-type-safe-functions-in-javascript/</A>&quot;&gt;http://united-coders.com/matthias-reuter/handling-the-unexpected-type-safe-functions-in-javascript/&lt;/a&gt;&lt;/p&gt;</SPAN>
+<A NAME="line614"></A>  
+  
+</PRE><P LANG="en-GB" STYLE="margin-bottom: 0cm">
+	Javascript is maintained by <A HREF="https://github.com/kxkyll">kxkyll</A><BR>This
+	page was generated by <A HREF="http://pages.github.com/">GitHub
+	Pages</A>. Tactile theme by <A HREF="https://twitter.com/jasonlong">Jason
+	Long</A>. 
+	</P>
+</DIV>
+</BODY>
+</HTML>
