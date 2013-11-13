@@ -48,7 +48,7 @@
 
 <p>Javascript tarjoaa - kuten tunnettua - funktiot <code>parseInt()</code> ja <code>parseFloat()</code> kokonais- tai liukulukujen eristämiseen syötteestä: jos syöte alkaa numerolla, siitä erotetaan numero-osa, ja loppu jätetään huomiotta. Joissain tapauksessa tämä on täysin riittävä tapa varmistaa se, että syöte on kelvollista. Jos ohjelmoija odottaa saavansa syötteenä esimerkiksi kokonaisluvun, vaaraa ei ole, koska <code>parseInt()</code> palauttaa aina kokonaisluvun tai tietotyypin <code>undefined</code>. Tietysti ohjelmakoodin pitää olla rakennettu niin, että <code>undefined</code>:iin on varauduttu, mutta käytettiin mitä tahansa keinoa tyyppien tarkastamiseen, <code>undefined</code>:iin on joka tapauksessa aina varauduttava, jotta ohjelman toiminta olisi ennakoitavaa.</p>
 
-<p>Vaikka yllä oleva esimerkki on yksinkertainen, pelkkä <code>Undefined</code>:iin varautuminen ei riitä. Koska oletettavaa on, että käyttäjä (tai funktiota kutsuva ohjelmoija) ei kirjoita syötteeseen lainausmerkkejä, esimerkin syötteen tekee kelvottomaksi todennäköisemmin käyttäjän lyöntivirhe:</p>
+<p>Vaikka yllä oleva esimerkki on yksinkertainen, pelkkä <code>undefined</code>:iin varautuminen ei riitä. Koska oletettavaa on, että käyttäjä (tai funktiota kutsuva ohjelmoija) ei kirjoita syötteeseen lainausmerkkejä, esimerkin syötteen tekee kelvottomaksi todennäköisemmin käyttäjän lyöntivirhe:</p>
 
 <div class="highlight"><pre><span class="n">write</span><span class="p">(</span><span class="n">sum</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="n">w4</span><span class="p">))</span>                   <span class="c1">//Tulostaa konsoliin ReferenceError: w4 is not defined;</span>
 </pre></div>
@@ -177,6 +177,16 @@ se onko tälle käytännössä tarvetta, herätti keskustelua ryhmässämme. Toi
 
 <h3>
 <a name="14-loppukevennys" class="anchor" href="#14-loppukevennys"><span class="octicon octicon-link"></span></a>1.4 Loppukevennys</h3>
+
+<p>Tätä tehtävää tehdessämme, löysimme kyseisen artikkelin MikroPC-lehdestä</p>
+
+<p>Olli Vänskä, MikroPC, 5.8.2013, 9:25
+Työntekijän nimi "Nolla" sotkee yrityksen koko henkilöhaun
+Mikään tietojärjestelmä ei ole täydellinen, mutta joskus ongelmia esiintyy varsin 
+kummallisista syistä. Erään yrityksen työntekijähaku kaatui jatkuvasti sen takia, 
+että sen palkkalistoilla on mies nimeltä Null (Nolla). </p>
+
+<p><a href="http://www.mpc.fi/kaikki_uutiset/article918607.ece">http://www.mpc.fi/kaikki_uutiset/article918607.ece</a></p>
 
 <p>Lähteet: </p>
 
