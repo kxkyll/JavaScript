@@ -1,79 +1,44 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
-<HTML>
-<HEAD>
-	<META HTTP-EQUIV="CONTENT-TYPE" CONTENT="text/html; charset=utf-8">
-	<TITLE>Javascript by kxkyll</TITLE>
-	<META NAME="GENERATOR" CONTENT="LibreOffice 3.5  (Linux)">
-	<META NAME="CREATED" CONTENT="0;0">
-	<META NAME="CHANGEDBY" CONTENT="Marko Haanranta">
-	<META NAME="CHANGED" CONTENT="20131113;17585400">
-	<META NAME="" CONTENT="">
-	<META NAME="CHANGEDBY" CONTENT="Marko Haanranta">
-	<META HTTP-EQUIV="X-UA-Compatible" CONTENT="chrome=1">
-	<!--[if lt IE 9]>
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <link href='https://fonts.googleapis.com/css?family=Chivo:900' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print" />
+    <!--[if lt IE 9]>
     <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
-	<STYLE TYPE="text/css">
-	<!--
-		H1 { color: #000000; line-height: 100% }
-		P { color: #000000; line-height: 100% }
-		p { color: #000000; line-height: 100% }
-		H2 { color: #000000; line-height: 100% }
-		H2.cjk { font-family: "WenQuanYi Zen Hei" }
-		H2.ctl { font-family: "Lohit Hindi" }
-		PRE { color: #000000; line-height: 100% }
-		PRE.cjk { font-family: "WenQuanYi Zen Hei Mono", monospace }
-		PRE.ctl { font-family: "Lohit Hindi", monospace }
-		CODE.cjk { font-family: "WenQuanYi Zen Hei Mono", monospace }
-		CODE.ctl { font-family: "Lohit Hindi", monospace }
-	-->
-	</STYLE>
-</HEAD>
-<BODY LANG="fi-FI" TEXT="#000000" DIR="LTR" STYLE="border: none; padding: 0cm">
-<DIV ID="container" DIR="LTR">
-	<H1 LANG="en-GB">Javascript</H1>
-	<H2 LANG="en-GB" CLASS="western">2. viikko</H2>
-	<P LANG="en-GB"><EM><SPAN LANG="en-GB">Tekijät:</SPAN></EM><SPAN LANG="en-GB">
-	Marko Haanranta, Kasper Kivikataja, Kati Kyllönen, Jussi Miestamo</SPAN></P>
-	<P LANG="en-GB"><SPAN LANG="en-GB"><A HREF="index.html">Pääsivu</A>
-	<BR><A HREF="../JavaScript">2. viikko</A> <BR><A HREF="week3.html">3.
-	viikko</A> <BR><A HREF="week4.html">4. viikko</A> </SPAN>
-	</P>
+    <title>Javascript by kxkyll</title>
+  </head>
 
-	<p>Javascriptissä muuttujat ja parametrit ovat tyypittömiä, mutta niiden arvoilla on tyypit. Javascriptin tietotyypit ovat merkkijono (string), luku (number), totuusarvo (boolean), taulukko (array), objekti (object), olematon (null) ja määrittelemätön (undefined). Vaikka muuttujilla ei olekaan tyyppiä, on arvojen tyyppejä syytä tarkistaa, jotta ohjelmat eivät tuottaisi odottamattomia tuloksia. Erityisesti käyttäjän syötteitä on hyvä tarkastella virheiden varalta. Javascriptissä yhteenlasku voidaan suorittaa ongelmitta luvun ja String-tyypin olion välillä.</p>
+  <body>
+    <div id="container">
+      <div class="inner">
 
-<div class="highlight"><pre><span class="kd">function</span> <span class="nx">sum</span><span class="p">(</span><span class="nx">a</span><span class="p">,</span><span class="nx">b</span><span class="p">){</span><span class="k">return</span> <span class="p">(</span><span class="nx">a</span><span class="o">+</span><span class="nx">b</span><span class="p">)}</span>
-<span class="nx">write</span><span class="p">(</span><span class="nx">sum</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="s2">"w4"</span><span class="p">))</span>                          <span class="c1">//tulostaa "2w4"</span>
-</pre></div>
-
-<p>Javascript tarjoaa - kuten tunnettua - funktiot <code>parseInt()</code> ja <code>parseFloat()</code> kokonais- tai liukulukujen eristämiseen syötteestä: jos syöte alkaa numerolla, siitä erotetaan numero-osa, ja loppu jätetään huomiotta. Joissain tapauksessa tämä on täysin riittävä tapa varmistaa se, että syöte on kelvollista. Jos ohjelmoija odottaa saavansa syötteenä esimerkiksi kokonaisluvun, vaaraa ei ole, koska <code>parseInt()</code> palauttaa aina kokonaisluvun tai tietotyypin <code>undefined</code>. Tietysti ohjelmakoodin pitää olla rakennettu niin, että <code>undefined</code>:iin on varauduttu, mutta käytettiin mitä tahansa keinoa tyyppien tarkastamiseen, <code>Undefined</code>:iin on joka tapauksessa aina varauduttava, jotta ohjelman toiminta olisi ennakoitavaa.</p>
-
-<p>Vaikka yllä oleva esimerkki on yksinkertainen, pelkkä <code>Undefined</code>:iin varautuminen ei riitä. Koska oletettavaa on, että käyttäjä (tai funktiota kutsuva ohjelmoija) ei kirjoita syötteeseen lainausmerkkejä, esimerkin syötteen tekee kelvottomaksi todennäköisemmin käyttäjän lyöntivirhe:</p>
-
-<div class="highlight"><pre><span class="n">write</span><span class="p">(</span><span class="n">sum</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="n">w4</span><span class="p">))</span>                   <span class="c1">//Tulostaa konsoliin ReferenceError: w4 is not defined;</span>
-</pre></div>
-
-<p>Tällaisten tilanteiden varalta pitäisikin tarkistaa, onko syöte ylipäätään kokonaisluku. On onnekasta, jos syöte alkaa numeroilla, mutta jos ei ala, <code>parseInt()</code> ei pelasta.</p>
-
-<p>Tyyppien tarkistus ohjelmakoodissa on erityisen tärkeää juuri käyttäjän syötettä käsiteltäessä...</p>
-
-<p>Ehdotus kirjastofunktiosta tyyppitarkastusten tekemiseksi.</p>
-
-<ul>
-<li>Tarkastusfunktio onko muuttujassa arvo</li>
-</ul><div class="highlight"><pre><span class="kd">function</span> <span class="nx">hasValue</span><span class="p">(</span><span class="nx">value</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">if</span><span class="p">(</span><span class="nx">value</span><span class="p">){</span>
-        <span class="k">return</span> <span class="kc">true</span>
-    <span class="p">}</span>
-    <span class="k">return</span> <span class="kc">false</span>
-<span class="p">}</span>
-</pre></div>
+        <header>
+          <h1>Javascript</h1>
+          <h2>2. viikko</h2>
+        </header>
 	
-	<SPAN LANG="en-GB">Javascript is maintained by <A HREF="https://github.com/kxkyll">kxkyll</A><BR>This
-	page was generated by <A HREF="http://pages.github.com/">GitHub
-	Pages</A>. Tactile theme by <A HREF="https://twitter.com/jasonlong">Jason
-	Long</A>. </SPAN>
-	</P>
-</DIV>
-</BODY>
-</HTML>
+	<p><em>Tekijät:</em> Marko Haanranta, Kasper Kivikataja,  Kati Kyllönen, Jussi Miestamo</p>
+
+	<p>
+		<a href="index.html">Pääsivu</a> <br />
+		<a href="week2.html">2. viikko</a> <br />
+		<a href="week3.html">3. viikko</a> <br />
+		<a href="week4.html">4. viikko</a> <br />
+	</p>
+
+
+        <footer>
+          Javascript is maintained by <a href="https://github.com/kxkyll">kxkyll</a><br>
+          This page was generated by <a href="http://pages.github.com">GitHub Pages</a>. Tactile theme by <a href="https://twitter.com/jasonlong">Jason Long</a>.
+        </footer>
+
+        
+      </div>
+    </div>
+  </body>
+</html>
