@@ -62,7 +62,7 @@
 
 <ul>
 <li>
-<p>Tarkastusfunktio onko muuttujan arvo undefined
+<p>Tarkastusfunktio onko muuttujan arvo <code>undefined</code>
 </p>
 <div class="highlight"><pre><span class="kd">function</span> <span class="nx">isUndefined</span> <span class="p">(</span><span class="nx">value</span><span class="p">)</span> <span class="p">{</span>
     <span class="k">return</span> <span class="k">typeof</span> <span class="nx">value</span> <span class="o">===</span> <span class="s1">'undefined'</span>
@@ -103,7 +103,7 @@
     <span class="k">return</span> <span class="k">typeof</span> <span class="nx">value</span> <span class="o">===</span> <span class="s2">"number"</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="nb">isNaN</span><span class="p">(</span><span class="nx">value</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="nx">value</span> <span class="o">!==</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">floor</span><span class="p">(</span><span class="nx">n</span><span class="p">)</span>
 <span class="p">}</span>
 </pre></div>
-se onko tälle käytännössä tarvetta, herätti keskustelua ryhmässämme. Toisaalta monet kirjastofunktiot tarjoavat usein palveluja, joiden käyttötarkoitusta voi vain arvailla.</li>
+Se, onko tälle käytännössä tarvetta, herätti keskustelua ryhmässämme. Toisaalta monet kirjastofunktiot tarjoavat usein palveluja, joiden käyttötarkoitusta voi vain arvailla.</li>
 <li>
 <p>Tarkastusfunktio merkkijonolle (tässä tyhjä merkkijono tulkitaan merkkijonoksi)
 </p>
@@ -130,7 +130,7 @@ se onko tälle käytännössä tarvetta, herätti keskustelua ryhmässämme. Toi
 </pre></div>
 </li>
 <li>
-<p>Tarkastusfunktio arraylle
+<p>Tarkastusfunktio taulukolle
 </p>
 <div class="highlight"><pre><span class="kd">function</span> <span class="nx">isArray</span><span class="p">(</span><span class="nx">value</span><span class="p">)</span> <span class="p">{</span>
     <span class="k">return</span> <span class="nx">value</span> <span class="k">instanceof</span> <span class="nb">Array</span><span class="p">;</span>
@@ -177,6 +177,16 @@ se onko tälle käytännössä tarvetta, herätti keskustelua ryhmässämme. Toi
 
 <h3>
 <a name="14-loppukevennys" class="anchor" href="#14-loppukevennys"><span class="octicon octicon-link"></span></a>1.4 Loppukevennys</h3>
+
+<p>Tätä tehtävää tehdessämme, löysimme kyseisen artikkelin MikroPC-lehdestä</p>
+
+<p>Olli Vänskä, MikroPC, 5.8.2013, 9:25
+Työntekijän nimi "Nolla" sotkee yrityksen koko henkilöhaun
+Mikään tietojärjestelmä ei ole täydellinen, mutta joskus ongelmia esiintyy varsin 
+kummallisista syistä. Erään yrityksen työntekijähaku kaatui jatkuvasti sen takia, 
+että sen palkkalistoilla on mies nimeltä Null (Nolla). </p>
+
+<p><a href="http://www.mpc.fi/kaikki_uutiset/article918607.ece">http://www.mpc.fi/kaikki_uutiset/article918607.ece</a></p>
 
 <p>Lähteet: </p>
 
