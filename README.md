@@ -23,7 +23,10 @@ Vaihda gh-pages haaraan:
 
 git checkout gh-pages
 
-Editoi muutoksesi html-tiedostoihin
+Editoi muutoksesi html-tiedostoihin copy/paste
+menetelmällä. Aloita kopiointi tekijät rivin 
+alta <h2> tagistä ja lopeta lähteiden alle, 
+ennen kuin tulee kolme </div> tagiä
 
 Lisää muutokset versionhallintaan:
 git add .
