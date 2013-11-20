@@ -1,4 +1,4 @@
-
+﻿
 <!DOCTYPE html>
 <html>
   <head>
@@ -32,6 +32,181 @@
 		<a href="week4.html">4. viikko</a> <br />
 	</p>
 
+ <h2>
+<a name="22-algoritmit-funktiot-ja-sulkeumat-poikkeusten-k%C3%A4sittely" class="anchor" href="#22-algoritmit-funktiot-ja-sulkeumat-poikkeusten-k%C3%A4sittely"><span class="octicon octicon-link"></span></a>2.2 Algoritmit, funktiot ja sulkeumat, poikkeusten käsittely</h2>
+
+<p>(Tässä vaiheessa ei vielä periytymisen tekniikkaa ja problematiikkaa.)</p>
+
+<p>Aluksi pohdimme hieman ohjelmointityyliä yleensä. Mitä on hyvä ohjelmointityyli ja kenen kannalta jonkinlainen ohjelmointityyli on hyvää, entä missä tilanteissa? Keskeisenä tavoitteena ohjelmointityyliä ajatellen voidaan varmaankin pitää jonkinlaista tasapainoa koodin tehokkuuden ja luettavuuden välillä. Tehokkuus on itsestään selvä ja välttämätön tavoite, ja siihen pitää pyrkiä, muttei kuitenkaan ymmärrettävyyden kustannuksella. Koodin luettavuus on välttämätön tavoite sekä koodaajan itsensä että muiden sen kanssa tekemisiin joutuvien takia. Koodaajien on pystyttävä seuraamaan ohjelman logiikkaa helposti, jotta säilyisi ymmärrys siitä, mitä se tekee. Mikä sitten on luettavaa koodia? Jokaisella on varmasti mieltymyksensä, mutta joitain valitusta ohjelmointikielestä riippumattomia nyrkkisääntöjä on kuten pyrkimys pitää funktiot (tai metodit) lyhyinä ja yhtenäinen  käytäntö luokkien, objektien, primitiivityyppien nimennässä.  Tähän mennessä mainitut hyvät käytännöt liittyvät lähinnä koodin ulkoasuun, mutta ulkoasu ja tyyli eivät ole sama asia, vaan ohjelmointityyli liittyy terminä olennaisesti myös - kurssin nimen mukaisesti - ohjelmointitekniikkaan eli siihen, miten asioita oikeasti toteutetaan, ja tähän pääsemme seuraavaksi. </p>
+
+<h3>
+<a name="221-algoritmit-ja-javascript" class="anchor" href="#221-algoritmit-ja-javascript"><span class="octicon octicon-link"></span></a>2.2.1 Algoritmit ja JavaScript</h3>
+
+<p>Millaiset algoritmien kirjoittamisen tyylit ovat luontevia JavaScriptille? PERUSTELE Erityisesti: miten muuttujien, parametrien ja funktioiden tyypittömyys pitäisi ottaa huomioon? PERUSTELE Pitäisikö tyypittömyyden hyväksikäyttöä välttää ja pyrkiä "javamaiseen" tyyliin? PERUSTELE Vai tarjoaako tyypittömyys ehkä sittenkin oivallisia tekniikoita joustavien ja yleiskäyttöisten algoritmien ja funktioiden toteuttamiseen? PERUSTELE <strong>Perustelut ovat tässä – kuten koko dokumentaatiossa – oleellisia!</strong></p>
+
+<p>Javascriptille luonteenomaista on jättää paljon ohjelmoijan vastuulle. Siihen, mikä on hyvää ohjelmointityyliä, tämä vaikuttaa eri tilanteissa eri tavoilla. Ensimmäisellä viikolla tuli todetuksi, että käyttäjän syötettä tarkistettaessa pitää olla tarkkana sen suhteen, mitä voidaan sallia. Jos käyttäjältä pyydetään syötteenä jotakin numeerista, ei ohjelma välttämättä kaadu, jos syötteen seassa on kirjaimia. Kuitenkin pitää ottaa huomioon, mihin syötettä on tarkoitus käyttää: Java ilmoittaa oma-aloitteisesti poikkeuksella, jos syöte ei ole sitä, mitä metodille pitäisi parametreina syöttää. Javascript-ohjelmoijan sen sijaan pitää itse pitää huoli siitä, että käyttäjän syöte ei etene vaikkapa seuraavan funktion kutsuun parametrina ja aiheuta jotakin odottamatonta, vaikkapa ohjelman kaatumista. Javascriptin tyypittömyys voi siis olla yksi seikka, joka tekee siitä vaikeamman debugattavan: Java-kääntäjä ilmoittaa virheellisestä syötteestä saman tien kuvatun kaltaisessa esimerkkitapauksessa. Javascriptiä ajettaessa sen sijaan virheellinen syöte saattaa edetä hyvinkin pitkälle suoritusaikana ennen kuin virhe ilmenee, ja tällöin sen löytäminen on vaikeampaa. Web-sovelluksen käyttäjälle ohjelman kaatuminen voi aiheuttaa sen, että ruudulla näkyy toivotun sisällön sijasta pelkkä valkoinen selainikkuna. Käytti sitten kumpaa tahansa ohjelmointikieltä, syötteeseen on varauduttava jotenkin. JS:n tapauksessa "virheellinen" syöte ei siis kaada ohjelmaa ainakaan heti, mutta ohjelmoijan on pidettävä huolta, ettei se riko myöhemmin esimerkiksi tietokannan toimintaa. Tällaisessa tapauksissa siitä käyttääkö Javaa tai JS:ää ei ole paljon etua, ehkä JS:llä syöteen validointi on kevyempi toteuttaa. </p>
+
+<p>Seuraavassa esimerkissä oletamme, että parametrina annettava <code>String s</code> tai <code>value</code> on html-lomakkeesta luettu käyttäjän syöte.</p>
+
+<p>Java:
+</p><div class="highlight"><pre><span class="n">public</span> <span class="k">static</span> <span class="n">boolean</span> <span class="nf">isInteger</span><span class="p">(</span><span class="n">String</span> <span class="n">s</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">try</span> <span class="p">{</span> 
+        <span class="n">Integer</span><span class="p">.</span><span class="n">parseInt</span><span class="p">(</span><span class="n">s</span><span class="p">);</span> 
+    <span class="p">}</span> <span class="n">catch</span><span class="p">(</span><span class="n">NumberFormatException</span> <span class="n">e</span><span class="p">)</span> <span class="p">{</span> 
+        <span class="k">return</span> <span class="nb">false</span><span class="p">;</span> 
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="nb">true</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+Javascript (Lainaus viikolta 1):
+<div class="highlight"><pre><span class="kd">function</span> <span class="nx">isInteger</span><span class="p">(</span><span class="nx">value</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nx">value</span> <span class="o">===</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">floor</span><span class="p">(</span><span class="nx">value</span><span class="p">)</span>
+<span class="p">}</span>
+</pre></div>
+
+<p>Kummassakin tapauksessa syöte on tarkistettava jotenkin. Varsinaista etua JS:n tyypittömyydestä ei tässä ole eikä näiden koodin pätkien suorituksessa ero laskentatehon tarpeessakaan liene merkittävä, (paitsi ehkä, jos niitä tulee kymmeniä tuhansia sekunnissa), mutta Javascriptillä toteutus on huomattavasti kompaktimpi, mikä helpottanee ohjelmoijan elämää. JS:llä tässä tilanteessa ei välttämättä edes tarvittaisi tyyppitarkistusta, vaan riittäisi, että testattaisiin vaikkapa säännöllisellä lausekkeella, koostuuko kentästä saatu merkkijono vain numeroista. Isossa mittakaavasssa voi olla eduksi, jos voi välttää turhien poikkeusten heittelyn.</p>
+
+<p>Tyypittömyyden hyödyt ja haitat tulevat esille oikeastaan tilanteittain. Dynaaminen tyypitys voi vapauttaa ohjelmoijan tekemään asioita kompaktisti ja tehokkaasti, mutta toisaalta se siirtää vastuun ohjelmoijalle, ja huolimattomuudesta voi seurata kauheita. Seuraava esimerkki on vielä helpohkosti hahmotettavissa, mutta entä jos idea vietäisiin pidemmälle? Missä tulee vastaan raja, jonka jälkeen ohjelmoija ei itsekään ymmärrä omaa koodiaan.</p>
+
+<div class="highlight"><pre><span class="o">--</span>
+<span class="nx">summa2</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">a</span><span class="p">){</span><span class="k">return</span> <span class="nx">a</span><span class="o">+</span><span class="nx">a</span><span class="p">}</span>
+<span class="nx">potenssi2</span> <span class="o">=</span>  <span class="kd">function</span><span class="p">(</span><span class="nx">a</span><span class="p">){</span><span class="k">return</span> <span class="nx">a</span><span class="o">*</span><span class="nx">a</span><span class="p">}</span>
+<span class="nx">a</span> <span class="o">=</span> <span class="cp">[</span><span class="nx">summa2</span><span class="p">,</span><span class="nx">potenssi2</span><span class="cp">]</span>                         <span class="c1">// Luo funktioista koostuvan taulukon</span>
+<span class="k">for</span> <span class="p">(</span><span class="nx">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="nx">i</span><span class="o">&lt;</span><span class="nx">a</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span><span class="nx">i</span><span class="o">++</span><span class="p">)</span>
+<span class="p">{</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">a</span><span class="cp">[</span><span class="nx">i</span><span class="cp">]</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span>                         <span class="c1">// Tulostaa 6 ja 9</span>
+<span class="p">}</span>
+</pre></div>
+
+<p>Javascriptistä sanotaan, että se on helppo kieli, mutta dynaamisen tyypityksen tehokas hyödyntäminen vaatii ymmärrystä ja huolellisuutta. </p>
+
+<h3>
+<a name="222-javascript-ohjelmointi-funktionaalista-vai-imperatiivista" class="anchor" href="#222-javascript-ohjelmointi-funktionaalista-vai-imperatiivista"><span class="octicon octicon-link"></span></a>2.2.2 JavaScript ohjelmointi: Funktionaalista vai imperatiivista?</h3>
+
+<p>Funktionaalista vai imperatiivista? PERUSTELE Kumpaa paradigmaa kaksiparadigmakielessämme kannattaa suosia? PERUSTELE Vai onko yhdistelmä paras vaihtoehto: mitä funktionaalisesti, mitä imperatiivisesti? PERUSTELE Selostettuja esimerkkejä!</p>
+
+<p>﻿
+Alla olevat esimerkkiohjelmat hakevat taulukosta kaikki objektit joiden arvo on &lt; 10.</p>
+
+<p>Esimerkki 1. <strong>Imperatiivinen</strong> ohjelmointityyli:</p>
+
+<div class="highlight"><pre><span class="kd">function</span> <span class="nx">bestPrices</span><span class="p">(</span><span class="nx">inputArray</span><span class="p">)</span> <span class="p">{</span>
+   <span class="kd">var</span> <span class="nx">outputArray</span> <span class="o">=</span> <span class="cp">[]</span><span class="p">;</span>
+<span class="k">for</span><span class="p">(</span><span class="kd">var</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="nx">inputArray</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+   <span class="k">if</span><span class="p">(</span><span class="nx">inputArray</span><span class="cp">[</span><span class="nx">i</span><span class="cp">]</span><span class="p">.</span><span class="nx">price</span> <span class="o">&lt;</span> <span class="mi">10</span><span class="p">){</span>
+      <span class="nx">outputArray</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">inputArray</span><span class="cp">[</span><span class="nx">i</span><span class="cp">]</span><span class="p">);</span>
+   <span class="p">}</span>
+<span class="p">}</span>
+<span class="k">return</span> <span class="nx">outputArray</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+Esimerkki 2. <strong>Funktionaalinen</strong> ohjelmointityyli:
+
+<div class="highlight"><pre><span class="kd">function</span> <span class="nx">bestPrices</span><span class="p">(</span><span class="nx">inputArray</span><span class="p">){</span>
+   <span class="k">return</span> <span class="nb">Array</span><span class="p">.</span><span class="nx">filter</span><span class="p">(</span><span class="nx">inputArray</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">value</span><span class="p">){</span>
+   <span class="k">return</span> <span class="nx">value</span><span class="p">.</span><span class="nx">price</span> <span class="o">&lt;</span> <span class="mi">10</span><span class="p">;</span>
+   <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+
+<p>On vaikeaa määritellä kumpi tyyli on parempi, koska molemmissa on puolensa. Funktionaalinen koodi on usein lyhyempää, tosin raskaampaa ja vaatii aivan toisenlaista ajattelutapaa. Imperatiivisesti kirjoitettu koodi on usein pidempi, mutta hieman tehokkaampi. </p>
+
+<p>Kukin oppii ohjelmoimaan eri tyyleillä, joka tekee "oikean tyylin" valitsemisesta mahdotonta. On kuitenkin hyvä tiedostaa projektin tarpeet ja pitää huoli että koodi pysyy helposti ylläpidettävänä.</p>
+
+<h3>
+<a name="223-sulkeumat" class="anchor" href="#223-sulkeumat"><span class="octicon octicon-link"></span></a>2.2.3 Sulkeumat</h3>
+
+<p>Sulkeuma on hyvin vahva ohjelmointitekniikka. PERUSTELE Antakaa mallikkaita esimerkkejä luennoilla esitetyistä kahdesta erilaisesta tapauksesta: a) sulkeumaan suljetut vapaat muuttujat säilyvät sulkeuman suorituksen jälkeiseen aikaan,PERUSTELE b) sulkeumaan suljettujen vapaiden muuttujien määritellyt funktio päättyy, mutta sulkeuma säilyy. PERUSTELE <strong>Selitykset ja perustelut ovat tässäkin välttämättömiä</strong></p>
+
+<p>Sulkeuma luodaan kirjoittamalla funktio toisen funktion määrittelyn sisään. Tällöin muodostuu näkyvyysalue jossa sisemmällä funktiolla on pääsy ulomman funktion muuttujiin. Eli ulompi funktio sulkee sisäänsä omat muuttujansa ja sisällään määritellyt funktiot. Sulkeumat tallentavat viittauksen ulomman funktion muuttujiin eivät itse muuttujan arvoa.
+Kun ulomman funktion suoritus päättyy niin sisemmän funktion elämä ei pääty vaan sisempää funktioita voidaan kutsua ja sillä on yhä pääsy ulomman funktion muuttujiin.  Sulkeumat ovat osa Javascriptin module pattern suunnittelumallia.</p>
+
+<p>Alla olevassa esimerkissä muodostetaan kaksi sulkeumaa <code>increment</code> ja <code>get</code> joita käyttäen päästään käsiksi <code>count</code> muuttujaan sijoitettuun arvoon vaikka <code>Counter</code> funktion suoritus on jo päättynyt.</p>
+
+<div class="highlight"><pre><span class="kd">function</span> <span class="nx">Counter</span><span class="p">(</span><span class="nx">start</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">count</span> <span class="o">=</span> <span class="nx">start</span><span class="p">;</span>
+    <span class="k">return</span> <span class="p">{</span>
+        <span class="nx">increment</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+            <span class="nx">count</span><span class="o">++</span><span class="p">;</span>
+        <span class="p">},</span>
+
+        <span class="nx">get</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="nx">count</span><span class="p">;</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kd">var</span> <span class="nx">foo</span> <span class="o">=</span> <span class="nx">Counter</span><span class="p">(</span><span class="mi">4</span><span class="p">);</span>
+<span class="nx">foo</span><span class="p">.</span><span class="nx">increment</span><span class="p">();</span>
+<span class="nx">write</span><span class="p">(</span><span class="nx">foo</span><span class="p">.</span><span class="nx">get</span><span class="p">());</span> <span class="c1">// 5</span>
+</pre></div>
+
+<h3>
+<a name="224-poikkeukset" class="anchor" href="#224-poikkeukset"><span class="octicon octicon-link"></span></a>2.2.4 Poikkeukset</h3>
+
+<p>Poikkeusten(kin) ohjelmointi on JavaScriptissä villiä ja vapaata. PERUSTELE Kehitelkää johdonmukainen, selkeä ja luonteva tyyli heitellä ja sieppailla poikkeuksia. <strong>Perustelut!</strong></p>
+
+<p>JavaScriptin virhetilanteet voidaan jaotella loogisiin virheisiin, syntaksivirheisiin ja ajonaikaisiin virheisiin. Loogisilla virheillä tarkoitetaan tilanteita, joissa ohjelman looginen toiminta on suunniteltu väärin. Syntaksivirheillä tarkoitetaan JavaScriptin kielen syntaksin vastaisia muotoja, jäsennysvirheitä, jotka JavaScript tulkki havaitsee. Ajonaikaiset virheet tapahtuvat ohjelman suorituksen aikana ja niitä kutsutaan myös nimellä poikkeukset. Tarkastelemme seuraavaksi ajonaikaisia virheitä tarkemmin.</p>
+
+<p>Ajonaikaiset virheet voidaan käsitellä JavaScriptin poikkeuskäsittelyn, eli <code>try</code> -lauseen avulla. <code>Try</code> lause koostuu <code>try</code>, <code>catch</code> ja <code>finally</code> lohkoista. Ajonaikaisia virheitä, jotka laukaisevat poikkeuskäsittelyn on EcmaScriptin määrittelyssä [1] mainittu kuusi: </p>
+
+<ul>
+<li>EvalError, ei käytössä, mukana vain taaksepäinyhteensopivuuden vuoksi</li>
+<li>RangeError, ilmaisee, jos numeerinen arvo on ylittänyt sallitun arvoalueen</li>
+<li>ReferenceError, ilmenee, jos tehty viittaus on epäkelpo</li>
+<li>SyntaxError, ilmaisee jäsennysvirheet</li>
+<li>TypeError,  aiheutuu, jos operandin tyyppi eroaa odotetusta tyypistä</li>
+<li>URIError, ilmaisee, jos globaaleja URI:n käsittelyfunktioita on käytetty väärin</li>
+</ul><div class="highlight"><pre><span class="kd">function</span> <span class="nx">poikkeusDemo</span><span class="p">(){</span>
+    <span class="k">try</span><span class="p">{</span>
+         <span class="nx">olematonfunktio</span><span class="p">()</span>
+         <span class="nx">alert</span><span class="p">(</span><span class="s1">'On olemassa...'</span><span class="p">)</span>
+    <span class="p">}</span> <span class="k">catch</span><span class="p">(</span><span class="nx">err</span><span class="p">){</span>
+         <span class="nx">alert</span><span class="p">(</span><span class="s1">'Funktiokutsu meni pieleen: '</span><span class="o">+</span><span class="nx">err</span><span class="p">.</span><span class="nx">message</span><span class="p">)</span>
+    <span class="p">}</span> <span class="k">finally</span><span class="p">{</span>
+         <span class="nx">alert</span><span class="p">(</span><span class="s1">'Tämä suoritetaan aina!'</span><span class="p">)</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+
+<p>Kun <code>try</code> lohkossa olevaa koodia suoritetaan ja tapahtuu ajonaikainen virhe, niin suoritus siirtyy välittömästi <code>catch</code> lohkoon ja err muuttuja saa arvokseen Error objektin. Error objektin avulla voi hakea virheestä generoidun virheviestin, tai esimerkiksi virheen nimen. <code>Finally</code> lohkossa oleva koodi suoritetaan aina, tapahtui poikkeuksen heittävä virhe tai ei.</p>
+
+<p>Useita <code>try</code> lausekkeita voi sijoittaa sisäkkäin. Tämä on tarpeen, jos <code>catch</code> lohkossa tehdään toimenpiteitä, jotka voivat johtaa uuteen poikkeustilanteeseen. Jos sisemmässä <code>try</code> lauseessa ei ole <code>catch</code> lohkoa, niin suoritetaan ulomman <code>try</code> lausekkeen <code>catch</code> lohko, jos sellainen on olemassa. Jotkin selaimet, kuten Chrome ja Firefox tosin kieltäytyvät toimimasta ilman sisempää <code>catch</code> tai <code>finally</code> lohkoa, vaan generoivat SyntaxError virheen tästä tilanteesta.</p>
+
+<div class="highlight"><pre><span class="kd">function</span> <span class="nx">poikkeusDemoSisempiTry</span><span class="p">(){</span>
+    <span class="k">try</span><span class="p">{</span>
+         <span class="nx">olematonfunktio</span><span class="p">()</span>
+         <span class="nx">alert</span><span class="p">(</span><span class="s1">'On olemassa...'</span><span class="p">)</span>
+    <span class="p">}</span> <span class="k">catch</span><span class="p">(</span><span class="nx">err</span><span class="p">){</span>
+        <span class="nx">alert</span><span class="p">(</span><span class="s1">'Funktiokutsu meni pieleen: '</span><span class="o">+</span><span class="nx">err</span><span class="p">.</span><span class="nx">message</span><span class="p">)</span> 
+        <span class="k">try</span><span class="p">{</span> 
+             <span class="nx">write</span><span class="p">(</span><span class="nx">virheviesti</span><span class="p">)</span>
+        <span class="p">}</span><span class="k">catch</span><span class="p">(</span><span class="nx">err</span><span class="p">){</span>
+         <span class="nx">alert</span><span class="p">(</span><span class="s1">'Yritetään jatkaa: '</span><span class="o">+</span><span class="nx">err</span><span class="p">.</span><span class="nx">message</span><span class="p">)</span>
+        <span class="p">}</span>   
+    <span class="p">}</span> <span class="k">finally</span><span class="p">{</span>
+         <span class="nx">alert</span><span class="p">(</span><span class="s1">'Tämä suoritetaan aina!'</span><span class="p">)</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+
+<p>Poikkeuksen voi heittää <code>throw</code> lauseen avulla. JavaScriptissä voi käyttää joko valmiiksimääriteltyjä poikkeuksia tai generoida virhetilanteeseen sopivan poikkeuksen itse. Itsemääritellyissä poikkeuksissa on tärkeää tarjota mahdollisimman tarkka kuvaus siitä mitä on tapahtunut, jotta tieto ongelmatilanteesta saadaan välitettyä eteenpäin mahdollisimman yksityiskohtaisesti tarvittavia toimenpiteitä varten. Lisäksi on suotavaa määritellä poikkeukset hierarkisesti, jotta ongelman käsittelyn tarkkuutta voidaan säätää ohjelmakoodista käsin kutakin tarvetta vastaavaksi ilman, että usean virhetilanteen kaappaamiseksi tarvitsee listata useita poikkeuksia.</p>
+
+<p>Poikkeuksia pitäisi mielestämme käyttää vain erityisen poikkeuksellisissa tilanteissa. Tälläisiä tilanteita voisivat olla esimerkiksi että ohjelman käyttämä tiedosto on varattu tai korruptoitunut. Tai tilanne jossa ohjelma tarvitsee suorittaakseen jotakin tiettyä resurssia, mutta ei ole onnistunut tätä varaamaan toistuvista yrityksistä huolimatta. Jonkinlaisena ohjenuorana kehoittaisimme pohtimaan voiko ohjelma toipua tilanteesta itse, jos voi, niin silloin ei poikkeusta tarvitse heittää. </p>
+
+<p>Poikkeusten käyttäminen normaaleissa virhetilanteissa, kuten käyttäjän syötteen tarkastamisessa ei mielestämme ole suositeltavaa. Poikkeusten heittäminen ja käsittely on suhteellisen raskas toimenpide, sillä poikkeus aiheuttaa muuttujan luomisen ja tuhoamisen ajonaikaisesti. Kaikki selaimet eivät myöskään toimi poikkeustenkaan suhteen samalla tavalla ja myös virheilmoitukset voivat olla erilaisia. Ohjelman suorituskyvyn kannalta parempi vaihtoehto on käyttäjän syöttäjän tarkastaminen ehtolauseella ja tarvittavan statustiedon näyttäminen käyttäjälle mahdollisia korjaavia toimenpiteitä varten.  </p>
+
+<p>Lähteet: </p>
+
+<p>[1] Standard ECMA-262 5.1 Edition / June 2011, <a href="http://ecma-international.org/ecma-262/5.1/#sec-12.14">http://ecma-international.org/ecma-262/5.1/#sec-12.14</a></p>
+
+<p>[2] Web-selainohjelmointi / syksy 2012 <a href="http://www.cs.helsinki.fi/group/java/s12-weso/">http://www.cs.helsinki.fi/group/java/s12-weso/</a></p>
+
+<p>[3] Closures / November 2013 <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Closures">https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Closures</a></p>
+
+<p>[4] JavaScript-Garden / 2011 <a href="http://bonsaiden.github.io/JavaScript-Garden/fi/#function.closures">http://bonsaiden.github.io/JavaScript-Garden/fi/#function.closures</a></p>
+
+<p>[5] Imperative vs Functional / <a href="http://kriszyp.name/2010/01/16/imperative-functional-and-declarative-programming/">http://kriszyp.name/2010/01/16/imperative-functional-and-declarative-programming/</a></p>
 
         <footer>
           Javascript is maintained by <a href="https://github.com/kxkyll">kxkyll</a><br>
