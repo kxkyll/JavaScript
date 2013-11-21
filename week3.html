@@ -42,13 +42,12 @@
 <h3>
 <a name="221-algoritmit-ja-javascript" class="anchor" href="#221-algoritmit-ja-javascript"><span class="octicon octicon-link"></span></a>2.2.1 Algoritmit ja JavaScript</h3>
 
-<p>Millaiset algoritmien kirjoittamisen tyylit ovat luontevia JavaScriptille? PERUSTELE Erityisesti: miten muuttujien, parametrien ja funktioiden tyypittömyys pitäisi ottaa huomioon? PERUSTELE Pitäisikö tyypittömyyden hyväksikäyttöä välttää ja pyrkiä "javamaiseen" tyyliin? PERUSTELE Vai tarjoaako tyypittömyys ehkä sittenkin oivallisia tekniikoita joustavien ja yleiskäyttöisten algoritmien ja funktioiden toteuttamiseen? PERUSTELE <strong>Perustelut ovat tässä – kuten koko dokumentaatiossa – oleellisia!</strong></p>
 
-<p>Javascriptille luonteenomaista on jättää paljon ohjelmoijan vastuulle. Siihen, mikä on hyvää ohjelmointityyliä, tämä vaikuttaa eri tilanteissa eri tavoilla. Ensimmäisellä viikolla tuli todetuksi, että käyttäjän syötettä tarkistettaessa pitää olla tarkkana sen suhteen, mitä voidaan sallia. Jos käyttäjältä pyydetään syötteenä jotakin numeerista, ei ohjelma välttämättä kaadu, jos syötteen seassa on kirjaimia. Kuitenkin pitää ottaa huomioon, mihin syötettä on tarkoitus käyttää: Java ilmoittaa oma-aloitteisesti poikkeuksella, jos syöte ei ole sitä, mitä metodille pitäisi parametreina syöttää. Javascript-ohjelmoijan sen sijaan pitää itse pitää huoli siitä, että käyttäjän syöte ei etene vaikkapa seuraavan funktion kutsuun parametrina ja aiheuta jotakin odottamatonta, vaikkapa ohjelman kaatumista. Javascriptin tyypittömyys voi siis olla yksi seikka, joka tekee siitä vaikeamman debugattavan: Java-kääntäjä ilmoittaa virheellisestä syötteestä saman tien kuvatun kaltaisessa esimerkkitapauksessa. Javascriptiä ajettaessa sen sijaan virheellinen syöte saattaa edetä hyvinkin pitkälle suoritusaikana ennen kuin virhe ilmenee, ja tällöin sen löytäminen on vaikeampaa. Web-sovelluksen käyttäjälle ohjelman kaatuminen voi aiheuttaa sen, että ruudulla näkyy toivotun sisällön sijasta pelkkä valkoinen selainikkuna. Käytti sitten kumpaa tahansa ohjelmointikieltä, syötteeseen on varauduttava jotenkin. JS:n tapauksessa "virheellinen" syöte ei siis kaada ohjelmaa ainakaan heti, mutta ohjelmoijan on pidettävä huolta, ettei se riko myöhemmin esimerkiksi tietokannan toimintaa. Tällaisessa tapauksissa siitä käyttääkö Javaa tai JS:ää ei ole paljon etua, ehkä JS:llä syöteen validointi on kevyempi toteuttaa. </p>
+<p>Javascriptille luonteenomaista on jättää paljon ohjelmoijan vastuulle. Siihen, mikä on hyvää ohjelmointityyliä, tämä vaikuttaa eri tilanteissa eri tavoilla. Toisella viikolla tuli todetuksi, että käyttäjän syötettä tarkistettaessa pitää olla tarkkana sen suhteen, mitä voidaan sallia. Jos käyttäjältä pyydetään syötteenä jotakin numeerista, ei ohjelma välttämättä kaadu, jos syötteen seassa on kirjaimia. Kuitenkin pitää ottaa huomioon, mihin syötettä on tarkoitus käyttää: Java ilmoittaa oma-aloitteisesti poikkeuksella, jos syöte ei ole sitä, mitä metodille pitäisi parametreina syöttää. Javascript-ohjelmoijan sen sijaan pitää itse pitää huoli siitä, että käyttäjän syöte ei etene vaikkapa seuraavan funktion kutsuun parametrina ja aiheuta jotakin odottamatonta, vaikkapa ohjelman kaatumista. Javascriptin tyypittömyys voi näin epäsuorasti aiheuttaa sen, että koodista tulee vaikeammin debugattavaa: Java-kääntäjä ilmoittaa virheellisestä syötteestä saman tien kuvatun kaltaisessa esimerkkitapauksessa. Javascriptiä ajettaessa sen sijaan virheellinen syöte saattaa edetä hyvinkin pitkälle suoritusaikana ennen kuin virhe ilmenee, ja tällöin sen löytäminen on vaikeampaa. Web-sovelluksen käyttäjälle ohjelman kaatuminen voi aiheuttaa sen, että ruudulla näkyy toivotun sisällön sijasta pelkkä valkoinen selainikkuna. Käytti sitten kumpaa tahansa (tai mitä tahansa) ohjelmointikieltä, syöte on tarkistettava jotenkin. JS:n tapauksessa "virheellinen" syöte ei siis kaada ohjelmaa ainakaan heti, mutta ohjelmoijan on pidettävä huolta, ettei se riko myöhemmin esimerkiksi tietokannan toimintaa.</p>
 
-<p>Seuraavassa esimerkissä oletamme, että parametrina annettava <code>String s</code> tai <code>value</code> on html-lomakkeesta luettu käyttäjän syöte.</p>
+<p>Seuraavan kaltaisessa yksinkertaisessa esimerkkitapauksessa sillä, käyttääkö Javaa tai JS:ää ei ole paljon merkitystä, ehkä JS:llä syöteen validointi on kevyempi toteuttaa. Oletamme, että parametrina annettava <code>String s</code> tai <code>value</code> on html-lomakkeesta luettu käyttäjän syöte.</p>
 
-<p>Java:
+<p><strong>Java:</strong>
 </p><div class="highlight"><pre><span class="n">public</span> <span class="k">static</span> <span class="n">boolean</span> <span class="nf">isInteger</span><span class="p">(</span><span class="n">String</span> <span class="n">s</span><span class="p">)</span> <span class="p">{</span>
     <span class="n">try</span> <span class="p">{</span> 
         <span class="n">Integer</span><span class="p">.</span><span class="n">parseInt</span><span class="p">(</span><span class="n">s</span><span class="p">);</span> 
@@ -58,15 +57,15 @@
     <span class="k">return</span> <span class="nb">true</span><span class="p">;</span>
 <span class="p">}</span>
 </pre></div>
-Javascript (Lainaus viikolta 1):
+<strong>Javascript</strong> (Lainaus viikolta 1):
 <div class="highlight"><pre><span class="kd">function</span> <span class="nx">isInteger</span><span class="p">(</span><span class="nx">value</span><span class="p">)</span> <span class="p">{</span>
     <span class="k">return</span> <span class="nx">value</span> <span class="o">===</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">floor</span><span class="p">(</span><span class="nx">value</span><span class="p">)</span>
 <span class="p">}</span>
 </pre></div>
 
-<p>Kummassakin tapauksessa syöte on tarkistettava jotenkin. Varsinaista etua JS:n tyypittömyydestä ei tässä ole eikä näiden koodin pätkien suorituksessa ero laskentatehon tarpeessakaan liene merkittävä, (paitsi ehkä, jos niitä tulee kymmeniä tuhansia sekunnissa), mutta Javascriptillä toteutus on huomattavasti kompaktimpi, mikä helpottanee ohjelmoijan elämää. JS:llä tässä tilanteessa ei välttämättä edes tarvittaisi tyyppitarkistusta, vaan riittäisi, että testattaisiin vaikkapa säännöllisellä lausekkeella, koostuuko kentästä saatu merkkijono vain numeroista. Isossa mittakaavasssa voi olla eduksi, jos voi välttää turhien poikkeusten heittelyn.</p>
+<p>Kummassakin tapauksessa syöte on siis tarkistettava jotenkin. Varsinaista etua JS:n tyypittömyydestä ei juuri tässä tapauksessa ole eikä näiden koodin pätkien suorituksessa ero laskentatehon tarpeessakaan liene merkittävä, ellei niitä tulee kymmeniä tuhansia sekunnissa, mutta Javascriptillä toteutus on huomattavasti kompaktimpi, mikä helpottanee ohjelmoijan elämää. Suorituskyvyn suhteen on tietysti Javascriptin eduksi otettava huomioon, että Javalla validointi on tehtävä palvelinpäässä, jolloin kaikki rasituskin kohdistuu palvelimiin.) JS:llä tässä tilanteessa ei välttämättä edes tarvittaisi tyyppitarkistusta, vaan riittäisi, että testattaisiin vaikkapa säännöllisellä lausekkeella, koostuuko kentästä saatu merkkijono vain numeroista. Isossa mittakaavasssa voi olla eduksi, jos voi välttää turhien poikkeusten heittelyn.</p>
 
-<p>Tyypittömyyden hyödyt ja haitat tulevat esille oikeastaan tilanteittain. Dynaaminen tyypitys voi vapauttaa ohjelmoijan tekemään asioita kompaktisti ja tehokkaasti, mutta toisaalta se siirtää vastuun ohjelmoijalle, ja huolimattomuudesta voi seurata kauheita. Seuraava esimerkki on vielä helpohkosti hahmotettavissa, mutta entä jos idea vietäisiin pidemmälle? Missä tulee vastaan raja, jonka jälkeen ohjelmoija ei itsekään ymmärrä omaa koodiaan.</p>
+<p>Tyypittömyyden hyödyt ja haitat tulevat esille oikeastaan tilanteittain. Dynaaminen tyypitys voi vapauttaa ohjelmoijan tekemään asioita kompaktisti, mutta toisaalta se siirtää vastuun ohjelmoijalle, ja huolimattomuudesta voi seurata kauheita. Seuraava esimerkki on vielä helpohkosti hahmotettavissa, mutta entä jos idea vietäisiin pidemmälle? Missä tulee vastaan raja, jonka jälkeen ohjelmoija ei itsekään ymmärrä omaa koodiaan?</p>
 
 <div class="highlight"><pre><span class="o">--</span>
 <span class="nx">summa2</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">a</span><span class="p">){</span><span class="k">return</span> <span class="nx">a</span><span class="o">+</span><span class="nx">a</span><span class="p">}</span>
@@ -78,12 +77,10 @@ Javascript (Lainaus viikolta 1):
 <span class="p">}</span>
 </pre></div>
 
-<p>Javascriptistä sanotaan, että se on helppo kieli, mutta dynaamisen tyypityksen tehokas hyödyntäminen vaatii ymmärrystä ja huolellisuutta. </p>
+<p>Javascriptistä sanotaan, että se on helppo kieli, mutta dynaamisen tyypityksen tehokas hyödyntäminen vaatii ymmärrystä ja huolellisuutta.</p>
 
 <h3>
 <a name="222-javascript-ohjelmointi-funktionaalista-vai-imperatiivista" class="anchor" href="#222-javascript-ohjelmointi-funktionaalista-vai-imperatiivista"><span class="octicon octicon-link"></span></a>2.2.2 JavaScript ohjelmointi: Funktionaalista vai imperatiivista?</h3>
-
-<p>Funktionaalista vai imperatiivista? PERUSTELE Kumpaa paradigmaa kaksiparadigmakielessämme kannattaa suosia? PERUSTELE Vai onko yhdistelmä paras vaihtoehto: mitä funktionaalisesti, mitä imperatiivisesti? PERUSTELE Selostettuja esimerkkejä!</p>
 
 <p>﻿
 Alla olevat esimerkkiohjelmat hakevat taulukosta kaikki objektit joiden arvo on &lt; 10.</p>
@@ -116,8 +113,6 @@ Esimerkki 2. <strong>Funktionaalinen</strong> ohjelmointityyli:
 <h3>
 <a name="223-sulkeumat" class="anchor" href="#223-sulkeumat"><span class="octicon octicon-link"></span></a>2.2.3 Sulkeumat</h3>
 
-<p>Sulkeuma on hyvin vahva ohjelmointitekniikka. PERUSTELE Antakaa mallikkaita esimerkkejä luennoilla esitetyistä kahdesta erilaisesta tapauksesta: a) sulkeumaan suljetut vapaat muuttujat säilyvät sulkeuman suorituksen jälkeiseen aikaan,PERUSTELE b) sulkeumaan suljettujen vapaiden muuttujien määritellyt funktio päättyy, mutta sulkeuma säilyy. PERUSTELE <strong>Selitykset ja perustelut ovat tässäkin välttämättömiä</strong></p>
-
 <p>Sulkeuma luodaan kirjoittamalla funktio toisen funktion määrittelyn sisään. Tällöin muodostuu näkyvyysalue jossa sisemmällä funktiolla on pääsy ulomman funktion muuttujiin. Eli ulompi funktio sulkee sisäänsä omat muuttujansa ja sisällään määritellyt funktiot. Sulkeumat tallentavat viittauksen ulomman funktion muuttujiin eivät itse muuttujan arvoa.
 Kun ulomman funktion suoritus päättyy niin sisemmän funktion elämä ei pääty vaan sisempää funktioita voidaan kutsua ja sillä on yhä pääsy ulomman funktion muuttujiin.  Sulkeumat ovat osa Javascriptin module pattern suunnittelumallia.</p>
 
@@ -143,8 +138,6 @@ Kun ulomman funktion suoritus päättyy niin sisemmän funktion elämä ei pää
 
 <h3>
 <a name="224-poikkeukset" class="anchor" href="#224-poikkeukset"><span class="octicon octicon-link"></span></a>2.2.4 Poikkeukset</h3>
-
-<p>Poikkeusten(kin) ohjelmointi on JavaScriptissä villiä ja vapaata. PERUSTELE Kehitelkää johdonmukainen, selkeä ja luonteva tyyli heitellä ja sieppailla poikkeuksia. <strong>Perustelut!</strong></p>
 
 <p>JavaScriptin virhetilanteet voidaan jaotella loogisiin virheisiin, syntaksivirheisiin ja ajonaikaisiin virheisiin. Loogisilla virheillä tarkoitetaan tilanteita, joissa ohjelman looginen toiminta on suunniteltu väärin. Syntaksivirheillä tarkoitetaan JavaScriptin kielen syntaksin vastaisia muotoja, jäsennysvirheitä, jotka JavaScript tulkki havaitsee. Ajonaikaiset virheet tapahtuvat ohjelman suorituksen aikana ja niitä kutsutaan myös nimellä poikkeukset. Tarkastelemme seuraavaksi ajonaikaisia virheitä tarkemmin.</p>
 
