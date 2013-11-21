@@ -35,6 +35,10 @@ git push origin gh-pages
 
 ----------------------------------------------
 
+Koodi kentän background väriä saa säädetty 
+stylesheet.css tiedoston pre-elementin
+background-color asetuksella.
+
 
 
 
