@@ -107,7 +107,7 @@ Samoin toimitaan, jos olion "määrittelemättömän" kentän arvoa yritetään 
 </pre>
 </div>
 <p>
-Koska konstruktorifunktio ei tässä palauta luomaansa oliota, <code>Joe</code> ei siirry viittaamaan luotuun olioon, joka häviää bittiavaruuteen. Tilanne voitaisiin korjata liittämällä konstruktorifunktioon <code>return</code>-lause, joka palauttaisi <code>this</code>. Kuitenkin nähdäksemme parempi tapa olisi nähdäksemme:
+Koska konstruktorifunktio ei tässä palauta luomaansa oliota, <code>Joe</code> ei siirry viittaamaan luotuun olioon, joka häviää bittiavaruuteen. Tilanne voitaisiin korjata liittämällä konstruktorifunktioon <code>return</code>-lause, joka palauttaisi <code>this</code>. Kuitenkin nähdäksemme parempi tapa olisi:
 </p>
 <div class="highlight"><pre>
 <span class="n">var</span> <span class="n">John</span> <span class="o">=</span> <span class="n">new</span> <span class="n">make_person_object</span><span class="p">(</span><span class="s">"John"</span><span class="p">,</span> <span class="s">"Smith"</span><span class="p">,</span> <span class="mi">45</span><span class="p">);</span> <span class="c1">// new operaatio</span>
