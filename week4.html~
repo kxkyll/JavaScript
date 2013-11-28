@@ -66,10 +66,6 @@ Yleisesti mielletään, että oliot ovat funktioiden ilmentymiä, jotka luodaan 
 <p>Olion nimi osoittaa pointterin tapaan objektin prototyyppiin. Jos oliolta haetaan ominaisuutta, jota sille ei ole määritelty, niin javascript etsii sitä ensin olion omasta prototyypistä.  Etsintää jatketaan prototyyppiketjua seuraten, kunnes lopulta huomataan, että prototyyppiketju on käyty loppuun asti, eikä ominaisuutta ole löytynyt, jolloin palautetaan arvo <code>undefined</code>. Huomionarvoista on, että jos olion prototyypistään perimän attribuutin arvoa yritetään muuttaa, niin prototyypin attribuutin arvo ei muutu. Sen sijaan, oliolle luodaan uusi samanniminen kenttä.
 Samoin toimitaan, jos olion "määrittelemättömän" kentän arvoa yritetään muuttaa. </p>
 
-<<<<<<< HEAD
-=======
-
->>>>>>> 68680c76c072b99a69f81bad1157b7d7612a502e
 <p>Tässä toinen esimerkki prototyyppiketjuista:</p>
 
 <div class="highlight"><pre><span class="kd">var</span> <span class="nx">a</span> <span class="o">=</span> <span class="p">{</span>
@@ -111,20 +107,10 @@ Samoin toimitaan, jos olion "määrittelemättömän" kentän arvoa yritetään 
 
 <div class="highlight"><pre><span class="n">var</span> <span class="n">Joe</span> <span class="o">=</span> <span class="n">make_person_object</span><span class="p">(</span><span class="s">"Joe"</span><span class="p">,</span> <span class="s">"Smith"</span><span class="p">,</span> <span class="mi">23</span><span class="p">);</span> <span class="c1">// huomaa ei new operaatiota</span>
 <span class="n">console</span><span class="p">.</span><span class="n">log</span><span class="p">(</span><span class="n">Joe</span><span class="p">);</span> <span class="c1">// undefined</span>
-<<<<<<< HEAD
 </pre></div>
 Koska konstruktorifunktio ei tässä palauta luomaansa oliota, <code>Joe</code> ei siirry viittaamaan luotuun olioon, joka häviää bittiavaruuteen. Tilanne voitaisiin korjata liittämällä konstruktorifunktioon <code>return</code>-lause, joka palauttaisi <code>this</code>. Kuitenkin nähdäksemme parempi tapa olisi nähdäksemme:
 
 <div class="highlight"><pre><span class="n">var</span> <span class="n">John</span> <span class="o">=</span> <span class="n">new</span> <span class="n">make_person_object</span><span class="p">(</span><span class="s">"John"</span><span class="p">,</span> <span class="s">"Smith"</span><span class="p">,</span> <span class="mi">45</span><span class="p">);</span> <span class="c1">// new operaatio</span>
-=======
-</pre>
-</div>
-<p>
-Koska konstruktorifunktio ei tässä palauta luomaansa oliota, <code>Joe</code> ei siirry viittaamaan luotuun olioon, joka häviää bittiavaruuteen. Tilanne voitaisiin korjata liittämällä konstruktorifunktioon <code>return</code>-lause, joka palauttaisi <code>this</code>. Kuitenkin nähdäksemme parempi tapa olisi:
-</p>
-<div class="highlight"><pre>
-<span class="n">var</span> <span class="n">John</span> <span class="o">=</span> <span class="n">new</span> <span class="n">make_person_object</span><span class="p">(</span><span class="s">"John"</span><span class="p">,</span> <span class="s">"Smith"</span><span class="p">,</span> <span class="mi">45</span><span class="p">);</span> <span class="c1">// new operaatio</span>
->>>>>>> 68680c76c072b99a69f81bad1157b7d7612a502e
 <span class="n">console</span><span class="p">.</span><span class="n">log</span><span class="p">(</span><span class="n">John</span><span class="p">);</span> <span class="c1">// {firstname: "John", lastname: "Smith", age: 45}</span>
 </pre></div>
 
@@ -169,10 +155,6 @@ Koska konstruktorifunktio ei tässä palauta luomaansa oliota, <code>Joe</code> 
 
 <p>Tässä <code>counter</code>-muuttujaan pää käsiksi ainoastaan moduulin palauttamien metodien avulla. Tämä suunnittelumalli on siis erityisesti edullinen julkisia rajapintoja luotaessa ja suurissa projekteissa, mutta toisaalta tällä ohjelmointityylillä häivytetään Javascriptille ominaista dynaamisuutta. Toki on edelleen niin, että jos <code>testModules</code> luodaan uusia ilmentymiä, niille voi asettaa omia kenttiä mielin määrin.</p>
 
-<<<<<<< HEAD
-=======
-
->>>>>>> 68680c76c072b99a69f81bad1157b7d7612a502e
 <h3>
 <a name="232-perint%C3%A4-javascriptiss%C3%A4" class="anchor" href="#232-perint%C3%A4-javascriptiss%C3%A4"><span class="octicon octicon-link"></span></a>2.3.2 Perintä Javascriptissä</h3>
 
