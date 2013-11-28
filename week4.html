@@ -31,7 +31,154 @@
 		<a href="week3.html">3. viikko</a> <br />
 		<a href="week4.html">4. viikko</a> <br />
 	</p>
+<h2>
+<a name="23-hyvi%C3%A4-ohjelmointik%C3%A4yt%C3%A4nt%C3%B6j%C3%A4-oliot-ja-periytyminen" class="anchor" href="#23-hyvi%C3%A4-ohjelmointik%C3%A4yt%C3%A4nt%C3%B6j%C3%A4-oliot-ja-periytyminen"><span class="octicon octicon-link"></span></a>2.3 Hyviä ohjelmointikäytäntöjä: oliot ja periytyminen</h2>
 
+<p>Javascriptin oliot ja periytyminen käsitetään eri tavalla kuin perinteisissä olio-ohjelmointikielissä. Javassa on luokat, joissa määritellään olioiden ominaisuudet, ja yksittäisillä olioilla, jotka ovat luokan ilmentymiä, on arvot noille ominaisuuksille. Luokille voidaan luoda aliluokkia, jotka sitten perivät yliluokkansa ominaisuudet. Aliluokassa voidaan joko muuttaa yliluokan ominaisuuksia tai tuoda aliluokkaan uusia ominaisuuksia yliluokkaan nähden. Aliluokan ilmentymillä on omien ominaisuuksiensa lisäksi myös yliluokan ominaisuudet. Myös Javascriptissä oliot voivat periä toisten olioiden ominaisuuksia, mutta järjestelmä on perustavanlaatuisesti erilainen. Luokkia ei ole. Javascriptissä käytetään prototyyppiperintää. Oliolla on omien ominaisuuksiensa lisäksi prototyyppiolionsa ominaisuudet, jolla on omiensa lisäksi prototyyppiolionsa ominaisuudet, jolla on omiensa lisäksi prototyyppiolionsa ominaisuudet. Ketjun jatkuu, kunnes päästään perimysketjun huipulle Object-olioon. Javascriptissä oliot siis perivät toisten olioiden ominaisuuksia eivätkä luokkatasolla määrättyjä ominaisuuksia. Jos on määritelty konstruktori oliolle <code>a</code> ja tuolla konstruktorilla luodaan <code>b</code>, kaikki ne oliot, jotka perivät ominaisuuksia <code>a</code>:lta perivät vain <code>a</code>:n ominaisuudet. Vaikka <code>b</code>:hen lisättäisiin kenttiä, <code>a</code>:n "perilliset" eivät perisi <code>b</code>:n uusia ominaisuuksia.</p>
+
+<p>Mitä ohjelmointityyliin tulee, olio-ohjelmoinnissa pätevät samat säännöt ja tavoitteet kuin olio-ohjelmoinnissa yleensä: reaalimaailman entiteettejä on pyrittävä mallintamaan ohjelmakoodissa, siten että koodi olisi ymmärrettävää, ja ohjelmakoodi on rakennettava niin, että turhaa koodin toistoa ei ole.</p>
+
+<h3>
+<a name="231-javascript-ja-oliot" class="anchor" href="#231-javascript-ja-oliot"><span class="octicon octicon-link"></span></a>2.3.1 Javascript ja Oliot</h3>
+
+<p>Eräs määrittely Javascriptin oliolle on seuraava: "Olio on kokoelma ominaisuuksia, joilla on yksi yhteinen prototyyppiolio. Prototyyppi voi olla joko olio tai <code>null</code> [2]." Toisaalta olio voidaan määritellä myös seuraavasti: "Javascriptissä kaikki käyttäytyvät oliomaisesti, paitsi <code>undefined</code> ja <code>null</code> [1]."
+Yleisesti mielletään, että oliot ovat funktioiden ilmentymiä, jotka luodaan käyttämällä avainsanaa <code>new</code>. Olioita voi ajatella myös avain-, arvopareina, joita käytetään, kuten Hashmap-tietorakennetta.</p>
+
+<p>Emme löytäneet mitään perusteluja sille, miksi Javascriptin oliosuunnittelussa tulisi poiketa oliosuunnittelun yleisistä periaatteista. Näinollen suosittelemme suunnittelemaan oliot esimerkiksi GRASP-periaatteita noudatten [7]. Javascript tarjoaa kuitenkin erittäin hyvän suunnittelumallin nimeltä Module-pattern, jonka avulla sovelluksen toimintalogiikkaa voidaan kapseloida hyödyntämällä sulkeumia ja anonyymejä funktioita. Tutustutaan ensin kuitenkin yksinkertaisen olion rakenteeseen.</p>
+
+<p>Esimerkki yksinkertaisesta oliosta ja kuva sen prototyypistä</p>
+
+<div class="highlight"><pre><span class="n">var</span> <span class="n">foo</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="nl">x:</span> <span class="mi">10</span><span class="p">,</span>
+  <span class="nl">y:</span> <span class="mi">20</span>
+<span class="p">};</span>
+</pre></div>
+
+<p><img src="https://raw.github.com/kxkyll/JavaScript/master/images/basic-object.png" alt="Kuva olion prototyypistä"><em>Kuvan alkuperä [2]</em></p>
+
+<p>Käyttämällä olioliteraalinotaatiota<code>{}</code> saadaan luotua tyhjä olio. Vaikka oliolla ei ole omia ominaisuuksia, se perii kuitenkin Object.prototype:n.</p>
+
+<div class="highlight"><pre><span class="n">var</span> <span class="n">empty</span> <span class="o">=</span> <span class="p">{}</span>
+</pre></div>
+
+<p>Olion nimi osoittaa pointterin tapaan objektin prototyyppiin. Jos oliolta haetaan ominaisuutta, jota sille ei ole määritelty, niin javascript etsii sitä ensin olion omasta prototyypistä.  Etsintää jatketaan prototyyppiketjua seuraten, kunnes lopulta huomataan, että prototyyppiketju on käyty loppuun asti, eikä ominaisuutta ole löytynyt, jolloin palautetaan arvo <code>undefined</code>. Huomionarvoista on, että jos olion prototyypistään perimän attribuutin arvoa yritetään muuttaa, niin prototyypin attribuutin arvo ei muutu. Sen sijaan, oliolle luodaan uusi samanniminen kenttä.
+Samoin toimitaan, jos olion "määrittelemättömän" kentän arvoa yritetään muuttaa. </p>
+
+<p>Aina kun käytetään new -kutsua olioilmentymän luonnin yhteydessä, juuri luotu ilmentymä siis asetetaan osoittamaan omaan prototyyppiinsä. </p>
+
+<p>Tässä toinen esimerkki prototyyppiketjuista:</p>
+
+<div class="highlight"><pre><span class="kd">var</span> <span class="nx">a</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="nx">x</span><span class="o">:</span> <span class="mi">10</span><span class="p">,</span>
+  <span class="nx">calculate</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">z</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">x</span> <span class="o">+</span> <span class="k">this</span><span class="p">.</span><span class="nx">y</span> <span class="o">+</span> <span class="nx">z</span>
+  <span class="p">}</span>
+<span class="p">};</span>
+ 
+<span class="kd">var</span> <span class="nx">b</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="nx">y</span><span class="o">:</span> <span class="mi">20</span><span class="p">,</span>
+  <span class="nx">__proto__</span><span class="o">:</span> <span class="nx">a</span>
+<span class="p">};</span>
+ 
+<span class="kd">var</span> <span class="nx">c</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="nx">y</span><span class="o">:</span> <span class="mi">30</span><span class="p">,</span>
+  <span class="nx">__proto__</span><span class="o">:</span> <span class="nx">a</span>
+<span class="p">};</span>
+ 
+<span class="c1">// call the inherited method</span>
+<span class="nx">b</span><span class="p">.</span><span class="nx">calculate</span><span class="p">(</span><span class="mi">30</span><span class="p">);</span> <span class="c1">// 60</span>
+<span class="nx">c</span><span class="p">.</span><span class="nx">calculate</span><span class="p">(</span><span class="mi">40</span><span class="p">);</span> <span class="c1">// 80</span>
+</pre></div>
+
+<p><img src="https://raw.github.com/kxkyll/JavaScript/master/images/prototype-chain.png" alt="Kuva prototyyppiketjusta"><em>Kuvan alkuperä [2]</em></p>
+
+<p>Alla oleva esimerkki esittelee this-viittauksen käyttöä:</p>
+
+<div class="highlight"><pre><span class="kd">function</span> <span class="nx">make_person_object</span><span class="p">(</span><span class="nx">firstname</span><span class="p">,</span> <span class="nx">lastname</span><span class="p">,</span> <span class="nx">age</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">firstname</span> <span class="o">=</span> <span class="nx">firstname</span><span class="p">;</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">lastname</span> <span class="o">=</span> <span class="nx">lastname</span><span class="p">;</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">age</span> <span class="o">=</span> <span class="nx">age</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+
+<p>Esimerkkiobjekteja:</p>
+
+<div class="highlight"><pre><span class="n">var</span> <span class="n">Joe</span> <span class="o">=</span> <span class="n">make_person_object</span><span class="p">(</span><span class="s">"Joe"</span><span class="p">,</span> <span class="s">"Smith"</span><span class="p">,</span> <span class="mi">23</span><span class="p">);</span> <span class="c1">// huomaa ei new operaatiota</span>
+<span class="n">console</span><span class="p">.</span><span class="n">log</span><span class="p">(</span><span class="n">Joe</span><span class="p">);</span> <span class="c1">// undefined</span>
+
+<span class="err">↑</span>
+<span class="n">vertaa</span>
+<span class="err">↓</span>
+
+<span class="n">var</span> <span class="n">John</span> <span class="o">=</span> <span class="n">new</span> <span class="n">make_person_object</span><span class="p">(</span><span class="s">"John"</span><span class="p">,</span> <span class="s">"Smith"</span><span class="p">,</span> <span class="mi">45</span><span class="p">);</span> <span class="c1">// new operaatio</span>
+<span class="n">console</span><span class="p">.</span><span class="n">log</span><span class="p">(</span><span class="n">John</span><span class="p">);</span> <span class="c1">// {firstname: "John", lastname: "Smith", age: 45}</span>
+</pre></div>
+Nyt voidaan olion prototyypille lisätä greet() metodi, joka käyttää olion parametrejä this viitteen avulla. Tulostuksessa tulostetaan juuri lisätty full_name ja aiemmin olioon asetettu this.firstname.
+
+<div class="highlight"><pre><span class="nx">make_person_object</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">greet</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(){</span> 
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">"Hello! I'm"</span><span class="p">,</span> <span class="k">this</span><span class="p">.</span><span class="nx">full_name</span><span class="p">,</span> <span class="s2">"Call me"</span><span class="p">,</span> <span class="k">this</span><span class="p">.</span><span class="nx">firstname</span><span class="p">);</span> 
+<span class="p">};</span>
+<span class="nx">John</span><span class="p">.</span><span class="nx">full_name</span> <span class="c1">// "N/A"</span>
+<span class="nx">John</span><span class="p">.</span><span class="nx">full_name</span> <span class="o">=</span> <span class="s2">"John Smith"</span><span class="p">;</span> 
+<span class="nx">make_person_object</span><span class="p">.</span><span class="nx">full_name</span> <span class="c1">// Still "N/A"</span>
+<span class="nx">John</span><span class="p">.</span><span class="nx">greet</span><span class="p">();</span> <span class="c1">// "Hello! I'm John Smith Call me John"</span>
+</pre></div>
+
+<h3>
+<a name="232-perint%C3%A4-javascriptiss%C3%A4" class="anchor" href="#232-perint%C3%A4-javascriptiss%C3%A4"><span class="octicon octicon-link"></span></a>2.3.2 Perintä Javascriptissä</h3>
+
+<p>Olio-ohjelmoinnissa, kuten ohjelmoinnissa yleensäkin tulee vastaan tilanteita, joissa samanlaisia, tai miltei samanlaisia ohjelmanosia tarvitaan useassa kohdassa ohjelmakoodia. Tämä on luonnollisestikin hyvän ohjelmointitavan vastaista ja onkin pyrittävä tekemään koodista mahdollisimman uudelleenkäytettävää. Perintä on yksi keino, jonka avulla voidaan välttyä kirjoittamasta jo kerran kirjoitettua koodia uudestaan. 
+Javascriptissä käytetään protyyppeihin perustuvaa perintää. </p>
+
+<p>Javascriptillä voidaan myös toteuttaa moniperintä, jossa olio perii ominaisuuksia useilta muilta olioilta.</p>
+
+<p>Esimerkki prototyyppiperinnästä, käyttäen Object.create funktiota. [4]</p>
+
+<div class="highlight"><pre><span class="c1">// Shape - superclass</span>
+<span class="k">function</span> <span class="n">Shape</span><span class="p">()</span> <span class="p">{</span>
+  <span class="k">this</span><span class="p">.</span><span class="n">x</span> <span class="o">=</span> <span class="mh">0</span><span class="p">;</span>
+  <span class="k">this</span><span class="p">.</span><span class="n">y</span> <span class="o">=</span> <span class="mh">0</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="c1">// superclass method</span>
+<span class="n">Shape</span><span class="p">.</span><span class="n">prototype</span><span class="p">.</span><span class="n">move</span> <span class="o">=</span> <span class="k">function</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="n">x</span> <span class="o">+=</span> <span class="n">x</span><span class="p">;</span>
+    <span class="k">this</span><span class="p">.</span><span class="n">y</span> <span class="o">+=</span> <span class="n">y</span><span class="p">;</span>
+    <span class="n">console</span><span class="p">.</span><span class="n">info</span><span class="p">(</span><span class="s">"Shape moved."</span><span class="p">);</span>
+<span class="p">};</span>
+
+<span class="c1">// Rectangle - subclass</span>
+<span class="k">function</span> <span class="n">Rectangle</span><span class="p">()</span> <span class="p">{</span>
+  <span class="n">Shape</span><span class="p">.</span><span class="n">call</span><span class="p">(</span><span class="k">this</span><span class="p">);</span> <span class="c1">// call super constructor.</span>
+<span class="p">}</span>
+
+<span class="c1">// subclass extends superclass</span>
+<span class="n">Rectangle</span><span class="p">.</span><span class="n">prototype</span> <span class="o">=</span> <span class="n">Object</span><span class="p">.</span><span class="n">create</span><span class="p">(</span><span class="n">Shape</span><span class="p">.</span><span class="n">prototype</span><span class="p">);</span>
+<span class="n">Rectangle</span><span class="p">.</span><span class="n">prototype</span><span class="p">.</span><span class="n">constructor</span> <span class="o">=</span> <span class="n">Rectangle</span><span class="p">;</span>
+
+<span class="k">var</span> <span class="n">rect</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Rectangle</span><span class="p">();</span>
+
+<span class="n">rect</span> <span class="n">instanceof</span> <span class="n">Rectangle</span> <span class="c1">// true.</span>
+<span class="n">rect</span> <span class="n">instanceof</span> <span class="n">Shape</span> <span class="c1">// true.</span>
+
+<span class="n">rect</span><span class="p">.</span><span class="n">move</span><span class="p">(</span><span class="mh">1</span><span class="p">,</span> <span class="mh">1</span><span class="p">);</span> <span class="c1">// Outputs, "Shape moved."</span>
+</pre></div>
+
+<p>Lähteet:</p>
+
+<p>[1] <a href="http://bonsaiden.github.io/JavaScript-Garden/">http://bonsaiden.github.io/JavaScript-Garden/</a></p>
+
+<p>[2] <a href="http://dmitrysoshnikov.com/ecmascript/javascript-the-core/">http://dmitrysoshnikov.com/ecmascript/javascript-the-core/</a></p>
+
+<p>[3] <a href="http://www.crockford.com/javascript/inheritance.html">http://www.crockford.com/javascript/inheritance.html</a></p>
+
+<p>[4] <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/create">https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/create</a></p>
+
+<p>[5] <a href="http://stackoverflow.com/questions/5958417/javascript-function-and-object">http://stackoverflow.com/questions/5958417/javascript-function-and-object</a></p>
+
+<p>[6] <a href="http://yehudakatz.com/2011/08/12/understanding-prototypes-in-javascript/">http://yehudakatz.com/2011/08/12/understanding-prototypes-in-javascript/</a></p>
+
+<p>[7] <a href="http://en.wikipedia.org/wiki/GRASP_(object-oriented_design)">http://en.wikipedia.org/wiki/GRASP_(object-oriented_design)</a></p>
 
         <footer>
           Javascript is maintained by <a href="https://github.com/kxkyll">kxkyll</a><br>
