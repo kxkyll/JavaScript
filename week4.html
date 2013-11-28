@@ -124,6 +124,35 @@ Nyt voidaan olion prototyypille lisätä greet() metodi, joka käyttää olion p
 <span class="nx">John</span><span class="p">.</span><span class="nx">greet</span><span class="p">();</span> <span class="c1">// "Hello! I'm John Smith Call me John"</span>
 </pre></div>
 
+<p>Javascript-ohjelmoinnissa olisi isoissa projekteissa järkevintä käyttää jo aiemmin mainittua module pattern -suunnittelumallia. Mallin idea on "emuloida" luokkien ideaa, eli kapseloida olioiden sisältö siten, että olion sisäistä tilaa pääsee muokkaamaan vain "settereiden" avulla. Suunnittelumalli mahdollista sekä julkisten että yksityisten metodien ja muuttujien käytön. Isoissa projekteissa tämä pienentää todennäiköisyyttä, että ohjelmoijien tahoillaan luomat rakenteet voisivat sekoittua toisten ohjelmoijien rakenteisiin. [8]</p>
+
+<p>Seuraavassa esimerkki suunnittelumallista.</p>
+
+<div class="highlight"><pre><span class="kd">var</span> <span class="nx">testModule</span> <span class="o">=</span> <span class="p">(</span><span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+	 
+  <span class="kd">var</span> <span class="nx">counter</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+	 
+  <span class="k">return</span> <span class="p">{</span>
+	 
+    <span class="nx">incrementCounter</span><span class="o">:</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+	      <span class="k">return</span> <span class="nx">counter</span><span class="o">++</span><span class="p">;</span>
+    <span class="p">},</span>
+	 
+    <span class="nx">resetCounter</span><span class="o">:</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+      <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span> <span class="s2">"counter value prior to reset: "</span> <span class="o">+</span> <span class="nx">counter</span> <span class="p">);</span>
+      <span class="nx">counter</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="p">}</span>
+  <span class="p">};</span>
+	 
+<span class="p">})();</span>
+
+<span class="c1">// Increment our counter</span>
+<span class="nx">testModule</span><span class="p">.</span><span class="nx">incrementCounter</span><span class="p">();</span>
+</pre></div>
+
+<p>Tässä <code>counter</code>-muuttujaan pää käsiksi ainoastaan moduulin palauttamien metodien avulla. Tämä suunnittelumalli on siis erityisesti edullinen julkisia rajapintoja luotaessa ja suurissa projekteissa, mutta toisaalta tällä ohjelmointityylillä häivytetään Javascriptille ominaista dynaamisuutta. Toki on edelleen niin, että jos <code>testModules</code> luodaan uusia ilmentymiä, niille voi asettaa omia kenttiä mielin määrin.</p>
+
+
 <h3>
 <a name="232-perint%C3%A4-javascriptiss%C3%A4" class="anchor" href="#232-perint%C3%A4-javascriptiss%C3%A4"><span class="octicon octicon-link"></span></a>2.3.2 Perintä Javascriptissä</h3>
 
