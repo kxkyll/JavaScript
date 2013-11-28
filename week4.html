@@ -64,7 +64,6 @@ Yleisesti mielletään, että oliot ovat funktioiden ilmentymiä, jotka luodaan 
 <p>Olion nimi osoittaa pointterin tapaan objektin prototyyppiin. Jos oliolta haetaan ominaisuutta, jota sille ei ole määritelty, niin javascript etsii sitä ensin olion omasta prototyypistä.  Etsintää jatketaan prototyyppiketjua seuraten, kunnes lopulta huomataan, että prototyyppiketju on käyty loppuun asti, eikä ominaisuutta ole löytynyt, jolloin palautetaan arvo <code>undefined</code>. Huomionarvoista on, että jos olion prototyypistään perimän attribuutin arvoa yritetään muuttaa, niin prototyypin attribuutin arvo ei muutu. Sen sijaan, oliolle luodaan uusi samanniminen kenttä.
 Samoin toimitaan, jos olion "määrittelemättömän" kentän arvoa yritetään muuttaa. </p>
 
-<p>Aina kun käytetään new -kutsua olioilmentymän luonnin yhteydessä, juuri luotu ilmentymä siis asetetaan osoittamaan omaan prototyyppiinsä. </p>
 
 <p>Tässä toinen esimerkki prototyyppiketjuista:</p>
 
@@ -105,15 +104,19 @@ Samoin toimitaan, jos olion "määrittelemättömän" kentän arvoa yritetään 
 
 <div class="highlight"><pre><span class="n">var</span> <span class="n">Joe</span> <span class="o">=</span> <span class="n">make_person_object</span><span class="p">(</span><span class="s">"Joe"</span><span class="p">,</span> <span class="s">"Smith"</span><span class="p">,</span> <span class="mi">23</span><span class="p">);</span> <span class="c1">// huomaa ei new operaatiota</span>
 <span class="n">console</span><span class="p">.</span><span class="n">log</span><span class="p">(</span><span class="n">Joe</span><span class="p">);</span> <span class="c1">// undefined</span>
-
-<span class="err">↑</span>
-<span class="n">vertaa</span>
-<span class="err">↓</span>
-
+</pre>
+</div>
+<p>
+Koska konstruktorifunktio ei tässä palauta luomaansa oliota, <code>Joe</code> ei siirry viittaamaan luotuun olioon, joka häviää bittiavaruuteen. Tilanne voitaisiin korjata liittämällä konstruktorifunktioon <code>return</code>-lause, joka palauttaisi <code>this</code>. Kuitenkin nähdäksemme parempi tapa olisi nähdäksemme:
+</p>
+<div class="highlight"><pre>
 <span class="n">var</span> <span class="n">John</span> <span class="o">=</span> <span class="n">new</span> <span class="n">make_person_object</span><span class="p">(</span><span class="s">"John"</span><span class="p">,</span> <span class="s">"Smith"</span><span class="p">,</span> <span class="mi">45</span><span class="p">);</span> <span class="c1">// new operaatio</span>
 <span class="n">console</span><span class="p">.</span><span class="n">log</span><span class="p">(</span><span class="n">John</span><span class="p">);</span> <span class="c1">// {firstname: "John", lastname: "Smith", age: 45}</span>
 </pre></div>
-Nyt voidaan olion prototyypille lisätä greet() metodi, joka käyttää olion parametrejä this viitteen avulla. Tulostuksessa tulostetaan juuri lisätty full_name ja aiemmin olioon asetettu this.firstname.
+
+<p>Tässä käytetään <code>new</code>-kutsua, mikä johtaa odotettuun tulokseen eli siihen, että <code>John</code> syntyy. Oikeastaan on sama kumpaa tapaa käyttää, mutta jälkimmäinen tuntuu tutummalta. Varsinaisen ymmärrettävyysongelman tässä aiheuttaa funktion nimentä. Jos funktion nimi on <code>make_person_object</code>, se ohjaa koodaria ajattelemaan, että funktio palauttaisi jotakin. Jos halutaan käyttää tällaista nimeä, funktion pitäisi palauttaa luomansa objekti. Jos taas halutaan käyttää jälkimmäistä tapaa, olisi parempi nimetä funktio <code>Person</code>iksi, koska on intuitiivisempaa luoda uusi "henkilö" kuin luoda uusi "luo uusi henkilö" -objekti.</p>
+
+<p>Nyt voidaan olion prototyypille lisätä greet() metodi, joka käyttää olion parametrejä this viitteen avulla. Tulostuksessa tulostetaan juuri lisätty full_name ja aiemmin olioon asetettu this.firstname.</p>
 
 <div class="highlight"><pre><span class="nx">make_person_object</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">greet</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(){</span> 
     <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">"Hello! I'm"</span><span class="p">,</span> <span class="k">this</span><span class="p">.</span><span class="nx">full_name</span><span class="p">,</span> <span class="s2">"Call me"</span><span class="p">,</span> <span class="k">this</span><span class="p">.</span><span class="nx">firstname</span><span class="p">);</span> 
