@@ -1,0 +1,532 @@
+﻿<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <link href='https://fonts.googleapis.com/css?family=Chivo:900' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print" />
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <title>Javascript by kxkyll</title>
+  </head>
+
+  <body>
+    <div id="container">
+      <div class="inner">
+
+        <header>
+          <h1>Javascript</h1>
+	  <p><em>Tekijät:</em> Marko Haanranta, Kasper Kivikataja,  Kati Kyllönen, Jussi Miestamo</p>
+
+        </header>
+<h2>
+<a name="1-johdanto" class="anchor" href="#1-johdanto"><span class="octicon octicon-link"></span></a>1. Johdanto</h2>
+
+<p>Hyvän ohjelmointityylin keskeisenä tavoitteena voidaan varmaankin pitää jonkinlaista tasapainoa koodin tehokkuuden ja luettavuuden välillä. Tehokkuus on itsestään selvä ja välttämätön tavoite, ja siihen pitää pyrkiä, muttei kuitenkaan ymmärrettävyyden kustannuksella. Koodaajien on myös pystyttävä seuraamaan ohjelman logiikkaa helposti, jotta säilyisi ymmärrys siitä, mitä ohjelma tekee. Jokaisella ohjelmoijalla on oma tyylinsä, eikä yhtä ehdottoman oikeaa ole mahdollista saati järkevää määrätä. Hyvään ohjelmointityyliin kuuluu kuitenkin joitain valitusta ohjelmointikielestä riippumattomia nyrkkisääntöjä. Niitä ovat esimerkiksi pyrkimys pitää funktiot (tai metodit) lyhyinä sekä yhtenäinen käytäntö luokkien, objektien, primitiivityyppien nimennässä. Tehokkuuteen ja koodin luettavuuteen pitää siis pyrkiä käytettävästä ohjelmointikielestä riippumatta, mutta ohjelmointikielet ovat erilaisia, ja niissä on omat vahvuutensa ja heikkoutensa. Tässä tekstissä keskitytään esittelemään Javascriptin ominaisuuksia.</p>
+
+<h3>
+<a name="11-javascriptistä-yleensä" class="anchor" href="#11-javascriptist%C3%A4-yleens%C3%A4"><span class="octicon octicon-link"></span></a>1.1 Javascriptistä yleensä</h3>
+
+<p>Javascript on ohjelmointikieli, joka tunnetaan yleisesti käytöstä web-selainohjelmoinnissa. Käyttö ei rajoitu kuitenkaan tähän, vaan sitä käytetään myös palvelinohjelmoinnissa esim. Node.js-ohjelmistoalustan skriptikielenä. Javascript on oliokieli, jossa ei kuitenkaan (ainakaan vielä) ole luokkia kuten vaikkapa Javassa tai C++:ssa. Siinä käytetään prototyyppiperintää, jossa oliot perivät ominaisuuksia prototyypeiltään, jotka puolestaan perivät ominaisuuksia omilta prototyypeiltään jne. Javascript on hyvin dynaaminen kieli: Olioille voi esimerkiksi suoritusaikana lisätä kenttiä, tai niitä voi poistaa. Lisäksi kieli on dynaamisesti tyypitetty. Muuttujilla ei ole tyyppiä, vain niiden arvoilla. Jos muuttujan arvona ensin ollut vaikkapa Number, ei ole mitään estettä muuttaa saman muuttujan arvoksi seuraavalla koodirivillä String-tyypin oliota tai mitä tahansa muuta, vaikkapa funktiota. Se, mitä tämä tekee ohjelman toiminnan kannalta, jätetään ohjelmoijan vastuulle. Tässä juuri piilee Javascriptin hienous ja vaikeus: ohjelmoija voi tehdä asioita miten huvittaa, mutta toisaalta ohjelmoijalle jää myös paljon vastuuta. Tämän tekstin tarkoitus on esitellä hyviä ja tehokkaita ohjelmointiratkaisuja Javascriptillä ja toisaalta muistuttaa sudenkuopista, joita kielen suoma vapaus tuo mukanaan.</p>
+
+<h2>
+<a name="2-tyyppiturvallisuuden-tavoittelua" class="anchor" href="#2-tyyppiturvallisuuden-tavoittelua"><span class="octicon octicon-link"></span></a>2. Javascriptin tyypit ja tyyppiturvallisuus</h2>
+
+<p>Javascriptissä muuttujat ja parametrit ovat tyypittömiä, mutta niiden arvoilla on tyypit. Javascriptin tietotyypit ovat merkkijono (string), luku (number), totuusarvo (boolean), taulukko (array), objekti (object), olematon (null) ja määrittelemätön (undefined). Vaikka muuttujilla ei olekaan tyyppiä, on arvojen tyyppejä syytä tarkistaa, jotta ohjelmat eivät tuottaisi odottamattomia tuloksia. Erityisesti käyttäjän syötteitä on hyvä tarkastella virheiden varalta. Javascriptissä yhteenlasku voidaan suorittaa ongelmitta luvun ja String-tyypin olion välillä.</p>
+
+<div class="highlight"><pre><span class="kd">function</span> <span class="nx">sum</span><span class="p">(</span><span class="nx">a</span><span class="p">,</span><span class="nx">b</span><span class="p">){</span>
+    <span class="k">return</span> <span class="p">(</span><span class="nx">a</span><span class="o">+</span><span class="nx">b</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="nx">write</span><span class="p">(</span><span class="nx">sum</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="s2">"w4"</span><span class="p">))</span>                          <span class="c1">//tulostaa "2w4"</span>
+</pre></div>
+
+<p>Javascript tarjoaa - kuten tunnettua - funktiot <code>parseInt()</code> ja <code>parseFloat()</code> kokonais- tai liukulukujen eristämiseen syötteestä: jos syöte alkaa numerolla, siitä erotetaan numero-osa, ja loppu jätetään huomiotta. Joissain tapauksessa tämä on täysin riittävä tapa varmistaa se, että syöte on kelvollista. Jos ohjelmoija odottaa saavansa syötteenä esimerkiksi kokonaisluvun, vaaraa ei ole, koska <code>parseInt()</code> palauttaa aina kokonaisluvun tai tietotyypin <code>undefined</code>. Tietysti ohjelmakoodin pitää olla rakennettu niin, että <code>undefined</code>:iin on varauduttu, mutta käytettiin mitä tahansa keinoa tyyppien tarkastamiseen, <code>undefined</code>:iin on joka tapauksessa aina varauduttava, jotta ohjelman toiminta olisi ennakoitavaa.</p>
+
+<p>Vaikka yllä oleva esimerkki on yksinkertainen, pelkkä <code>undefined</code>:iin varautuminen ei riitä. Koska oletettavaa on, että käyttäjä (tai funktiota kutsuva ohjelmoija) ei kirjoita syötteeseen lainausmerkkejä, esimerkin syötteen tekee kelvottomaksi todennäköisemmin käyttäjän lyöntivirhe:</p>
+
+<div class="highlight"><pre><span class="n">write</span><span class="p">(</span><span class="n">sum</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="n">w4</span><span class="p">))</span>                   <span class="c1">//Tulostaa konsoliin ReferenceError: w4 is not defined;</span>
+</pre></div>
+
+<p>Tällaisten tilanteiden varalta pitäisikin tarkistaa, onko syöte ylipäätään kokonaisluku. On onnekasta, jos syöte alkaa numeroilla, mutta jos ei ala, <code>parseInt()</code> ei pelasta.</p>
+
+<p>Tyyppien tarkistus ohjelmakoodissa on erityisen tärkeää juuri käyttäjän syötettä käsiteltäessä, sekä muutoinkin ohjelman ulkoisissa rajapinnoissa.</p>
+
+<h3>
+<a name="21-funktioita-tyyppitarkastusten-avuksi" class="anchor" href="#21-funktioita-tyyppitarkastusten-avuksi"><span class="octicon octicon-link"></span></a>2.1 Funktioita tyyppitarkastusten avuksi</h3>
+
+<p>Javascriptillä voisi  halutessaan ohjelmoida sarjan apufunktioita tyyppitarkistusten tekemiseksi. Seuraavassa  esittelemme mahdollisia tällaisten funktioiden toteutuksia. </p>
+
+<ul>
+<li>Seuraavat funktiot käyttävät Javascriptin sisäänrakennettua <code>typeof</code>-funktioita tyyppitarkistuksiin. Kolmoisyhtäsuuruusmerkin jälkeistä merkkijonoa muuttamalla voimme soveltaa tätä mihin tahansa Javascriptin määritellyistä alkeistyypeistä. Ensimmäiseksi testataan arvon numeerisuus.</li>
+</ul><div class="highlight"><pre><span class="kd">function</span> <span class="nx">isNumber</span><span class="p">(</span><span class="nx">value</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="k">typeof</span> <span class="nx">value</span> <span class="o">===</span> <span class="s1">'number'</span>
+<span class="p">}</span>
+</pre></div>
+
+<ul>
+<li>Merkkijonotarkistuksessa hyväksytään myös tyhjä merkkijono.</li>
+</ul><div class="highlight"><pre><span class="kd">function</span> <span class="nx">isString</span><span class="p">(</span><span class="nx">value</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="k">typeof</span> <span class="nx">value</span> <span class="o">===</span> <span class="s1">'string'</span>
+<span class="p">}</span>
+
+<span class="kd">function</span> <span class="nx">isObject</span><span class="p">(</span><span class="nx">value</span><span class="p">)</span> <span class="p">{</span>
+   <span class="k">return</span> <span class="k">typeof</span> <span class="nx">value</span> <span class="o">===</span> <span class="s1">'object'</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kd">function</span> <span class="nx">isBoolean</span><span class="p">(</span><span class="nx">value</span><span class="p">)</span> <span class="p">{</span>
+   <span class="k">return</span> <span class="k">typeof</span> <span class="nx">value</span> <span class="o">===</span> <span class="s1">'boolean'</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+
+<ul>
+<li>Myös <code>undefined</code>-arvoon voidaan varautua samaan tapaan.</li>
+</ul><div class="highlight"><pre><span class="kd">function</span> <span class="nx">isUndefined</span> <span class="p">(</span><span class="nx">value</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="k">typeof</span> <span class="nx">value</span> <span class="o">===</span> <span class="s1">'undefined'</span>
+<span class="p">}</span>
+</pre></div>
+
+<ul>
+<li>Array-tarkistuksessa on voi käyttää <code>instanceof</code>-funktiota, jolla testataan, onko arvo jonkin prototyypin ilmentymä.</li>
+</ul><div class="highlight"><pre><span class="kd">function</span> <span class="nx">isArray</span><span class="p">(</span><span class="nx">value</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nx">value</span> <span class="k">instanceof</span> <span class="nb">Array</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+
+<ul>
+<li>Seuraavalla funktiolla voi tarkistaa, onko muuttujalla arvoa ylipäätään.</li>
+</ul><div class="highlight"><pre><span class="kd">function</span> <span class="nx">hasValue</span><span class="p">(</span><span class="nx">value</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span><span class="p">(</span><span class="nx">value</span><span class="p">){</span>
+        <span class="k">return</span> <span class="kc">true</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="kc">false</span>
+<span class="p">}</span>
+</pre></div>
+
+<ul>
+<li>Seuraavalla funktiolla tarkistetaan, onko muuttujan arvo kokonaisluku. Jos desimaaliosa on nolla, arvo tulkitaan kokonaisluvuksi. Tässä käytetään hyväksi sitä, että kielen syntaksin kannalta ei ole niinkään merkittävää, mitä tyyppiä muuttujan arvo edustaa, vaan olennaista on sisältö. Tämä tuntuu intuitiivisesti ajatellen järkevältä, koska reaalimaailmassa (kuten Javascriptissä) on niin, että 1.0 on sama kuin 1.</li>
+</ul><div class="highlight"><pre><span class="kd">function</span> <span class="nx">isInteger</span><span class="p">(</span><span class="nx">value</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nx">value</span> <span class="o">===</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">floor</span><span class="p">(</span><span class="nx">value</span><span class="p">)</span>
+<span class="p">}</span>
+</pre></div>
+
+<ul>
+<li>Funktiolla tarkistetaan, onko muuttujan arvo desimaaliluku. Funktio on suunniteltu niin, että jos desimaaliosa on nolla, arvoa ei tulkita desimaaliluvuksi. Se, onko tälle käytännössä tarvetta, voidaan kyseenalaistaa Javascriptin sallivan luonteen vuoksi. Toisaalta vastaan voi tulla esimerkiksi tilanteita, joissa pitää tarkistaa, monenko merkitsevän numeron tarkkuudella jokin arvon on annettu.</li>
+</ul><div class="highlight"><pre><span class="kd">function</span> <span class="nx">isDouble</span> <span class="p">(</span><span class="nx">value</span><span class="p">)</span> <span class="p">{</span> 
+    <span class="k">return</span> <span class="k">typeof</span> <span class="nx">value</span> <span class="o">===</span> <span class="s2">"number"</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="nb">isNaN</span><span class="p">(</span><span class="nx">value</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="nx">value</span> <span class="o">!==</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">floor</span><span class="p">(</span><span class="nx">n</span><span class="p">)</span>
+<span class="p">}</span>
+</pre></div>
+
+<ul>
+<li>Tällä funktiolla tarkistetaan onko muuttujan arvo funktio.</li>
+</ul><div class="highlight"><pre><span class="n">function</span> <span class="nf">isFunction</span><span class="p">(</span><span class="n">func</span><span class="p">)</span> <span class="p">{</span>
+   <span class="n">var</span> <span class="n">getType</span> <span class="o">=</span> <span class="p">{};</span>
+   <span class="k">return</span> <span class="n">func</span> <span class="o">&amp;&amp;</span> <span class="n">getType</span><span class="p">.</span><span class="n">toString</span><span class="p">.</span><span class="n">call</span><span class="p">(</span><span class="n">func</span><span class="p">)</span> <span class="o">===</span> <span class="err">'</span><span class="p">[</span><span class="n">object</span> <span class="n">Function</span><span class="p">]</span><span class="err">'</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+
+<p>Seuraavassa esittelemme pienen esimerkkiohjelman, jossa tyyppitarkastuksilla turvataan ohjelman odotettu toiminta. <code>if</code>-lauseen ehto-osassa tarkastetaan käyttäjän syöte: ensin tarkistetaan, että syöte ei ole tyhjä <code>hasValue()</code>, ja jos syöte on annettu tarkistetaan, että se on numeerista <code>isNumber()</code>. Jos nämä ehdot eivät täyty, tulostetaan käyttäjälle virheilmoitus.</p>
+
+<div class="highlight"><pre><span class="n">var</span> <span class="n">korkeus</span> <span class="o">=</span> <span class="n">parseInt</span><span class="p">(</span><span class="n">prompt</span><span class="p">(</span><span class="s">"Anna kolmion korkeus:"</span><span class="p">));</span>
+
+<span class="k">if</span> <span class="p">(</span><span class="n">hasValue</span><span class="p">(</span><span class="n">korkeus</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="n">isNumber</span><span class="p">(</span><span class="n">korkeus</span><span class="p">)</span> 
+    <span class="o">&amp;&amp;</span> <span class="n">korkeus</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="n">korkeus</span> <span class="o">&lt;</span> <span class="mi">22</span><span class="p">){</span>
+
+    <span class="n">var</span> <span class="n">alimman_leveys</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">+</span> <span class="p">((</span><span class="n">korkeus</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="mi">2</span><span class="p">);</span>
+    <span class="n">var</span> <span class="n">taman_leveys</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+    <span class="n">var</span> <span class="n">tyhjia</span> <span class="o">=</span> <span class="p">(</span><span class="n">alimman_leveys</span><span class="o">-</span><span class="n">taman_leveys</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="p">;</span>
+
+  <span class="k">for</span> <span class="p">(</span><span class="n">var</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span> <span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">korkeus</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">){</span>
+    <span class="n">var</span> <span class="n">tyhjat</span> <span class="o">=</span> <span class="n">new</span> <span class="n">Array</span><span class="p">(</span><span class="n">tyhjia</span><span class="o">+</span><span class="mi">1</span><span class="p">).</span><span class="n">join</span><span class="p">(</span><span class="s">" "</span><span class="p">);</span>
+    <span class="n">var</span> <span class="n">tahdet</span> <span class="o">=</span> <span class="n">new</span> <span class="n">Array</span><span class="p">(</span><span class="n">taman_leveys</span><span class="o">+</span><span class="mi">1</span><span class="p">).</span><span class="n">join</span><span class="p">(</span><span class="s">"*"</span><span class="p">);</span>
+
+    <span class="n">write</span><span class="p">(</span><span class="n">tyhjat</span> <span class="o">+</span> <span class="n">tahdet</span><span class="p">);</span>
+    <span class="n">taman_leveys</span> <span class="o">=</span> <span class="n">taman_leveys</span> <span class="o">+</span><span class="mi">2</span><span class="p">;</span>
+    <span class="n">tyhjia</span> <span class="o">=</span> <span class="p">(</span><span class="n">alimman_leveys</span><span class="o">-</span><span class="n">taman_leveys</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="p">;</span>
+  <span class="p">}</span>
+
+<span class="p">}</span>
+<span class="k">else</span><span class="p">{</span>
+  <span class="n">alert</span><span class="p">(</span><span class="s">"Ei käy"</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<p>Voidaan tietysti pohtia, kuuluuko dynaamisesti tyypitettyjen kielten luonteeseen lainkaan tyyppiturvallisuuden tavoittelu. Joissain tilanteissa se voi olla tarpeen, mutta tarjolla on muitakin keinoja tarkistaa käyttäjältä tuleva syöte. Voidaan käyttää esimerkiksi Javascript-ohjelmointikehysten lomakevalidaattoreita tai säännöllisiä lausekkeita. Kun puhutaan kokonaislukutyypin ja liukulukutyypin tarkistuksista Javascriptillä, on oikeastaan kysymys hiukan eri asiasta kuin Javassa tai C:ssä. JS:ssä noiden tyyppien erottelua ei nimittäin ole rakennettu kieleen sisään, vaan molemmat ovat tyyppiä <code>number</code>. Varmaa on joka tapauksessa se, että tyyppitarkistusten tekeminen ei ole pakollista toisin kuin tiukasti tyypitetyissä kielissä, mutta kuitenkin usein se voi olla tarpeen ohjelmien ennustettavan toiminnan takaamiseksi.</p>
+
+<h2>
+<a name="3-algoritmit-funktiot-ja-sulkeumat-poikkeusten-käsittely" class="anchor" href="#3-algoritmit-funktiot-ja-sulkeumat-poikkeusten-k%C3%A4sittely"><span class="octicon octicon-link"></span></a>3. Algoritmien suunnittelusta Javascriptillä</h2>
+
+<h3>
+<a name="31-algoritmit-ja-javascript" class="anchor" href="#31-algoritmit-ja-javascript"><span class="octicon octicon-link"></span></a>3.1 Algoritmit ja JavaScript</h3>
+
+<p>Javascriptille on luonteenomaista jättää paljon ohjelmoijan vastuulle. Siihen, mikä on hyvää ohjelmointityyliä, tämä vaikuttaa eri tilanteissa eri tavoilla. Jos käyttäjältä pyydetään syötteenä jotakin numeerista, ei ohjelma välttämättä kaadu, jos syötteen seassa on kirjaimia. Kuitenkin pitää ottaa huomioon, mihin syötettä on tarkoitus käyttää. Javascript-ohjelmoijan sen sijaan pitää itse pitää huoli siitä, että käyttäjän syöte ei etene vaikkapa seuraavan funktion kutsuun parametrina ja aiheuta jotakin odottamatonta, vaikkapa ohjelman kaatumista. Javascriptiä ajettaessa virheellinen syöte saattaa edetä hyvinkin pitkälle suoritusaikana ennen kuin virhe ilmenee, ja tällöin sen löytäminen on vaikeampaa. Web-sovelluksen käyttäjälle ohjelman kaatuminen voi aiheuttaa sen, että ruudulla näkyy toivotun sisällön sijasta pelkkä valkoinen selainikkuna. Käytti sitten mitä tahansa ohjelmointikieltä, syötteeseen on varauduttava jotenkin. JS:n tapauksessa "virheellinen" syöte ei siis kaada ohjelmaa ainakaan heti, mutta ohjelmoijan on pidettävä huolta, ettei se riko myöhemmin esimerkiksi tietokannan toimintaa. </p>
+
+<p>Mietitään hetki tilannetta, jossa käyttäjän syöte luetaan <code>value</code>-muuttujaan, ja muuttujan arvo tarkistetaan aiemmin esillä olleella <code>isInteger</code>-funktiolla. Varsinaista etua JS:n tyypittömyydestä ei tässä ole. JS:llä tässä tilanteessa ei välttämättä edes tarvittaisi tyyppitarkistusta, vaan riittäisi, että testattaisiin vaikkapa säännöllisellä lausekkeella, koostuuko kentästä saatu merkkijono vain numeroista. Tämä voitaisiin toteuttaa myös try-catch-rakenteella, mutta kaikkien tarkistusten tekeminen poikkeuksia heittelemällä ei tee hyvää ohjelman tehokkuudelle.</p>
+
+<p>Tyypittömyyden hyödyt ja haitat tulevat esille oikeastaan tilanteittain. Dynaaminen tyypitys voi vapauttaa ohjelmoijan tekemään asioita kompaktisti ja tehokkaasti, mutta toisaalta se siirtää vastuun ohjelmoijalle, ja huolimattomuudesta voi seurata kauheita. Seuraava esimerkki on vielä helpohkosti hahmotettavissa, mutta entä jos idea vietäisiin pidemmälle? Missä tulee vastaan raja, jonka jälkeen ohjelmoija ei itsekään ymmärrä omaa koodiaan.</p>
+
+<div class="highlight"><pre><span class="nx">summa2</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">a</span><span class="p">){</span><span class="k">return</span> <span class="nx">a</span><span class="o">+</span><span class="nx">a</span><span class="p">}</span>
+<span class="nx">potenssi2</span> <span class="o">=</span>  <span class="kd">function</span><span class="p">(</span><span class="nx">a</span><span class="p">){</span><span class="k">return</span> <span class="nx">a</span><span class="o">*</span><span class="nx">a</span><span class="p">}</span>
+<span class="nx">a</span> <span class="o">=</span> <span class="cp">[</span><span class="nx">summa2</span><span class="p">,</span><span class="nx">potenssi2</span><span class="cp">]</span>                         <span class="c1">// Luo funktioista koostuvan taulukon</span>
+<span class="k">for</span> <span class="p">(</span><span class="nx">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="nx">i</span><span class="o">&lt;</span><span class="nx">a</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span><span class="nx">i</span><span class="o">++</span><span class="p">)</span>
+<span class="p">{</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">a</span><span class="cp">[</span><span class="nx">i</span><span class="cp">]</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span>                         <span class="c1">// Tulostaa 6 ja 9</span>
+<span class="p">}</span>
+</pre></div>
+
+<p>Javascriptistä sanotaan, että se on helppo kieli, mutta dynaamisen tyypityksen tehokas hyödyntäminen vaatii ymmärrystä ja huolellisuutta. </p>
+
+<p>Se, että Javascript antaa muuttaa tietorakenteiteita dynaamisesti tekee algoritmien koodaamisesta joustavaa. Esimerkiksi taulukon täyttyessä ei tarvitse kopioida alkioita isompaan taulukkoon. Myös puuttuvan kentän lisääminen tietorakenteeseen käy helposti, mikä tekee koodista helposti muunneltavaa. On oikeastaan pelottavaa ajatella, kuinka voimakas kieli Javascript on ja toisaalta kuinka moni täysin ohjelmointitaidoton sitä käyttää.</p>
+
+<h3>
+<a name="32-javascript-ohjelmointi-funktionaalista-vai-imperatiivista" class="anchor" href="#32-javascript-ohjelmointi-funktionaalista-vai-imperatiivista"><span class="octicon octicon-link"></span></a>3.2 Funktionaalista vs. imperatiivinen ohjelmointityyli</h3>
+
+<p>﻿
+Seuraavaksi katsomme esimerkin avulla funktionaalisen ja imperatiivisen ohjelmointityylin eroja. Esimerkkifunktiot hakevat taulukosta kaikki objektit joiden arvo on &lt; 10.</p>
+
+<p>Esimerkki 1. <strong>Imperatiivinen</strong> ohjelmointityyli:</p>
+
+<div class="highlight"><pre><span class="kd">function</span> <span class="nx">bestPrices</span><span class="p">(</span><span class="nx">inputArray</span><span class="p">)</span> <span class="p">{</span>
+   <span class="kd">var</span> <span class="nx">outputArray</span> <span class="o">=</span> <span class="cp">[]</span><span class="p">;</span>
+<span class="k">for</span><span class="p">(</span><span class="kd">var</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="nx">inputArray</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+   <span class="k">if</span><span class="p">(</span><span class="nx">inputArray</span><span class="cp">[</span><span class="nx">i</span><span class="cp">]</span><span class="p">.</span><span class="nx">price</span> <span class="o">&lt;</span> <span class="mi">10</span><span class="p">){</span>
+      <span class="nx">outputArray</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">inputArray</span><span class="cp">[</span><span class="nx">i</span><span class="cp">]</span><span class="p">);</span>
+   <span class="p">}</span>
+<span class="p">}</span>
+<span class="k">return</span> <span class="nx">outputArray</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+Esimerkki 2. <strong>Funktionaalinen</strong> ohjelmointityyli:
+
+<div class="highlight"><pre><span class="kd">function</span> <span class="nx">bestPrices</span><span class="p">(</span><span class="nx">inputArray</span><span class="p">){</span>
+   <span class="k">return</span> <span class="nb">Array</span><span class="p">.</span><span class="nx">filter</span><span class="p">(</span><span class="nx">inputArray</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">value</span><span class="p">){</span>
+   <span class="k">return</span> <span class="nx">value</span><span class="p">.</span><span class="nx">price</span> <span class="o">&lt;</span> <span class="mi">10</span><span class="p">;</span>
+   <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+
+<p>Funktionaalisen ohjelmoinnin tekniikoista otamme ensin esimerkiksi anonyymit eli nimettömät funktiot. Seuraavassa esimerkissä olevalle funktiolle ei suoranaisesti anneta nimeä, vaan se annetaan suoraan arvoksi muuttujalle. Tämä esimerkki ei ole varsinaisesti kovin hyödyllinen, mutta se toimii yksinkertaisena erimerkkinä siitä, mitä anonyymiydellä tarkoitetaan.</p>
+
+<div class="highlight"><pre><span class="kd">var</span> <span class="nx">flyToTheMoon</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span>
+<span class="p">{</span>
+  <span class="nx">alert</span><span class="p">(</span><span class="s2">"Zoom! Zoom! Zoom!"</span><span class="p">);</span>
+<span class="p">}</span>
+<span class="nx">flyToTheMoon</span><span class="p">();</span>
+</pre></div>
+
+<p>Yleisesti anonyymejä funktioita käytetään hyödyksi tilanteissa, joissa funktiolle täytyy antaa parametrina toinen funktio ja toisaalta sulkeumien yhteydessä. Sulkeumat ovat hyvin vahva ohjelmointitekniikka.</p>
+
+<p>On mahdotonta sanoa, onko toinen ohjelmointityyli toista parempi. Funktionaalinen koodi on usein lyhyempää, tosin raskaampaa ja vaatii aivan toisenlaista ajattelutapaa. Imperatiivisesti kirjoitettu koodi on usein pidempää. Kukin oppii ohjelmoimaan eri tyyleillä, eikä ole mitään yhtä oikeaa ohjelmointityyliä. On hyvä tiedostaa projektin tarpeet ja pitää huoli siitä, että koodi pysyy helposti ylläpidettävänä. Ylläpidettävyyden kannalta olisimme kuitenkin yhdenmukaisen tyylin kannalla, oli valinta sitten funktionaalinen tai imperatiivinen.</p>
+
+<h3>
+<a name="33-sulkeumat" class="anchor" href="#33-sulkeumat"><span class="octicon octicon-link"></span></a>3.3 Sulkeumat</h3>
+
+<p>Sulkeuma luodaan kirjoittamalla funktio toisen funktion määrittelyn sisään. Tällöin muodostuu näkyvyysalue, jossa sisemmällä funktiolla on pääsy ulomman funktion muuttujiin. Eli ulompi funktio sulkee sisäänsä omat muuttujansa ja sisällään määritellyt funktiot. Sulkeumat tallentavat viittauksen ulomman funktion muuttujiin, eivät itse muuttujan arvoa. Kun ulomman funktion suoritus päättyy, niin sisemmän funktion elämä ei pääty. Sisempää funktioita voidaan kutsua ja sillä on yhä pääsy ulomman funktion muuttujiin. </p>
+
+<p>Sulkeumat ovat osa <em>module pattern</em> -suunnittelumallia. Alunperin <em>module pattern</em> määriteltiin tapana mahdollistaa yksityinen ja julkinen kapselointi luokille tavanomaisessa ohjelmistokehityksessä. Javascriptissä <em>module pattern</em>ia käytetään jäljittelemään luokkien konseptia siten, että voimme sisällyttää sekä julkisia että yksityisiä metodeja ja muuttujia yhden olion sisälle eristämällä ne globaalista näkyvyysalueesta. Suunnittelumalli mahdollistaa sekä julkisten että yksityisten metodien ja muuttujien käytön. Isoissa projekteissa tämä pienentää todennäköisyyttä, että ohjelmoijien tahoillaan luomat rakenteet voisivat sekoittua toisten ohjelmoijien rakenteisiin. Suunnittelumalli on siis erityisesti edullinen julkisia rajapintoja luotaessa ja suurissa projekteissa [9].</p>
+
+<p>Alla olevassa esimerkissä muodostetaan kaksi sulkeumaa <code>increment</code> ja <code>get</code> joita käyttäen päästään käsiksi <code>count</code> muuttujaan sijoitettuun arvoon vaikka <code>Counter</code> funktion suoritus on jo päättynyt. Olennaista on myös huomioida, että konstruktori funktion kutsumisen jälkeen <code>count</code> muuttujaan ei päästä käsiksi mitään muuta kautta kuin näitä kahta metodia käyttäen.</p>
+
+<div class="highlight"><pre><span class="kd">function</span> <span class="nx">Counter</span><span class="p">(</span><span class="nx">start</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">count</span> <span class="o">=</span> <span class="nx">start</span><span class="p">;</span>
+    <span class="k">return</span> <span class="p">{</span>
+        <span class="nx">increment</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span> 
+            <span class="nx">count</span><span class="o">++</span><span class="p">;</span>
+        <span class="p">},</span>
+
+        <span class="nx">get</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="nx">count</span><span class="p">;</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kd">var</span> <span class="nx">foo</span> <span class="o">=</span> <span class="nx">Counter</span><span class="p">(</span><span class="mi">4</span><span class="p">);</span>
+<span class="nx">foo</span><span class="p">.</span><span class="nx">increment</span><span class="p">();</span>
+<span class="nx">write</span><span class="p">(</span><span class="nx">foo</span><span class="p">.</span><span class="nx">get</span><span class="p">());</span> <span class="c1">// 5</span>
+</pre></div>
+
+<h3>
+<a name="34-poikkeukset" class="anchor" href="#34-poikkeukset"><span class="octicon octicon-link"></span></a>3.4 Poikkeukset</h3>
+
+<p>JavaScriptin virhetilanteet voidaan jaotella loogisiin virheisiin, syntaksivirheisiin ja ajonaikaisiin virheisiin. Loogisilla virheillä tarkoitetaan tilanteita, joissa ohjelman looginen toiminta on suunniteltu väärin. Syntaksivirheillä tarkoitetaan JavaScriptin kielen syntaksin vastaisia muotoja, jäsennysvirheitä, jotka JavaScript tulkki havaitsee. Ajonaikaiset virheet tapahtuvat ohjelman suorituksen aikana ja niitä kutsutaan myös nimellä poikkeukset. Tarkastelemme seuraavaksi ajonaikaisia virheitä tarkemmin.</p>
+
+<p>Ajonaikaiset virheet voidaan käsitellä JavaScriptin poikkeuskäsittelyn, eli <code>try</code> -lauseen avulla. <code>Try</code> lause koostuu <code>try</code>, <code>catch</code> ja <code>finally</code> lohkoista. Ajonaikaisia virheitä, jotka laukaisevat poikkeuskäsittelyn on EcmaScriptin määrittelyssä [4] mainittu kuusi: </p>
+
+<ul>
+<li>EvalError, ei käytössä, mukana vain taaksepäinyhteensopivuuden vuoksi</li>
+<li>RangeError, ilmaisee, jos numeerinen arvo on ylittänyt sallitun arvoalueen</li>
+<li>ReferenceError, ilmenee, jos tehty viittaus on epäkelpo</li>
+<li>SyntaxError, ilmaisee jäsennysvirheet</li>
+<li>TypeError,  aiheutuu, jos operandin tyyppi eroaa odotetusta tyypistä</li>
+<li>URIError, ilmaisee, jos globaaleja URI:n käsittelyfunktioita on käytetty väärin</li>
+</ul><div class="highlight"><pre><span class="kd">function</span> <span class="nx">poikkeusDemo</span><span class="p">(){</span>
+    <span class="k">try</span><span class="p">{</span>
+         <span class="nx">olematonfunktio</span><span class="p">()</span>
+         <span class="nx">alert</span><span class="p">(</span><span class="s1">'On olemassa...'</span><span class="p">)</span>
+    <span class="p">}</span> <span class="k">catch</span><span class="p">(</span><span class="nx">err</span><span class="p">){</span>
+         <span class="nx">alert</span><span class="p">(</span><span class="s1">'Funktiokutsu meni pieleen: '</span><span class="o">+</span><span class="nx">err</span><span class="p">.</span><span class="nx">message</span><span class="p">)</span>
+    <span class="p">}</span> <span class="k">finally</span><span class="p">{</span>
+         <span class="nx">alert</span><span class="p">(</span><span class="s1">'Tämä suoritetaan aina!'</span><span class="p">)</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+
+<p>Kun <code>try</code> lohkossa olevaa koodia suoritetaan ja tapahtuu ajonaikainen virhe, niin suoritus siirtyy välittömästi <code>catch</code> lohkoon ja err muuttuja saa arvokseen Error objektin. Error objektin avulla voi hakea virheestä generoidun virheviestin, tai esimerkiksi virheen nimen. <code>Finally</code> lohkossa oleva koodi suoritetaan aina, tapahtui poikkeuksen heittävä virhe tai ei.</p>
+
+<p>Useita <code>try</code> lausekkeita voi sijoittaa sisäkkäin. Tämä on tarpeen, jos <code>catch</code> lohkossa tehdään toimenpiteitä, jotka voivat johtaa uuteen poikkeustilanteeseen. Jos sisemmässä <code>try</code> lauseessa ei ole <code>catch</code> lohkoa, niin suoritetaan ulomman <code>try</code> lausekkeen <code>catch</code> lohko, jos sellainen on olemassa. Jotkin selaimet, kuten Chrome ja Firefox tosin kieltäytyvät toimimasta ilman sisempää <code>catch</code> tai <code>finally</code> lohkoa, vaan generoivat SyntaxError virheen tästä tilanteesta.</p>
+
+<div class="highlight"><pre><span class="kd">function</span> <span class="nx">poikkeusDemoSisempiTry</span><span class="p">(){</span>
+    <span class="k">try</span><span class="p">{</span>
+         <span class="nx">olematonfunktio</span><span class="p">()</span>
+         <span class="nx">alert</span><span class="p">(</span><span class="s1">'On olemassa...'</span><span class="p">)</span>
+    <span class="p">}</span> <span class="k">catch</span><span class="p">(</span><span class="nx">err</span><span class="p">){</span>
+        <span class="nx">alert</span><span class="p">(</span><span class="s1">'Funktiokutsu meni pieleen: '</span><span class="o">+</span><span class="nx">err</span><span class="p">.</span><span class="nx">message</span><span class="p">)</span> 
+        <span class="k">try</span><span class="p">{</span> 
+             <span class="nx">write</span><span class="p">(</span><span class="nx">virheviesti</span><span class="p">)</span>
+        <span class="p">}</span><span class="k">catch</span><span class="p">(</span><span class="nx">err</span><span class="p">){</span>
+         <span class="nx">alert</span><span class="p">(</span><span class="s1">'Yritetään jatkaa: '</span><span class="o">+</span><span class="nx">err</span><span class="p">.</span><span class="nx">message</span><span class="p">)</span>
+        <span class="p">}</span>   
+    <span class="p">}</span> <span class="k">finally</span><span class="p">{</span>
+         <span class="nx">alert</span><span class="p">(</span><span class="s1">'Tämä suoritetaan aina!'</span><span class="p">)</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+
+<p>Poikkeuksen voi heittää <code>throw</code> lauseen avulla. JavaScriptissä voi käyttää joko valmiiksi määriteltyjä poikkeuksia tai generoida virhetilanteeseen sopivan poikkeuksen itse. Itsemääritellyissä poikkeuksissa on tärkeää tarjota mahdollisimman tarkka kuvaus siitä mitä on tapahtunut, jotta tieto ongelmatilanteesta saadaan välitettyä eteenpäin mahdollisimman yksityiskohtaisesti tarvittavia toimenpiteitä varten. Lisäksi on suotavaa määritellä poikkeukset hierarkisesti, jotta ongelman käsittelyn tarkkuutta voidaan säätää ohjelmakoodista käsin kutakin tarvetta vastaavaksi ilman, että usean virhetilanteen kaappaamiseksi tarvitsee listata useita poikkeuksia.</p>
+
+<p>Poikkeuksia pitäisi mielestämme käyttää vain erityisen poikkeuksellisissa tilanteissa. Tälläisiä tilanteita voisivat olla esimerkiksi että ohjelman käyttämä tiedosto on varattu tai korruptoitunut. Tai tilanne jossa ohjelma tarvitsee suorittaakseen jotakin tiettyä resurssia, mutta ei ole onnistunut tätä varaamaan toistuvista yrityksistä huolimatta. Jonkinlaisena ohjenuorana kehoittaisimme pohtimaan voiko ohjelma toipua tilanteesta itse, jos voi, niin silloin ei poikkeusta tarvitse heittää. </p>
+
+<p>Poikkeusten käyttäminen normaaleissa virhetilanteissa, kuten käyttäjän syötteen tarkastamisessa ei mielestämme ole suositeltavaa. Poikkeusten heittäminen ja käsittely on suhteellisen raskas toimenpide, sillä poikkeus aiheuttaa muuttujan luomisen ja tuhoamisen ajonaikaisesti. Kaikki selaimet eivät myöskään toimi poikkeustenkaan suhteen samalla tavalla ja myös virheilmoitukset voivat olla erilaisia. Ohjelman suorituskyvyn kannalta parempi vaihtoehto on käyttäjän syöttäjän tarkastaminen ehtolauseella ja tarvittavan statustiedon näyttäminen käyttäjälle mahdollisia korjaavia toimenpiteitä varten.  </p>
+
+<h2>
+<a name="4-hyviä-ohjelmointikäytäntöjä-oliot-ja-periytyminen" class="anchor" href="#4-hyvi%C3%A4-ohjelmointik%C3%A4yt%C3%A4nt%C3%B6j%C3%A4-oliot-ja-periytyminen"><span class="octicon octicon-link"></span></a>4. Oliot ja periytyminen</h2>
+
+<p>Javascriptin oliot ja periytyminen käsitetään eri tavalla kuin perinteisissä olio-ohjelmointikielissä. Javascriptissä oliot voivat periä toisten olioiden ominaisuuksia, mutta luokkia ei ole. Javascriptissä käytetään prototyyppiperintää. Oliolla on omien ominaisuuksiensa lisäksi prototyyppiolionsa ominaisuudet, jolla on omiensa lisäksi prototyyppiolionsa ominaisuudet, jolla on omiensa lisäksi prototyyppiolionsa ominaisuudet. Ketju jatkuu, kunnes päästään perimysketjun huipulle Object-olioon. Javascriptissä oliot siis perivät toisten olioiden ominaisuuksia eivätkä luokkatasolla määrättyjä ominaisuuksia. Jos on määritelty konstruktori oliolle <code>a</code> ja tuolla konstruktorilla luodaan <code>b</code>, kaikki ne oliot, jotka perivät ominaisuuksia <code>a</code>:lta perivät vain <code>a</code>:n ominaisuudet. Vaikka <code>b</code>:hen lisättäisiin kenttiä, <code>a</code>:n "perilliset" eivät perisi <code>b</code>:n uusia ominaisuuksia.</p>
+
+<p>Mitä ohjelmointityyliin tulee, olio-ohjelmoinnissa pätevät samat säännöt ja tavoitteet kuin olio-ohjelmoinnissa yleensä: reaalimaailman entiteettejä on pyrittävä mallintamaan ohjelmakoodissa, siten että koodi olisi ymmärrettävää, ja ohjelmakoodi on rakennettava niin, että turhaa koodin toistoa ei ole.</p>
+
+<h3>
+<a name="41-javascript-ja-oliot" class="anchor" href="#41-javascript-ja-oliot"><span class="octicon octicon-link"></span></a>4.1 Javascript ja Oliot</h3>
+
+<p>Eräs määrittely Javascriptin oliolle on seuraava: "Olio on kokoelma ominaisuuksia, joilla on yksi yhteinen prototyyppiolio. Prototyyppi voi olla joko olio tai <code>null</code> [10]." Toisaalta olio voidaan määritellä myös seuraavasti: "Javascriptissä kaikki käyttäytyvät oliomaisesti, paitsi <code>undefined</code> ja <code>null</code> [9]."</p>
+
+<p>Yleisesti mielletään, että oliot ovat funktioiden ilmentymiä, jotka luodaan käyttämällä avainsanaa <code>new</code>. Olioita voi ajatella myös avain-, arvopareina, joita käytetään, kuten Hashmap-tietorakennetta.</p>
+
+<p>Emme löytäneet mitään perusteluja sille, miksi Javascriptin oliosuunnittelussa tulisi poiketa oliosuunnittelun yleisistä periaatteista. Näin ollen suosittelemme suunnittelemaan oliot esimerkiksi GRASP-periaatteita noudattaen [15]. Javascript tarjoaa kuitenkin erittäin hyvän suunnittelumallin nimeltä Module-pattern, jonka avulla sovelluksen toimintalogiikkaa voidaan kapseloida hyödyntämällä sulkeumia ja anonyymejä funktioita. Tutustutaan ensin kuitenkin yksinkertaisen olion rakenteeseen.</p>
+
+<p>Esimerkki yksinkertaisesta oliosta ja kuva sen prototyypistä</p>
+
+<div class="highlight"><pre><span class="n">var</span> <span class="n">foo</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="nl">x:</span> <span class="mi">10</span><span class="p">,</span>
+  <span class="nl">y:</span> <span class="mi">20</span>
+<span class="p">};</span>
+</pre></div>
+
+<p><img src="https://raw.github.com/kxkyll/JavaScript/master/images/basic-object.png" alt="Kuva olion prototyypistä"></p>
+
+<p><em>Kuvan alkuperä [10]</em></p>
+
+<p>Käyttämällä olioliteraalinotaatiota <code>{}</code> saadaan luotua tyhjä olio. Vaikka oliolla ei ole omia ominaisuuksia, se perii kuitenkin Object.prototype:n.</p>
+
+<div class="highlight"><pre><span class="n">var</span> <span class="n">empty</span> <span class="o">=</span> <span class="p">{}</span>
+</pre></div>
+
+<p>Olion nimi osoittaa pointterin tapaan objektin prototyyppiin. Jos oliolta haetaan ominaisuutta, jota sille ei ole määritelty, niin javascript etsii sitä ensin olion omasta prototyypistä.  Etsintää jatketaan prototyyppiketjua seuraten, kunnes lopulta huomataan, että prototyyppiketju on käyty loppuun asti, eikä ominaisuutta ole löytynyt, jolloin palautetaan arvo <code>undefined</code>. Huomionarvoista on, että jos olion prototyypistään perimän attribuutin arvoa yritetään muuttaa, niin prototyypin attribuutin arvo ei muutu. Sen sijaan, oliolle luodaan uusi samanniminen kenttä.
+Samoin toimitaan, jos olion "määrittelemättömän" kentän arvoa yritetään muuttaa. </p>
+
+<p>Tässä toinen esimerkki prototyyppiketjuista:</p>
+
+<div class="highlight"><pre><span class="kd">var</span> <span class="nx">a</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="nx">x</span><span class="o">:</span> <span class="mi">10</span><span class="p">,</span>
+  <span class="nx">calculate</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">z</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">x</span> <span class="o">+</span> <span class="k">this</span><span class="p">.</span><span class="nx">y</span> <span class="o">+</span> <span class="nx">z</span>
+  <span class="p">}</span>
+<span class="p">};</span>
+ 
+<span class="kd">var</span> <span class="nx">b</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="nx">y</span><span class="o">:</span> <span class="mi">20</span><span class="p">,</span>
+  <span class="nx">__proto__</span><span class="o">:</span> <span class="nx">a</span>
+<span class="p">};</span>
+ 
+<span class="kd">var</span> <span class="nx">c</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="nx">y</span><span class="o">:</span> <span class="mi">30</span><span class="p">,</span>
+  <span class="nx">__proto__</span><span class="o">:</span> <span class="nx">a</span>
+<span class="p">};</span>
+ 
+<span class="c1">// call the inherited method</span>
+<span class="nx">b</span><span class="p">.</span><span class="nx">calculate</span><span class="p">(</span><span class="mi">30</span><span class="p">);</span> <span class="c1">// 60</span>
+<span class="nx">c</span><span class="p">.</span><span class="nx">calculate</span><span class="p">(</span><span class="mi">40</span><span class="p">);</span> <span class="c1">// 80</span>
+</pre></div>
+
+<p><img src="https://raw.github.com/kxkyll/JavaScript/master/images/prototype-chain.png" alt="Kuva prototyyppiketjusta"></p>
+
+<p><em>Kuvan alkuperä [10]</em></p>
+
+<p><strong>This-viittauksen käyttö:</strong></p>
+
+<div class="highlight"><pre><span class="kd">function</span> <span class="nx">make_person_object</span><span class="p">(</span><span class="nx">firstname</span><span class="p">,</span> <span class="nx">lastname</span><span class="p">,</span> <span class="nx">age</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">firstname</span> <span class="o">=</span> <span class="nx">firstname</span><span class="p">;</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">lastname</span> <span class="o">=</span> <span class="nx">lastname</span><span class="p">;</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">age</span> <span class="o">=</span> <span class="nx">age</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+
+<p>Tässä uusi olio luodaan käyttämällä <code>new</code>-kutsua.</p>
+
+<div class="highlight"><pre><span class="n">var</span> <span class="n">Joe</span> <span class="o">=</span> <span class="n">new</span> <span class="n">make_person_object</span><span class="p">(</span><span class="s">"Joe"</span><span class="p">,</span> <span class="s">"Smith"</span><span class="p">,</span> <span class="mi">23</span><span class="p">);</span>
+<span class="n">console</span><span class="p">.</span><span class="n">log</span><span class="p">(</span><span class="n">Joe</span><span class="p">);</span> <span class="c1">// {firstname: "Joe", lastname: "Smith", age: 23}</span>
+</pre></div>
+
+<p>Nyt voidaan olion prototyypille lisätä greet() metodi, joka käyttää olion parametrejä this viitteen avulla. Tulostuksessa tulostetaan juuri lisätty full_name ja aiemmin olioon asetettu this.firstname.</p>
+
+<div class="highlight"><pre><span class="nx">make_person_object</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">greet</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(){</span> 
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">"Hello! I'm, this.full_name, "</span><span class="nx">Call</span> <span class="nx">me</span><span class="s2">", this.firstname); </span>
+<span class="s2">};</span>
+<span class="s2">Joe.full_name // "</span><span class="nx">N</span><span class="o">/</span><span class="nx">A</span><span class="s2">"</span>
+<span class="s2">Joe.full_name = "</span><span class="nx">Joe</span> <span class="nx">Smith</span><span class="s2">"; </span>
+<span class="s2">make_person_object.full_name // yhä "</span><span class="nx">N</span><span class="o">/</span><span class="nx">A</span><span class="s2">"</span>
+<span class="s2">Joe.greet(); // "</span><span class="nx">Hello</span><span class="o">!</span> <span class="nx">I</span><span class="err">'</span><span class="nx">m</span> <span class="nx">Joe</span> <span class="nx">Smith</span> <span class="nx">Call</span> <span class="nx">me</span> <span class="nx">Joe</span><span class="err">"</span>
+</pre></div>
+
+<p>Oliolle voi määritellä kenttiä eli attribuutteja ja niiden ominaisuuksia objektin <code>defineProperties</code>-funktion avulla. Tälläisiä määriteltäviä ominaisuuksia ovat <code>value</code>, <code>writable</code>, <code>enumerable</code> ja <code>configurable</code>. <code>Value</code> on attribuutin arvo. <code>Writable</code> tarkoittaa, sitä saako attribuutin arvoa muuttaa. <code>Enumerable</code> tarkoittaa sitä, onko attribuutti numeroituva, eli kun olion kenttiä iteroidaan läpi, niin onko kyseinen attribuutti iteroitavien joukossa. <code>Configurable</code>:n avulla määritellään, saako attribuuttia muuttaa ja saako sen poistaa objektista.</p>
+
+<div class="highlight"><pre><span class="n">var</span> <span class="n">book</span> <span class="o">=</span> <span class="p">{};</span> <span class="c1">// Luo uuden olion</span>
+
+<span class="c1">// Lisätään kirja-oliolle data attribuutti ja määritellään sille ominaisuudet</span>
+<span class="n">Object</span><span class="p">.</span><span class="n">defineProperty</span><span class="p">(</span><span class="n">book</span><span class="p">,</span> <span class="s">"isbn10"</span><span class="p">,</span> <span class="p">{</span><span class="n">value</span> <span class="o">:</span>  <span class="mo">05</span><span class="mi">96517742</span><span class="p">,</span>
+                               <span class="n">writable</span> <span class="o">:</span> <span class="nb">false</span><span class="p">,</span>
+                               <span class="n">enumerable</span> <span class="o">:</span> <span class="nb">true</span><span class="p">,</span>
+                               <span class="n">configurable</span> <span class="o">:</span> <span class="nb">false</span><span class="p">});</span>
+
+<span class="n">console</span><span class="p">.</span><span class="n">log</span><span class="p">(</span><span class="n">book</span><span class="p">.</span><span class="n">isbn10</span><span class="p">)</span>
+
+<span class="c1">// tulostuu</span>
+<span class="mi">596517742</span>
+
+
+<span class="c1">// yritetään muuttaa attribuutin isbn10 arvoa, mutta vaikka tämä näyttää onnistuvan, </span>
+<span class="c1">// niin attribuutin arvo ei muutu, sillä attribuutin ominaisuus writable on asetettu arvoon false</span>
+
+<span class="n">book</span><span class="p">.</span><span class="n">isbn10</span> <span class="o">=</span> <span class="mi">1</span>
+
+<span class="n">console</span><span class="p">.</span><span class="n">log</span><span class="p">(</span><span class="n">book</span><span class="p">.</span><span class="n">isbn10</span><span class="p">)</span>
+
+<span class="c1">// tulostuu yhä</span>
+<span class="mi">596517742</span>
+
+<span class="c1">// Tässä numeron pitäisi oikeastaan käyttäytyä stringin tavoin, koska isbn10-numerossa</span>
+<span class="c1">// ensimmäinen numero on merkitsevä, mutta saanemme tämän anteeksi.</span>
+</pre></div>
+
+<h3>
+<a name="42-perintä-javascriptissä" class="anchor" href="#42-perint%C3%A4-javascriptiss%C3%A4"><span class="octicon octicon-link"></span></a>4.2 Javascript ja perintä</h3>
+
+<p>Olio-ohjelmoinnissa, kuten ohjelmoinnissa yleensäkin tulee vastaan tilanteita, joissa samanlaisia, tai miltei samanlaisia ohjelmanosia tarvitaan useassa kohdassa ohjelmakoodia. Helppo ratkaisu on kopioida tarvitut ohjelmanosat sinne missä niitä tarvitaan. Tämä on luonnollisestikin hyvän ohjelmointitavan vastaista ja onkin pyrittävä tekemään koodista mahdollisimman uudelleenkäytettävää. Perintä on yksi keino, jonka avulla voidaan välttyä kirjoittamasta jo kerran kirjoitettua koodia uudestaan. </p>
+
+<p>Javascriptissä käytetään prototyyppeihin perustuvaa perintää. Olion protyyppi olio eli se olio jolta omaisuuksia peritään voidaan määritellä kolmella tapaa toisistaan hieman poikeavalla tavalla. Molemmissa tavoissa kuitenkin asetetaan perijän prototype kentän arvo osoittamaan perittävään olioon. Eli voidaan joko tehdä määrittely kuten alla olevassa esimerkissä käyttäen Object.createa: 
+Rectangle.prototype = Object.create(Shape.prototype). 
+Tai vastaavasti voitaisiin käyttää avain sanaa <code>new</code>: 
+Rectangle.prototype = new Shape(). 
+Lisäksi on olemassa vielä kolmaskin tosin epästandardi tapa toteuttaa perintä eli sijoittaa arvoja suoraan __proto__ kenttiin: 
+Rectangle.prototype.__proto__=Shape.prototype.</p>
+
+<p>Perinnän jälkeen on vielä hyvä tapa laittaa perijän konstruktori funktio osoittamaan takaisin perijään: Rectangle.prototype.constructor = Rectangle.</p>
+
+<p>Esimerkki prototyyppiperinnästä, käyttäen Object.create funktiota. [12]</p>
+
+<div class="highlight"><pre><span class="c1">// Shape - superclass</span>
+<span class="k">function</span> <span class="n">Shape</span><span class="p">()</span> <span class="p">{</span>
+  <span class="k">this</span><span class="p">.</span><span class="n">x</span> <span class="o">=</span> <span class="mh">0</span><span class="p">;</span>
+  <span class="k">this</span><span class="p">.</span><span class="n">y</span> <span class="o">=</span> <span class="mh">0</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="c1">// superclass method</span>
+<span class="n">Shape</span><span class="p">.</span><span class="n">prototype</span><span class="p">.</span><span class="n">move</span> <span class="o">=</span> <span class="k">function</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="n">x</span> <span class="o">+=</span> <span class="n">x</span><span class="p">;</span>
+    <span class="k">this</span><span class="p">.</span><span class="n">y</span> <span class="o">+=</span> <span class="n">y</span><span class="p">;</span>
+    <span class="n">console</span><span class="p">.</span><span class="n">info</span><span class="p">(</span><span class="s">"Shape moved."</span><span class="p">);</span>
+<span class="p">};</span>
+
+<span class="c1">// Rectangle - subclass</span>
+<span class="k">function</span> <span class="n">Rectangle</span><span class="p">()</span> <span class="p">{</span>
+  <span class="n">Shape</span><span class="p">.</span><span class="n">call</span><span class="p">(</span><span class="k">this</span><span class="p">);</span> <span class="c1">// call super constructor.</span>
+<span class="p">}</span>
+
+<span class="c1">// subclass extends superclass</span>
+<span class="n">Rectangle</span><span class="p">.</span><span class="n">prototype</span> <span class="o">=</span> <span class="n">Object</span><span class="p">.</span><span class="n">create</span><span class="p">(</span><span class="n">Shape</span><span class="p">.</span><span class="n">prototype</span><span class="p">);</span>
+<span class="n">Rectangle</span><span class="p">.</span><span class="n">prototype</span><span class="p">.</span><span class="n">constructor</span> <span class="o">=</span> <span class="n">Rectangle</span><span class="p">;</span>
+
+<span class="k">var</span> <span class="n">rect</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Rectangle</span><span class="p">();</span>
+
+<span class="n">rect</span> <span class="n">instanceof</span> <span class="n">Rectangle</span> <span class="c1">// true.</span>
+<span class="n">rect</span> <span class="n">instanceof</span> <span class="n">Shape</span> <span class="c1">// true.</span>
+
+<span class="n">rect</span><span class="p">.</span><span class="n">move</span><span class="p">(</span><span class="mh">1</span><span class="p">,</span> <span class="mh">1</span><span class="p">);</span> <span class="c1">// Outputs, "Shape moved."</span>
+</pre></div>
+
+<p>Ylläolevassa esimerkissä luotiin ensin Shape-olio jolle asetettiin kentät <code>x</code> ja <code>y</code>. Tämän jälkeen Shape-oliolle lisättiin kenttä <code>move</code>. Seuraavaksi määriteltiin Rectangle-olio. Varsinainen perintä tapahtuu kun Rectangle-olion protyypiksi laitetaan Shape.prototype ja nyt Rectangle-oliosta luodut oliot perivät Shape-olion kentät.</p>
+
+<p>Javascriptillä voidaan myös toteuttaa moniperintä, jossa olio perii ominaisuuksia useilta muilta olioilta. Tällöin saadaan olion käyttöön useiden muiden olioiden omaisuudet, mutta menetetään yhteys olion prototyyppiketjuun eli perittävään olion tehtävät muutokset eivät välity perijälle. Jos moniperintää haluaa käyttää niin löytyy ainakin Ring.js javascript kirjasto sen toteuttamista helpottamaan. Moniperintä ei ole ECMAScript standardin mukainen ominaisuus, joten ei siitä sen enempää. </p>
+
+<h2>
+<a name="5-lopuksi" class="anchor" href="#5-lopuksi"><span class="octicon octicon-link"></span></a>5. Lopuksi</h2>
+
+<p>Javascript ei ole mikään kuollut kieli vaan sitä kehitetään koko ajan. Nykyisin käytössä on ECMAScriptin versio 5. Jotkut selaimet kuten Mozilla Firefox tukevat jo myös osaa version 6.0 omaisuuksista.  Javascriptin versio 6.0 tukee monesta muusta ohjelmointikielestä tuttuja tietorakenteita <code>Maps</code> ja <code>Sets</code>. Tosin on  muistettava että selainten tekijät päättävät itse, mitä ECMAScript standardin määrityksiä he toteuttavat . Tämän vuoksi kaikkien määriteltyjen ominaisuuksien saaminen käyttöön ei ole mikään itsestäänselvyys. Toisaalta, joku selainvalmistaja voi myös tuoda uusia ominaisuuksia selaimeensa ennenkuin ne on lisätty virallisesti mihinkään Javascriptin määritelmään.</p>
+
+<p>Javascript ohjelmoijan ei suinkaan tarvitse kirjoittaa kaikkea koodia itse vaan hän voi käyttää hyväkseen valmiita javascriptkirjastoja moniin eri tarpeisiin. Tälläisiä kirjastoja ovat esimerkiksi jQuery, Underscore, CoffeeSCript ja Angular.</p>
+
+<p>Lähteet:</p>
+
+<p>[1] JavaScript Data Types / 2013 <a href="http://www.w3schools.com/js/js_datatypes.asp">http://www.w3schools.com/js/js_datatypes.asp</a></p>
+
+<p>[2] Ohjelmointitekniikka (JavaScript) / Arto Wikla 2013 <a href="http://www.cs.helsinki.fi/u/wikla/OTjs/materiaalia/tyyppeja/">http://www.cs.helsinki.fi/u/wikla/OTjs/materiaalia/tyyppeja/</a></p>
+
+<p>[3] Handling the unexpected – Type safe functions in Javascript / Matthias Reuter 2009 <a href="http://united-coders.com/matthias-reuter/handling-the-unexpected-type-safe-functions-in-javascript/">http://united-coders.com/matthias-reuter/handling-the-unexpected-type-safe-functions-in-javascript/</a></p>
+
+<p>[4] Standard ECMA-262 5.1 Edition / June 2011, <a href="http://ecma-international.org/ecma-262/5.1/#sec-12.14">http://ecma-international.org/ecma-262/5.1/#sec-12.14</a></p>
+
+<p>[5] Web-selainohjelmointi / syksy 2012 <a href="http://www.cs.helsinki.fi/group/java/s12-weso/">http://www.cs.helsinki.fi/group/java/s12-weso/</a></p>
+
+<p>[6] Closures / November 2013 <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Closures">https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Closures</a></p>
+
+<p>[7] JavaScript-Garden / 2011 <a href="http://bonsaiden.github.io/JavaScript-Garden/fi/#function.closures">http://bonsaiden.github.io/JavaScript-Garden/fi/#function.closures</a></p>
+
+<p>[8] Imperative vs Functional / <a href="http://kriszyp.name/2010/01/16/imperative-functional-and-declarative-programming/">http://kriszyp.name/2010/01/16/imperative-functional-and-declarative-programming/</a></p>
+
+<p>[9] Learning JavaScript Design Patterns / Addy Osmani 2012 <a href="http://addyosmani.com/resources/essentialjsdesignpatterns/book/">http://addyosmani.com/resources/essentialjsdesignpatterns/book/</a></p>
+
+<p>[10] JavaScript. The core. / Dmitry Soshikov September 2010 <a href="http://dmitrysoshnikov.com/ecmascript/javascript-the-core/">http://dmitrysoshnikov.com/ecmascript/javascript-the-core/</a></p>
+
+<p>[11] Classical Inheritance in JavaScript / Douglas Crockford <a href="http://www.crockford.com/javascript/inheritance.html">http://www.crockford.com/javascript/inheritance.html</a></p>
+
+<p>[12] Object.create() / November 2013 <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/create">https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/create</a></p>
+
+<p>[13] javascript : function and object…? / 2011 <a href="http://stackoverflow.com/questions/5958417/javascript-function-and-object">http://stackoverflow.com/questions/5958417/javascript-function-and-object</a></p>
+
+<p>[14] Understanding “Prototypes” in JavaScript / Yehuda Katz August 2011 <a href="http://yehudakatz.com/2011/08/12/understanding-prototypes-in-javascript/">http://yehudakatz.com/2011/08/12/understanding-prototypes-in-javascript/</a></p>
+
+<p>[15] GRASP (object-oriented design) / <a href="http://en.wikipedia.org/wiki/GRASP_(object-oriented_design)">http://en.wikipedia.org/wiki/GRASP_(object-oriented_design)</a></p>
+
+<p>[16] JavaScript Inheritance by Example / Klaus Komeda <a href="http://www.klauskomenda.com/code/javascript-inheritance-by-example/">http://www.klauskomenda.com/code/javascript-inheritance-by-example/</a>	
+	<p>
+		<a href="week2.html">Tyyppiturvallisuuden tavoittelua (2. viikko)</a> <br />
+		<a href="week3.html">Hyviä ohjelmointikäytäntöjä: algoritmit, funktiot, sulkeumat, poikkeukset (3. viikko)</a> <br />
+		<a href="week4.html">Hyviä ohjelmointikäytäntöjä: oliot ja periytyminen (4. viikko)</a> <br />
+	</p>
+	
+
+
+        <footer>
+          Javascript is maintained by <a href="https://github.com/kxkyll">kxkyll</a><br>
+          This page was generated by <a href="http://pages.github.com">GitHub Pages</a>. Tactile theme by <a href="https://twitter.com/jasonlong">Jason Long</a>.
+        </footer>
+
+        
+      </div>
+    </div>
+  </body>
+</html>
