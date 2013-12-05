@@ -33,7 +33,7 @@
 <p>Javascript on ohjelmointikieli, joka tunnetaan yleisesti käytöstä web-selainohjelmoinnissa. Käyttö ei rajoitu kuitenkaan tähän, vaan sitä käytetään myös palvelinohjelmoinnissa esim. Node.js-ohjelmistoalustan skriptikielenä. Javascript on oliokieli, jossa ei kuitenkaan (ainakaan vielä) ole luokkia kuten vaikkapa Javassa tai C++:ssa. Siinä käytetään prototyyppiperintää, jossa oliot perivät ominaisuuksia prototyypeiltään, jotka puolestaan perivät ominaisuuksia omilta prototyypeiltään jne. Javascript on hyvin dynaaminen kieli: Olioille voi esimerkiksi suoritusaikana lisätä kenttiä, tai niitä voi poistaa. Lisäksi kieli on dynaamisesti tyypitetty. Muuttujilla ei ole tyyppiä, vain niiden arvoilla. Jos muuttujan arvona ensin ollut vaikkapa Number, ei ole mitään estettä muuttaa saman muuttujan arvoksi seuraavalla koodirivillä String-tyypin oliota tai mitä tahansa muuta, vaikkapa funktiota. Se, mitä tämä tekee ohjelman toiminnan kannalta, jätetään ohjelmoijan vastuulle. Tässä juuri piilee Javascriptin hienous ja vaikeus: ohjelmoija voi tehdä asioita miten huvittaa, mutta toisaalta ohjelmoijalle jää myös paljon vastuuta. Tämän tekstin tarkoitus on esitellä hyviä ja tehokkaita ohjelmointiratkaisuja Javascriptillä ja toisaalta muistuttaa sudenkuopista, joita kielen suoma vapaus tuo mukanaan.</p>
 
 <h2>
-<a name="2-tyyppiturvallisuuden-tavoittelua" class="anchor" href="#2-tyyppiturvallisuuden-tavoittelua"><span class="octicon octicon-link"></span></a>2. Tyyppiturvallisuuden tavoittelua</h2>
+<a name="2-tyyppiturvallisuuden-tavoittelua" class="anchor" href="#2-tyyppiturvallisuuden-tavoittelua"><span class="octicon octicon-link"></span></a>2. Javascriptin tyypit ja tyyppiturvallisuus</h2>
 
 <p>Javascriptissä muuttujat ja parametrit ovat tyypittömiä, mutta niiden arvoilla on tyypit. Javascriptin tietotyypit ovat merkkijono (string), luku (number), totuusarvo (boolean), taulukko (array), objekti (object), olematon (null) ja määrittelemätön (undefined). Vaikka muuttujilla ei olekaan tyyppiä, on arvojen tyyppejä syytä tarkistaa, jotta ohjelmat eivät tuottaisi odottamattomia tuloksia. Erityisesti käyttäjän syötteitä on hyvä tarkastella virheiden varalta. Javascriptissä yhteenlasku voidaan suorittaa ongelmitta luvun ja String-tyypin olion välillä.</p>
 
@@ -154,13 +154,11 @@
 <span class="p">}</span>
 </pre></div>
 
-<h3>
-<a name="22-yleisen-tason-pohdiskelua-tyyppiturvallisuuden-tavoittelusta" class="anchor" href="#22-yleisen-tason-pohdiskelua-tyyppiturvallisuuden-tavoittelusta"><span class="octicon octicon-link"></span></a>2.2 Yleisen tason pohdiskelua tyyppiturvallisuuden tavoittelusta</h3>
 
 <p>Voidaan tietysti pohtia, kuuluuko dynaamisesti tyypitettyjen kielten luonteeseen lainkaan tyyppiturvallisuuden tavoittelu. Joissain tilanteissa se voi olla tarpeen, mutta tarjolla on muitakin keinoja tarkistaa käyttäjältä tuleva syöte. Voidaan käyttää esimerkiksi Javascript-ohjelmointikehysten lomakevalidaattoreita tai säännöllisiä lausekkeita. Kun puhutaan kokonaislukutyypin ja liukulukutyypin tarkistuksista Javascriptillä, on oikeastaan kysymys hiukan eri asiasta kuin Javassa tai C:ssä. JS:ssä noiden tyyppien erottelua ei nimittäin ole rakennettu kieleen sisään, vaan molemmat ovat tyyppiä <code>number</code>. Varmaa on joka tapauksessa se, että tyyppitarkistusten tekeminen ei ole pakollista toisin kuin tiukasti tyypitetyissä kielissä, mutta kuitenkin usein se voi olla tarpeen ohjelmien ennustettavan toiminnan takaamiseksi.</p>
 
 <h2>
-<a name="3-algoritmit-funktiot-ja-sulkeumat-poikkeusten-käsittely" class="anchor" href="#3-algoritmit-funktiot-ja-sulkeumat-poikkeusten-k%C3%A4sittely"><span class="octicon octicon-link"></span></a>3. Algoritmit, funktiot ja sulkeumat, poikkeusten käsittely</h2>
+<a name="3-algoritmit-funktiot-ja-sulkeumat-poikkeusten-käsittely" class="anchor" href="#3-algoritmit-funktiot-ja-sulkeumat-poikkeusten-k%C3%A4sittely"><span class="octicon octicon-link"></span></a>3. Algoritmien suunnittelusta Javascriptillä</h2>
 
 <h3>
 <a name="31-algoritmit-ja-javascript" class="anchor" href="#31-algoritmit-ja-javascript"><span class="octicon octicon-link"></span></a>3.1 Algoritmit ja JavaScript</h3>
@@ -185,7 +183,7 @@
 <p>Se, että Javascript antaa muuttaa tietorakenteiteita dynaamisesti tekee algoritmien koodaamisesta joustavaa. Esimerkiksi taulukon täyttyessä ei tarvitse kopioida alkioita isompaan taulukkoon. Myös puuttuvan kentän lisääminen tietorakenteeseen käy helposti, mikä tekee koodista helposti muunneltavaa. On oikeastaan pelottavaa ajatella, kuinka voimakas kieli Javascript on ja toisaalta kuinka moni täysin ohjelmointitaidoton sitä käyttää.</p>
 
 <h3>
-<a name="32-javascript-ohjelmointi-funktionaalista-vai-imperatiivista" class="anchor" href="#32-javascript-ohjelmointi-funktionaalista-vai-imperatiivista"><span class="octicon octicon-link"></span></a>3.2 JavaScript ohjelmointi: Funktionaalista vai imperatiivista?</h3>
+<a name="32-javascript-ohjelmointi-funktionaalista-vai-imperatiivista" class="anchor" href="#32-javascript-ohjelmointi-funktionaalista-vai-imperatiivista"><span class="octicon octicon-link"></span></a>3.2 Funktionaalista vs. imperatiivinen ohjelmointityyli</h3>
 
 <p>﻿
 Seuraavaksi katsomme esimerkin avulla funktionaalisen ja imperatiivisen ohjelmointityylin eroja. Esimerkkifunktiot hakevat taulukosta kaikki objektit joiden arvo on &lt; 10.</p>
@@ -210,7 +208,8 @@ Esimerkki 2. <strong>Funktionaalinen</strong> ohjelmointityyli:
    <span class="p">}</span>
 <span class="p">}</span>
 </pre></div>
-Funktionaalisen ohjelmoinnin tekniikoista otamme ensin esimerkiksi anonyymit eli nimettömät funktiot. Seuraavassa esimerkissä olevalle funktiolle ei suoranaisesti anneta nimeä, vaan se annetaan suoraan arvoksi muuttujalle. Tämä esimerkki ei ole varsinaisesti kovin hyödyllinen.
+
+<p>Funktionaalisen ohjelmoinnin tekniikoista otamme ensin esimerkiksi anonyymit eli nimettömät funktiot. Seuraavassa esimerkissä olevalle funktiolle ei suoranaisesti anneta nimeä, vaan se annetaan suoraan arvoksi muuttujalle. Tämä esimerkki ei ole varsinaisesti kovin hyödyllinen, mutta se toimii yksinkertaisena erimerkkinä siitä, mitä anonyymiydellä tarkoitetaan.</p>
 
 <div class="highlight"><pre><span class="kd">var</span> <span class="nx">flyToTheMoon</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span>
 <span class="p">{</span>
