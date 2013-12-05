@@ -22,14 +22,13 @@
 	  <p><em>Tekijät:</em> Marko Haanranta, Kasper Kivikataja,  Kati Kyllönen, Jussi Miestamo</p>
 
         </header>
-	
 <h2>
 <a name="1-johdanto" class="anchor" href="#1-johdanto"><span class="octicon octicon-link"></span></a>1. Johdanto</h2>
 
 <p>Hyvän ohjelmointityylin keskeisenä tavoitteena voidaan varmaankin pitää jonkinlaista tasapainoa koodin tehokkuuden ja luettavuuden välillä. Tehokkuus on itsestään selvä ja välttämätön tavoite, ja siihen pitää pyrkiä, muttei kuitenkaan ymmärrettävyyden kustannuksella. Koodaajien on myös pystyttävä seuraamaan ohjelman logiikkaa helposti, jotta säilyisi ymmärrys siitä, mitä ohjelma tekee. Jokaisella ohjelmoijalla on oma tyylinsä, eikä yhtä ehdottoman oikeaa ole mahdollista saati järkevää määrätä. Hyvään ohjelmointityyliin kuuluu kuitenkin joitain valitusta ohjelmointikielestä riippumattomia nyrkkisääntöjä. Niitä ovat esimerkiksi pyrkimys pitää funktiot (tai metodit) lyhyinä sekä yhtenäinen käytäntö luokkien, objektien, primitiivityyppien nimennässä. Tehokkuuteen ja koodin luettavuuteen pitää siis pyrkiä käytettävästä ohjelmointikielestä riippumatta, mutta ohjelmointikielet ovat erilaisia, ja niissä on omat vahvuutensa ja heikkoutensa. Tässä tekstissä keskitytään esittelemään Javascriptin ominaisuuksia.</p>
 
 <h3>
-<a name="11-javascriptist%C3%A4-yleens%C3%A4" class="anchor" href="#11-javascriptist%C3%A4-yleens%C3%A4"><span class="octicon octicon-link"></span></a>1.1 Javascriptistä yleensä</h3>
+<a name="11-javascriptistä-yleensä" class="anchor" href="#11-javascriptist%C3%A4-yleens%C3%A4"><span class="octicon octicon-link"></span></a>1.1 Javascriptistä yleensä</h3>
 
 <p>Javascript on ohjelmointikieli, joka tunnetaan yleisesti käytöstä web-selainohjelmoinnissa. Käyttö ei rajoitu kuitenkaan tähän, vaan sitä käytetään myös palvelinohjelmoinnissa esim. Node.js-ohjelmistoalustan skriptikielenä. Javascript on oliokieli, jossa ei kuitenkaan (ainakaan vielä) ole luokkia kuten vaikkapa Javassa tai C++:ssa. Siinä käytetään prototyyppiperintää, jossa oliot perivät ominaisuuksia prototyypeiltään, jotka puolestaan perivät ominaisuuksia omilta prototyypeiltään jne. Javascript on hyvin dynaaminen kieli: Olioille voi esimerkiksi suoritusaikana lisätä kenttiä, tai niitä voi poistaa. Lisäksi kieli on dynaamisesti tyypitetty. Muuttujilla ei ole tyyppiä, vain niiden arvoilla. Jos muuttujan arvona ensin ollut vaikkapa Number, ei ole mitään estettä muuttaa saman muuttujan arvoksi seuraavalla koodirivillä String-tyypin oliota tai mitä tahansa muuta, vaikkapa funktiota. Se, mitä tämä tekee ohjelman toiminnan kannalta, jätetään ohjelmoijan vastuulle. Tässä juuri piilee Javascriptin hienous ja vaikeus: ohjelmoija voi tehdä asioita miten huvittaa, mutta toisaalta ohjelmoijalle jää myös paljon vastuuta. Tämän tekstin tarkoitus on esitellä hyviä ja tehokkaita ohjelmointiratkaisuja Javascriptillä ja toisaalta muistuttaa sudenkuopista, joita kielen suoma vapaus tuo mukanaan.</p>
 
@@ -161,22 +160,14 @@
 <p>Voidaan tietysti pohtia, kuuluuko dynaamisesti tyypitettyjen kielten luonteeseen lainkaan tyyppiturvallisuuden tavoittelu. Joissain tilanteissa se voi olla tarpeen, mutta tarjolla on muitakin keinoja tarkistaa käyttäjältä tuleva syöte. Voidaan käyttää esimerkiksi Javascript-ohjelmointikehysten lomakevalidaattoreita tai säännöllisiä lausekkeita. Kun puhutaan kokonaislukutyypin ja liukulukutyypin tarkistuksista Javascriptillä, on oikeastaan kysymys hiukan eri asiasta kuin Javassa tai C:ssä. JS:ssä noiden tyyppien erottelua ei nimittäin ole rakennettu kieleen sisään, vaan molemmat ovat tyyppiä <code>number</code>. Varmaa on joka tapauksessa se, että tyyppitarkistusten tekeminen ei ole pakollista toisin kuin tiukasti tyypitetyissä kielissä, mutta kuitenkin usein se voi olla tarpeen ohjelmien ennustettavan toiminnan takaamiseksi.</p>
 
 <h2>
-<a name="3-algoritmit-funktiot-ja-sulkeumat-poikkeusten-k%C3%A4sittely" class="anchor" href="#3-algoritmit-funktiot-ja-sulkeumat-poikkeusten-k%C3%A4sittely"><span class="octicon octicon-link"></span></a>3. Algoritmit, funktiot ja sulkeumat, poikkeusten käsittely</h2>
+<a name="3-algoritmit-funktiot-ja-sulkeumat-poikkeusten-käsittely" class="anchor" href="#3-algoritmit-funktiot-ja-sulkeumat-poikkeusten-k%C3%A4sittely"><span class="octicon octicon-link"></span></a>3. Algoritmit, funktiot ja sulkeumat, poikkeusten käsittely</h2>
 
 <h3>
 <a name="31-algoritmit-ja-javascript" class="anchor" href="#31-algoritmit-ja-javascript"><span class="octicon octicon-link"></span></a>3.1 Algoritmit ja JavaScript</h3>
 
-<p>Javascriptille on luonteenomaista jättää paljon ohjelmoijan vastuulle. Siihen, mikä on hyvää ohjelmointityyliä, tämä vaikuttaa eri tilanteissa eri tavoilla. Jos käyttäjältä pyydetään syötteenä jotakin numeerista, ei ohjelma välttämättä kaadu, jos syötteen seassa on kirjaimia. Kuitenkin pitää ottaa huomioon, mihin syötettä on tarkoitus käyttää. Javascript-ohjelmoijan sen sijaan pitää itse pitää huoli siitä, että käyttäjän syöte ei etene vaikkapa seuraavan funktion kutsuun parametrina ja aiheuta jotakin odottamatonta, vaikkapa ohjelman kaatumista. Javascriptiä ajettaessa virheellinen syöte saattaa edetä hyvinkin pitkälle suoritusaikana ennen kuin virhe ilmenee, ja tällöin sen löytäminen on vaikeampaa. Web-sovelluksen käyttäjälle ohjelman kaatuminen voi aiheuttaa sen, että ruudulla näkyy toivotun sisällön sijasta pelkkä valkoinen selainikkuna. Käytti sitten kumpaa tahansa ohjelmointikieltä, syötteeseen on varauduttava jotenkin. JS:n tapauksessa "virheellinen" syöte ei siis kaada ohjelmaa ainakaan heti, mutta ohjelmoijan on pidettävä huolta, ettei se riko myöhemmin esimerkiksi tietokannan toimintaa. </p>
+<p>Javascriptille on luonteenomaista jättää paljon ohjelmoijan vastuulle. Siihen, mikä on hyvää ohjelmointityyliä, tämä vaikuttaa eri tilanteissa eri tavoilla. Jos käyttäjältä pyydetään syötteenä jotakin numeerista, ei ohjelma välttämättä kaadu, jos syötteen seassa on kirjaimia. Kuitenkin pitää ottaa huomioon, mihin syötettä on tarkoitus käyttää. Javascript-ohjelmoijan sen sijaan pitää itse pitää huoli siitä, että käyttäjän syöte ei etene vaikkapa seuraavan funktion kutsuun parametrina ja aiheuta jotakin odottamatonta, vaikkapa ohjelman kaatumista. Javascriptiä ajettaessa virheellinen syöte saattaa edetä hyvinkin pitkälle suoritusaikana ennen kuin virhe ilmenee, ja tällöin sen löytäminen on vaikeampaa. Web-sovelluksen käyttäjälle ohjelman kaatuminen voi aiheuttaa sen, että ruudulla näkyy toivotun sisällön sijasta pelkkä valkoinen selainikkuna. Käytti sitten mitä tahansa ohjelmointikieltä, syötteeseen on varauduttava jotenkin. JS:n tapauksessa "virheellinen" syöte ei siis kaada ohjelmaa ainakaan heti, mutta ohjelmoijan on pidettävä huolta, ettei se riko myöhemmin esimerkiksi tietokannan toimintaa. </p>
 
-<p>Seuraavassa esimerkissä oletamme, että parametrina annettava <code>value</code> on html-lomakkeesta luettu käyttäjän syöte.</p>
-
-<p>Javascript (Lainaus viikolta 1):
-</p><div class="highlight"><pre><span class="kd">function</span> <span class="nx">isInteger</span><span class="p">(</span><span class="nx">value</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">return</span> <span class="nx">value</span> <span class="o">===</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">floor</span><span class="p">(</span><span class="nx">value</span><span class="p">)</span>
-<span class="p">}</span>
-</pre></div>
-
-<p>Varsinaista etua JS:n tyypittömyydestä ei tässä ole. JS:llä tässä tilanteessa ei välttämättä edes tarvittaisi tyyppitarkistusta, vaan riittäisi, että testattaisiin vaikkapa säännöllisellä lausekkeella, koostuuko kentästä saatu merkkijono vain numeroista. Jos tavoitellaan tehokasta ohjelmaa, poikkeusten heittämistä ei kannata käyttää kaikkien virheiden käsittelyyn.</p>
+<p>Mietitään hetki tilannetta, jossa käyttäjän syöte luetaan <code>value</code>-muuttujaan, ja muuttujan arvo tarkistetaan aiemmin esillä olleella <code>isInteger</code>-funktiolla. Varsinaista etua JS:n tyypittömyydestä ei tässä ole. JS:llä tässä tilanteessa ei välttämättä edes tarvittaisi tyyppitarkistusta, vaan riittäisi, että testattaisiin vaikkapa säännöllisellä lausekkeella, koostuuko kentästä saatu merkkijono vain numeroista. Tämä voitaisiin toteuttaa myös try-catch-rakenteella, mutta kaikkien tarkistusten tekeminen poikkeuksia heittelemällä ei tee hyvää ohjelman tehokkuudelle.</p>
 
 <p>Tyypittömyyden hyödyt ja haitat tulevat esille oikeastaan tilanteittain. Dynaaminen tyypitys voi vapauttaa ohjelmoijan tekemään asioita kompaktisti ja tehokkaasti, mutta toisaalta se siirtää vastuun ohjelmoijalle, ja huolimattomuudesta voi seurata kauheita. Seuraava esimerkki on vielä helpohkosti hahmotettavissa, mutta entä jos idea vietäisiin pidemmälle? Missä tulee vastaan raja, jonka jälkeen ohjelmoija ei itsekään ymmärrä omaa koodiaan.</p>
 
@@ -191,13 +182,13 @@
 
 <p>Javascriptistä sanotaan, että se on helppo kieli, mutta dynaamisen tyypityksen tehokas hyödyntäminen vaatii ymmärrystä ja huolellisuutta. </p>
 
-<p>Se, että Javascript antaa muuttaa tietorakenteiteita dynaamisesti tekee algoritmien koodaamisesta joustavaa. Esimerkiksi taulukon täyttyessä ei tarvitse kopioida alkioita isompaan taulukkoon. Myös puuttuvan kentän lisääminen tietorakenteeseen käy helposti, joka tekee koodin muunneltavuudesta helppoa. On oikeastaan pelottavaa ajatella, kuinka voimakas kieli Javascript on ja toisaalta kuinka moni täysin ohjelmointitaidoton sitä käyttää.</p>
+<p>Se, että Javascript antaa muuttaa tietorakenteiteita dynaamisesti tekee algoritmien koodaamisesta joustavaa. Esimerkiksi taulukon täyttyessä ei tarvitse kopioida alkioita isompaan taulukkoon. Myös puuttuvan kentän lisääminen tietorakenteeseen käy helposti, mikä tekee koodista helposti muunneltavaa. On oikeastaan pelottavaa ajatella, kuinka voimakas kieli Javascript on ja toisaalta kuinka moni täysin ohjelmointitaidoton sitä käyttää.</p>
 
 <h3>
 <a name="32-javascript-ohjelmointi-funktionaalista-vai-imperatiivista" class="anchor" href="#32-javascript-ohjelmointi-funktionaalista-vai-imperatiivista"><span class="octicon octicon-link"></span></a>3.2 JavaScript ohjelmointi: Funktionaalista vai imperatiivista?</h3>
 
 <p>﻿
-Alla olevat esimerkkiohjelmat hakevat taulukosta kaikki objektit joiden arvo on &lt; 10.</p>
+Seuraavaksi katsomme esimerkin avulla funktionaalisen ja imperatiivisen ohjelmointityylin eroja. Esimerkkifunktiot hakevat taulukosta kaikki objektit joiden arvo on &lt; 10.</p>
 
 <p>Esimerkki 1. <strong>Imperatiivinen</strong> ohjelmointityyli:</p>
 
@@ -219,11 +210,7 @@ Esimerkki 2. <strong>Funktionaalinen</strong> ohjelmointityyli:
    <span class="p">}</span>
 <span class="p">}</span>
 </pre></div>
-
-<p>JavaScript tukee ainakin seuraavia Funktionaalisen ohjelmoinnin tekniikoita:</p>
-
-<p>Anonyymit funktiot
-(Nimettömät funktiot jotka luodaan dynaamisesti ajonaikaisesti)</p>
+Funktionaalisen ohjelmoinnin tekniikoista otamme ensin esimerkiksi anonyymit eli nimettömät funktiot. Seuraavassa esimerkissä olevalle funktiolle ei suoranaisesti anneta nimeä, vaan se annetaan suoraan arvoksi muuttujalle. Tämä esimerkki ei ole varsinaisesti kovin hyödyllinen.
 
 <div class="highlight"><pre><span class="kd">var</span> <span class="nx">flyToTheMoon</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span>
 <span class="p">{</span>
@@ -232,24 +219,16 @@ Esimerkki 2. <strong>Funktionaalinen</strong> ohjelmointityyli:
 <span class="nx">flyToTheMoon</span><span class="p">();</span>
 </pre></div>
 
-<p>Ensimmäisen asteen funktiot
-(Funktioita jotka palauttaa funktion tai hyväksyy funktioita parametrikseen)</p>
+<p>Yleisesti anonyymejä funktioita käytetään hyödyksi tilanteissa, joissa funktiolle täytyy antaa parametrina toinen funktio ja toisaalta sulkeumien yhteydessä. Sulkeumat ovat hyvin vahva ohjelmointitekniikka.</p>
 
-<p>esimerkki</p>
-
-<p>On vaikeaa määritellä kumpi tyyli on parempi, koska molemmissa on puolensa. Funktionaalinen koodi on usein lyhyempää, tosin raskaampaa ja vaatii aivan toisenlaista ajattelutapaa. Imperatiivisesti kirjoitettu koodi on usein pidempi, mutta hieman tehokkaampi. </p>
-
-<p>Kukin oppii ohjelmoimaan eri tyyleillä, joka tekee "oikean tyylin" valitsemisesta mahdotonta. On kuitenkin hyvä tiedostaa projektin tarpeet ja pitää huoli siitä että koodi pysyy helposti ylläpidettävänä.</p>
-
-<p>Ylläpidettävyyden kannalta olisimme kuitenkin yhdenmukaisen tyylin kannalla, oli valinta sitten funktionaalinen tai imperatiivinen.</p>
+<p>On mahdotonta sanoa, onko toinen ohjelmointityyli toista parempi. Funktionaalinen koodi on usein lyhyempää, tosin raskaampaa ja vaatii aivan toisenlaista ajattelutapaa. Imperatiivisesti kirjoitettu koodi on usein pidempää. Kukin oppii ohjelmoimaan eri tyyleillä, eikä ole mitään yhtä oikeaa ohjelmointityyliä. On hyvä tiedostaa projektin tarpeet ja pitää huoli siitä, että koodi pysyy helposti ylläpidettävänä. Ylläpidettävyyden kannalta olisimme kuitenkin yhdenmukaisen tyylin kannalla, oli valinta sitten funktionaalinen tai imperatiivinen.</p>
 
 <h3>
 <a name="33-sulkeumat" class="anchor" href="#33-sulkeumat"><span class="octicon octicon-link"></span></a>3.3 Sulkeumat</h3>
 
-<p>Sulkeuma luodaan kirjoittamalla funktio toisen funktion määrittelyn sisään. Tällöin muodostuu näkyvyysalue, jossa sisemmällä funktiolla on pääsy ulomman funktion muuttujiin. Eli ulompi funktio sulkee sisäänsä omat muuttujansa ja sisällään määritellyt funktiot. Sulkeumat tallentavat viittauksen ulomman funktion muuttujiin, eivät itse muuttujan arvoa.
-Kun ulomman funktion suoritus päättyy, niin sisemmän funktion elämä ei pääty. Sisempää funktioita voidaan kutsua ja sillä on yhä pääsy ulomman funktion muuttujiin. </p>
+<p>Sulkeuma luodaan kirjoittamalla funktio toisen funktion määrittelyn sisään. Tällöin muodostuu näkyvyysalue, jossa sisemmällä funktiolla on pääsy ulomman funktion muuttujiin. Eli ulompi funktio sulkee sisäänsä omat muuttujansa ja sisällään määritellyt funktiot. Sulkeumat tallentavat viittauksen ulomman funktion muuttujiin, eivät itse muuttujan arvoa. Kun ulomman funktion suoritus päättyy, niin sisemmän funktion elämä ei pääty. Sisempää funktioita voidaan kutsua ja sillä on yhä pääsy ulomman funktion muuttujiin. </p>
 
-<p>Sulkeumat ovat osa module pattern suunnittelumallia. Alunperin Module pattern määriteltiin tapana mahdollistaa yksityinen ja julkinen kapselointi luokille tavanomaisessa ohjelmisto kehityksessä. Javascriptissä module patternia käytetään jäljittelemään luokkien konseptia siten että voimme sisällyttää sekä julkisia että yksityisiä metodeja ja muuttujia yhden olion sisälle. Eli eristetään ne globaalista näkyvyysalueesta[9]. </p>
+<p>Sulkeumat ovat osa module pattern suunnittelumallia. Alunperin Module pattern määriteltiin tapana mahdollistaa yksityinen ja julkinen kapselointi luokille tavanomaisessa ohjelmistokehityksessä. Javascriptissä module patternia käytetään jäljittelemään luokkien konseptia siten, että voimme sisällyttää sekä julkisia että yksityisiä metodeja ja muuttujia yhden olion sisälle eristämällä ne globaalista näkyvyysalueesta. Suunnittelumalli mahdollistaa sekä julkisten että yksityisten metodien ja muuttujien käytön. Isoissa projekteissa tämä pienentää todennäköisyyttä, että ohjelmoijien tahoillaan luomat rakenteet voisivat sekoittua toisten ohjelmoijien rakenteisiin. Suunnittelumalli on siis erityisesti edullinen julkisia rajapintoja luotaessa ja suurissa projekteissa [9].</p>
 
 <p>Alla olevassa esimerkissä muodostetaan kaksi sulkeumaa <code>increment</code> ja <code>get</code> joita käyttäen päästään käsiksi <code>count</code> muuttujaan sijoitettuun arvoon vaikka <code>Counter</code> funktion suoritus on jo päättynyt. Olennaista on myös huomioida, että konstruktori funktion kutsumisen jälkeen <code>count</code> muuttujaan ei päästä käsiksi mitään muuta kautta kuin näitä kahta metodia käyttäen.</p>
 
@@ -318,14 +297,14 @@ Kun ulomman funktion suoritus päättyy, niin sisemmän funktion elämä ei pä�
 <span class="p">}</span>
 </pre></div>
 
-<p>Poikkeuksen voi heittää <code>throw</code> lauseen avulla. JavaScriptissä voi käyttää joko valmiiksimääriteltyjä poikkeuksia tai generoida virhetilanteeseen sopivan poikkeuksen itse. Itsemääritellyissä poikkeuksissa on tärkeää tarjota mahdollisimman tarkka kuvaus siitä mitä on tapahtunut, jotta tieto ongelmatilanteesta saadaan välitettyä eteenpäin mahdollisimman yksityiskohtaisesti tarvittavia toimenpiteitä varten. Lisäksi on suotavaa määritellä poikkeukset hierarkisesti, jotta ongelman käsittelyn tarkkuutta voidaan säätää ohjelmakoodista käsin kutakin tarvetta vastaavaksi ilman, että usean virhetilanteen kaappaamiseksi tarvitsee listata useita poikkeuksia.</p>
+<p>Poikkeuksen voi heittää <code>throw</code> lauseen avulla. JavaScriptissä voi käyttää joko valmiiksi määriteltyjä poikkeuksia tai generoida virhetilanteeseen sopivan poikkeuksen itse. Itsemääritellyissä poikkeuksissa on tärkeää tarjota mahdollisimman tarkka kuvaus siitä mitä on tapahtunut, jotta tieto ongelmatilanteesta saadaan välitettyä eteenpäin mahdollisimman yksityiskohtaisesti tarvittavia toimenpiteitä varten. Lisäksi on suotavaa määritellä poikkeukset hierarkisesti, jotta ongelman käsittelyn tarkkuutta voidaan säätää ohjelmakoodista käsin kutakin tarvetta vastaavaksi ilman, että usean virhetilanteen kaappaamiseksi tarvitsee listata useita poikkeuksia.</p>
 
 <p>Poikkeuksia pitäisi mielestämme käyttää vain erityisen poikkeuksellisissa tilanteissa. Tälläisiä tilanteita voisivat olla esimerkiksi että ohjelman käyttämä tiedosto on varattu tai korruptoitunut. Tai tilanne jossa ohjelma tarvitsee suorittaakseen jotakin tiettyä resurssia, mutta ei ole onnistunut tätä varaamaan toistuvista yrityksistä huolimatta. Jonkinlaisena ohjenuorana kehoittaisimme pohtimaan voiko ohjelma toipua tilanteesta itse, jos voi, niin silloin ei poikkeusta tarvitse heittää. </p>
 
 <p>Poikkeusten käyttäminen normaaleissa virhetilanteissa, kuten käyttäjän syötteen tarkastamisessa ei mielestämme ole suositeltavaa. Poikkeusten heittäminen ja käsittely on suhteellisen raskas toimenpide, sillä poikkeus aiheuttaa muuttujan luomisen ja tuhoamisen ajonaikaisesti. Kaikki selaimet eivät myöskään toimi poikkeustenkaan suhteen samalla tavalla ja myös virheilmoitukset voivat olla erilaisia. Ohjelman suorituskyvyn kannalta parempi vaihtoehto on käyttäjän syöttäjän tarkastaminen ehtolauseella ja tarvittavan statustiedon näyttäminen käyttäjälle mahdollisia korjaavia toimenpiteitä varten.  </p>
 
 <h2>
-<a name="4-hyvi%C3%A4-ohjelmointik%C3%A4yt%C3%A4nt%C3%B6j%C3%A4-oliot-ja-periytyminen" class="anchor" href="#4-hyvi%C3%A4-ohjelmointik%C3%A4yt%C3%A4nt%C3%B6j%C3%A4-oliot-ja-periytyminen"><span class="octicon octicon-link"></span></a>4. Hyviä ohjelmointikäytäntöjä: oliot ja periytyminen</h2>
+<a name="4-hyviä-ohjelmointikäytäntöjä-oliot-ja-periytyminen" class="anchor" href="#4-hyvi%C3%A4-ohjelmointik%C3%A4yt%C3%A4nt%C3%B6j%C3%A4-oliot-ja-periytyminen"><span class="octicon octicon-link"></span></a>4. Hyviä ohjelmointikäytäntöjä: oliot ja periytyminen</h2>
 
 <p>Javascriptin oliot ja periytyminen käsitetään eri tavalla kuin perinteisissä olio-ohjelmointikielissä. Javascriptissä oliot voivat periä toisten olioiden ominaisuuksia, mutta luokkia ei ole. Javascriptissä käytetään prototyyppiperintää. Oliolla on omien ominaisuuksiensa lisäksi prototyyppiolionsa ominaisuudet, jolla on omiensa lisäksi prototyyppiolionsa ominaisuudet, jolla on omiensa lisäksi prototyyppiolionsa ominaisuudet. Ketju jatkuu, kunnes päästään perimysketjun huipulle Object-olioon. Javascriptissä oliot siis perivät toisten olioiden ominaisuuksia eivätkä luokkatasolla määrättyjä ominaisuuksia. Jos on määritelty konstruktori oliolle <code>a</code> ja tuolla konstruktorilla luodaan <code>b</code>, kaikki ne oliot, jotka perivät ominaisuuksia <code>a</code>:lta perivät vain <code>a</code>:n ominaisuudet. Vaikka <code>b</code>:hen lisättäisiin kenttiä, <code>a</code>:n "perilliset" eivät perisi <code>b</code>:n uusia ominaisuuksia.</p>
 
@@ -334,10 +313,11 @@ Kun ulomman funktion suoritus päättyy, niin sisemmän funktion elämä ei pä�
 <h3>
 <a name="41-javascript-ja-oliot" class="anchor" href="#41-javascript-ja-oliot"><span class="octicon octicon-link"></span></a>4.1 Javascript ja Oliot</h3>
 
-<p>Eräs määrittely Javascriptin oliolle on seuraava: "Olio on kokoelma ominaisuuksia, joilla on yksi yhteinen prototyyppiolio. Prototyyppi voi olla joko olio tai <code>null</code> [10]." Toisaalta olio voidaan määritellä myös seuraavasti: "Javascriptissä kaikki käyttäytyvät oliomaisesti, paitsi <code>undefined</code> ja <code>null</code> [9]."
-Yleisesti mielletään, että oliot ovat funktioiden ilmentymiä, jotka luodaan käyttämällä avainsanaa <code>new</code>. Olioita voi ajatella myös avain-, arvopareina, joita käytetään, kuten Hashmap-tietorakennetta.</p>
+<p>Eräs määrittely Javascriptin oliolle on seuraava: "Olio on kokoelma ominaisuuksia, joilla on yksi yhteinen prototyyppiolio. Prototyyppi voi olla joko olio tai <code>null</code> [10]." Toisaalta olio voidaan määritellä myös seuraavasti: "Javascriptissä kaikki käyttäytyvät oliomaisesti, paitsi <code>undefined</code> ja <code>null</code> [9]."</p>
 
-<p>Emme löytäneet mitään perusteluja sille, miksi Javascriptin oliosuunnittelussa tulisi poiketa oliosuunnittelun yleisistä periaatteista. Näinollen suosittelemme suunnittelemaan oliot esimerkiksi GRASP-periaatteita noudattaen [15]. Javascript tarjoaa kuitenkin erittäin hyvän suunnittelumallin nimeltä Module-pattern, jonka avulla sovelluksen toimintalogiikkaa voidaan kapseloida hyödyntämällä sulkeumia ja anonyymejä funktioita. Tutustutaan ensin kuitenkin yksinkertaisen olion rakenteeseen.</p>
+<p>Yleisesti mielletään, että oliot ovat funktioiden ilmentymiä, jotka luodaan käyttämällä avainsanaa <code>new</code>. Olioita voi ajatella myös avain-, arvopareina, joita käytetään, kuten Hashmap-tietorakennetta.</p>
+
+<p>Emme löytäneet mitään perusteluja sille, miksi Javascriptin oliosuunnittelussa tulisi poiketa oliosuunnittelun yleisistä periaatteista. Näin ollen suosittelemme suunnittelemaan oliot esimerkiksi GRASP-periaatteita noudattaen [15]. Javascript tarjoaa kuitenkin erittäin hyvän suunnittelumallin nimeltä Module-pattern, jonka avulla sovelluksen toimintalogiikkaa voidaan kapseloida hyödyntämällä sulkeumia ja anonyymejä funktioita. Tutustutaan ensin kuitenkin yksinkertaisen olion rakenteeseen.</p>
 
 <p>Esimerkki yksinkertaisesta oliosta ja kuva sen prototyypistä</p>
 
@@ -396,13 +376,11 @@ Samoin toimitaan, jos olion "määrittelemättömän" kentän arvoa yritetään 
 <span class="p">}</span>
 </pre></div>
 
-<p>Esimerkkiobjekteja:</p>
+<p>Tässä uusi olio luodaan käyttämällä <code>new</code>-kutsua.</p>
 
 <div class="highlight"><pre><span class="n">var</span> <span class="n">Joe</span> <span class="o">=</span> <span class="n">new</span> <span class="n">make_person_object</span><span class="p">(</span><span class="s">"Joe"</span><span class="p">,</span> <span class="s">"Smith"</span><span class="p">,</span> <span class="mi">23</span><span class="p">);</span>
 <span class="n">console</span><span class="p">.</span><span class="n">log</span><span class="p">(</span><span class="n">Joe</span><span class="p">);</span> <span class="c1">// {firstname: "Joe", lastname: "Smith", age: 23}</span>
 </pre></div>
-
-<p>Tässä käytetään <code>new</code>-kutsua, mikä johtaa odotettuun tulokseen eli siihen, että <code>Joe</code> syntyy. On mahdollista myös lisätä <code>make_person_object</code>:iin <code>person = {}</code> ja <code>return person</code>, jolloin new operaatiota ei tarvita. Lienee kuitenkin helpompaa käyttää <code>new</code> operaatiota.</p>
 
 <p>Nyt voidaan olion prototyypille lisätä greet() metodi, joka käyttää olion parametrejä this viitteen avulla. Tulostuksessa tulostetaan juuri lisätty full_name ja aiemmin olioon asetettu this.firstname.</p>
 
@@ -440,38 +418,13 @@ Samoin toimitaan, jos olion "määrittelemättömän" kentän arvoa yritetään 
 
 <span class="c1">// tulostuu yhä</span>
 <span class="mi">596517742</span>
+
+<span class="c1">// Tässä numeron pitäisi oikeastaan käyttäytyä stringin tavoin, koska isbn10-numerossa</span>
+<span class="c1">// ensimmäinen numero on merkitsevä, mutta saanemme tämän anteeksi.</span>
 </pre></div>
-
-<p>Javascript-ohjelmoinnissa olisi järkevää käyttää jo aiemmin mainittua module pattern -suunnittelumallia. Mallin idea on "emuloida" luokkien ideaa, eli kapseloida olioiden sisältö siten, että olion sisäistä tilaa pääsee muokkaamaan vain "settereiden" avulla. Suunnittelumalli mahdollistaa sekä julkisten että yksityisten metodien ja muuttujien käytön. Isoissa projekteissa tämä pienentää todennäköisyyttä, että ohjelmoijien tahoillaan luomat rakenteet voisivat sekoittua toisten ohjelmoijien rakenteisiin [9]. </p>
-
-<p>Seuraavassa esimerkki module pattern suunnittelumallista.</p>
-
-<div class="highlight"><pre><span class="kd">var</span> <span class="nx">testModule</span> <span class="o">=</span> <span class="p">(</span><span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
-	 
-  <span class="kd">var</span> <span class="nx">counter</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-	 
-  <span class="k">return</span> <span class="p">{</span>
-	 
-    <span class="nx">incrementCounter</span><span class="o">:</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
-	      <span class="k">return</span> <span class="nx">counter</span><span class="o">++</span><span class="p">;</span>
-    <span class="p">},</span>
-	 
-    <span class="nx">resetCounter</span><span class="o">:</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
-      <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span> <span class="s2">"counter value prior to reset: "</span> <span class="o">+</span> <span class="nx">counter</span> <span class="p">);</span>
-      <span class="nx">counter</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-    <span class="p">}</span>
-  <span class="p">};</span>
-	 
-<span class="p">})();</span>
-
-<span class="c1">// Increment our counter</span>
-<span class="nx">testModule</span><span class="p">.</span><span class="nx">incrementCounter</span><span class="p">();</span>
-</pre></div>
-
-<p>Tässä <code>counter</code>-muuttujaan pääsee käsiksi ainoastaan moduulin palauttamien metodien avulla. Tämä suunnittelumalli on siis erityisesti edullinen julkisia rajapintoja luotaessa ja suurissa projekteissa, mutta toisaalta tällä ohjelmointityylillä häivytetään Javascriptille ominaista dynaamisuutta. Toki on edelleen niin, että jos <code>testModules</code> luodaan uusia ilmentymiä, niille voi asettaa omia kenttiä mielin määrin.</p>
 
 <h3>
-<a name="42-perint%C3%A4-javascriptiss%C3%A4" class="anchor" href="#42-perint%C3%A4-javascriptiss%C3%A4"><span class="octicon octicon-link"></span></a>4.2 Perintä Javascriptissä</h3>
+<a name="42-perintä-javascriptissä" class="anchor" href="#42-perint%C3%A4-javascriptiss%C3%A4"><span class="octicon octicon-link"></span></a>4.2 Perintä Javascriptissä</h3>
 
 <p>Olio-ohjelmoinnissa, kuten ohjelmoinnissa yleensäkin tulee vastaan tilanteita, joissa samanlaisia, tai miltei samanlaisia ohjelmanosia tarvitaan useassa kohdassa ohjelmakoodia. Helppo ratkaisu on kopioida tarvitut ohjelmanosat sinne missä niitä tarvitaan. Tämä on luonnollisestikin hyvän ohjelmointitavan vastaista ja onkin pyrittävä tekemään koodista mahdollisimman uudelleenkäytettävää. Perintä on yksi keino, jonka avulla voidaan välttyä kirjoittamasta jo kerran kirjoitettua koodia uudestaan. </p>
 
@@ -559,9 +512,7 @@ Rectangle.prototype.__proto__=Shape.prototype.</p>
 
 <p>[15] GRASP (object-oriented design) / <a href="http://en.wikipedia.org/wiki/GRASP_(object-oriented_design)">http://en.wikipedia.org/wiki/GRASP_(object-oriented_design)</a></p>
 
-<p>[16] JavaScript Inheritance by Example / Klaus Komeda <a href="http://www.klauskomenda.com/code/javascript-inheritance-by-example/">http://www.klauskomenda.com/code/javascript-inheritance-by-example/</a></p>
-
-
+<p>[16] JavaScript Inheritance by Example / Klaus Komeda <a href="http://www.klauskomenda.com/code/javascript-inheritance-by-example/">http://www.klauskomenda.com/code/javascript-inheritance-by-example/</a>	
 	<p>
 		<a href="week2.html">Tyyppiturvallisuuden tavoittelua (2. viikko)</a> <br />
 		<a href="week3.html">Hyviä ohjelmointikäytäntöjä: algoritmit, funktiot, sulkeumat, poikkeukset (3. viikko)</a> <br />
