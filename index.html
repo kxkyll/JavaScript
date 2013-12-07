@@ -382,7 +382,7 @@ Samoin toimitaan, jos olion "määrittelemättömän" kentän arvoa yritetään 
 <span class="n">console</span><span class="p">.</span><span class="n">log</span><span class="p">(</span><span class="n">Joe</span><span class="p">);</span> <span class="c1">// {firstname: "Joe", lastname: "Smith", age: 23}</span>
 </pre></div>
 
-<p>Nyt voidaan olion prototyypille lisätä greet() metodi, joka käyttää olion parametrejä this viitteen avulla. Tulostuksessa tulostetaan juuri lisätty full_name ja aiemmin olioon asetettu this.firstname.</p>
+<p>Nyt voidaan olion prototyypille lisätä <codegreet()</code>-metodi, joka käyttää olion parametrejä this viitteen avulla. Tulostuksessa tulostetaan juuri lisätty <code>full_name</code> ja aiemmin olioon asetettu <code>this.firstname</code>.</p>
 
 <div class="highlight"><pre><span class="nx">make_person_object</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">greet</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(){</span> 
     <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">"Hello! I'm, this.full_name, "</span><span class="nx">Call</span> <span class="nx">me</span><span class="s2">", this.firstname); </span>
@@ -441,10 +441,9 @@ Alla yksinkertainen esimerkki siitä miten perintä voidaan toteuttaa Object.cre
 <span class="n">write</span><span class="p">(</span><span class="n">pupu</span><span class="p">.</span><span class="n">syo</span><span class="p">)</span>             <span class="c1">//tosi</span>
 <span class="n">write</span><span class="p">(</span><span class="n">pupu</span><span class="p">.</span><span class="n">hyppii</span><span class="p">)</span>          <span class="c1">//tosi</span>
 </pre></div>
-Luodaan ensin olio elain jolla on attribuutti <code>syo</code>. Seuraavaksi luodaan olio pupu joka perii elain olion. Seuraavaksi lisäämme pupulle kentän <code>hyppii</code>. Lopuksi tulostamme kenttien sisällöt ja voimme todeta niiden perusteella, että pupu on perinyt kentän <code>syo</code>.
+Luodaan ensin <code>olio</code> elain jolla on attribuutti <code>syo</code>. Seuraavaksi luodaan olio <code>pupu</code>, joka perii <code>elain</code>-olion. Seuraavaksi lisäämme pupulle kentän <code>hyppii</code>. Lopuksi tulostamme kenttien sisällöt ja voimme todeta niiden perusteella, että <code>pupu</code> on perinyt kentän <code>syo</code>.
 
-<p>Perintä voidaan tehdä myös käyttäen tuttua avainsanaa <code>new</code>: Rectangle.prototype = new Shape(). 
-Lisäksi on epästandardi tapa toteuttaa perintä eli sijoittaa arvoja suoraan __proto__ kenttiin: Rectangle.prototype.__proto__=Shape.prototype.</p>
+<p>Perintä voidaan tehdä myös käyttäen tuttua avainsanaa <code>new</code>: <code>Rectangle.prototype = new Shape()</code>. Lisäksi on olemassa myös epästandardi - tosin käyttökelpoinen - tapa toteuttaa perintä sijoittamalla arvoja suoraan <code>__proto__</code>-kenttiin: <code>Rectangle.prototype.__proto__=Shape.prototype.</code></p>
 
 <p>Toinen esimerkki prototyyppiperinnästä, käyttäen <code>new</code> avainsanaa. [12]</p>
 
@@ -478,16 +477,16 @@ Lisäksi on epästandardi tapa toteuttaa perintä eli sijoittaa arvoja suoraan _
 <span class="n">rect</span><span class="p">.</span><span class="n">move</span><span class="p">(</span><span class="mh">1</span><span class="p">,</span> <span class="mh">1</span><span class="p">);</span> <span class="c1">// Outputs, "Shape moved."</span>
 </pre></div>
 
-<p>Ylläolevassa esimerkissä luotiin ensin Shape-olion konstruktorifunktio jolle asetettiin kentät <code>x</code> ja <code>y</code>. Tämän jälkeen Shape-oliolle lisättiin kenttä <code>move</code>. Seuraavaksi määriteltiin Rectangle-olion konstruktorifunktion. Varsinainen perintä tapahtuu kun Rectangle-olion prototyypiksi laitetaan Shape.prototype. Perinnän jälkeen on vielä hyvä tapa laittaa perijän konstruktori funktio osoittamaan takaisin perijään: Rectangle.prototype.constructor = Rectangle. Nyt Rectangle konstruktorifunktiota kutsumalla luodut oliot perivät Shape-olion kentät.</p>
+<p>Ylläolevassa esimerkissä luotiin ensin <code>Shape</code>-olion konstruktorifunktio jolle asetettiin kentät <code>x</code> ja <code>y</code>. Tämän jälkeen <code>Shape</code>-oliolle lisättiin kenttä <code>move</code>. Seuraavaksi määriteltiin <code>Rectangle</code>-olion konstruktorifunktion. Varsinainen perintä tapahtuu kun <code>Rectangle</code>-olion prototyypiksi laitetaan <code>Shape.prototype</code>. Perinnän jälkeen on vielä hyvä tapa laittaa perijän konstruktorifunktio osoittamaan takaisin perijään: <code>Rectangle.prototype.constructor = Rectangle</code>. Nyt Rectangle konstruktorifunktiota kutsumalla luodut oliot perivät <code>Shape</code>-olion kentät.</p>
 
-<p>Javascriptillä voidaan myös toteuttaa moniperintä, jossa olio perii ominaisuuksia useilta muilta olioilta. Tällöin saadaan olion käyttöön useiden muiden olioiden omaisuudet, mutta menetetään yhteys olion prototyyppiketjuun eli perittävään olion tehtävät muutokset eivät välity perijälle. Jos moniperintää haluaa käyttää niin löytyy ainakin Ring.js javascript kirjasto sen toteuttamista helpottamaan. Moniperintä ei ole ECMAScript standardin mukainen ominaisuus, joten ei siitä sen enempää. </p>
+<p>Javascriptillä voidaan myös toteuttaa moniperintä, jossa olio perii ominaisuuksia useilta muilta olioilta. Tällöin saadaan olion käyttöön useiden muiden olioiden omaisuudet, mutta menetetään yhteys olion prototyyppiketjuun eli perittävään olioon tehtävät muutokset eivät välity perijälle. Jos moniperintää haluaa käyttää niin löytyy ainakin Ring.js-Javascript-kirjasto sen toteuttamista helpottamaan. Moniperintä ei ole ECMAScript-standardin mukainen ominaisuus, joten ei siitä sen enempää.</p>
 
 <h2>
 <a name="5-lopuksi" class="anchor" href="#5-lopuksi"><span class="octicon octicon-link"></span></a>5. Lopuksi</h2>
 
-<p>Javascript ei ole mikään kuollut kieli vaan sitä kehitetään koko ajan. Nykyisin käytössä on ECMAScriptin versio 5. Jotkut selaimet kuten Mozilla Firefox tukevat jo myös osaa version 6.0 omaisuuksista.  Javascriptin versio 6.0 tukee monesta muusta ohjelmointikielestä tuttuja tietorakenteita <code>Map</code> ja <code>Set</code>. Tosin on  muistettava että selainten tekijät päättävät itse, mitä ECMAScript standardin määrityksiä he toteuttavat . Tämän vuoksi kaikkien määriteltyjen ominaisuuksien saaminen käyttöön ei ole mikään itsestäänselvyys. Toisaalta, joku selainvalmistaja voi myös tuoda uusia ominaisuuksia selaimeensa ennenkuin ne on lisätty virallisesti mihinkään Javascriptin määritelmään.</p>
+<p>Javascript ei ole mikään kuollut kieli vaan sitä kehitetään koko ajan. Nykyisin käytössä on ECMAScriptin versio 5. Jotkut selaimet kuten Mozilla Firefox tukevat jo myös osaa version 6.0 omaisuuksista.  Javascriptin versio 6.0 tukee monesta muusta ohjelmointikielestä tuttuja tietorakenteita <code>Map</code> ja <code>Set</code>. Tosin on  muistettava että selainten tekijät päättävät itse, mitä ECMAScript-standardin määrityksiä he toteuttavat. Tämän vuoksi kaikkien määriteltyjen ominaisuuksien saaminen käyttöön ei ole mikään itsestäänselvyys. Toisaalta, joku selainvalmistaja voi myös tuoda uusia ominaisuuksia selaimeensa ennenkuin ne on lisätty virallisesti mihinkään Javascriptin määritelmään.</p>
 
-<p>Javascript ohjelmoijan ei suinkaan tarvitse kirjoittaa kaikkea koodia itse vaan hän voi käyttää hyväkseen valmiita javascriptkirjastoja moniin eri tarpeisiin. Tälläisiä kirjastoja ovat esimerkiksi jQuery, Underscore, Midori ja AngularJS. Jos haluaa välttää Javascriptin kirjoittamisen niin on olemassa käännösohjelmia joilla muulla kielellä kirjoitettu koodi käännetään Javascriptiksi.</p>
+<p>Javascript-ohjelmoijan ei suinkaan tarvitse kirjoittaa kaikkea koodia itse, vaan hän voi käyttää hyväkseen valmiita Javascript-kirjastoja moniin eri tarpeisiin. Tälläisiä kirjastoja ovat esimerkiksi jQuery, Underscore, Midori ja AngularJS. Jos haluaa välttää Javascriptin kirjoittamisen, voi käyttää  käännösohjelmia, joilla muulla kielellä kirjoitettu koodi käännetään Javascriptiksi.</p>
 
 <p>Lähteet:</p>
 
