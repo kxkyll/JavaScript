@@ -426,12 +426,11 @@ Samoin toimitaan, jos olion "määrittelemättömän" kentän arvoa yritetään 
 <h3>
 <a name="42-perint%C3%A4-javascriptiss%C3%A4" class="anchor" href="#42-perint%C3%A4-javascriptiss%C3%A4"><span class="octicon octicon-link"></span></a>4.2 Perintä Javascriptissä</h3>
 
-<p>Olio-ohjelmoinnissa, kuten ohjelmoinnissa yleensäkin tulee vastaan tilanteita, joissa samanlaisia, tai miltei samanlaisia ohjelmanosia tarvitaan useassa kohdassa ohjelmakoodia. Helppo ratkaisu on kopioida tarvitut ohjelmanosat sinne missä niitä tarvitaan. Tämä on luonnollisestikin hyvän ohjelmointitavan vastaista ja onkin pyrittävä tekemään koodista mahdollisimman uudelleenkäytettävää. Perintä on yksi keino, jonka avulla voidaan välttyä kirjoittamasta jo kerran kirjoitettua koodia uudestaan. Jos perintää ei erikseen määritellä niin luotu olio perii Object.prototype:n. </p>
+<p>Olio-ohjelmoinnissa, kuten ohjelmoinnissa yleensäkin tulee vastaan tilanteita, joissa samanlaisia, tai miltei samanlaisia ohjelmanosia tarvitaan useassa kohdassa ohjelmakoodia. Helppo ratkaisu on kopioida tarvitut ohjelmanosat sinne missä niitä tarvitaan. Tämä on luonnollisestikin hyvän ohjelmointitavan vastaista ja onkin pyrittävä tekemään koodista mahdollisimman uudelleenkäytettävää. Perintä on yksi keino, jonka avulla voidaan välttyä kirjoittamasta jo kerran kirjoitettua koodia uudestaan. Jos perintää ei erikseen määritellä niin luotu olio perii <code>Object.prototype</code>n.</p>
 
 <p>Javascriptissä käytetään prototyyppeihin perustuvaa perintää. Jokaisella oliolla on yksi prototyyppi. Prototyypit muodostavat ketjun joka loppuu Object-olion prototyyppikenttään jossa on arvo <code>null</code>. On myös mahdollista katkaista prototyyppiketju asettamalla perittävän olion tilalle arvo <code>null</code>. Olion prototyyppiolio eli se olio jolta omaisuuksia peritään voidaan määritellä usealla eri tavalla. Tämä johtuu osittain siitä että myös olio voidaan määritellä monin eri tavoin. </p>
 
-<p>Yksi tapa tehdä perinnän määrittely on käyttäen Object.createa: Rectangle.prototype = Object.create(Shape.prototype). 
-Alla yksinkertainen esimerkki siitä miten perintä voidaan toteuttaa Object.createa käyttäen.</p>
+<p>Yksi tapa tehdä perinnän määrittely on käyttäen <code>Object.create</code>-funktiota: <code>Rectangle.prototype = Object.create(Shape.prototype)</code>. Alla yksinkertainen esimerkki siitä, miten perintä voidaan toteuttaa <code>Object.createa</code> käyttämällä.</p>
 
 <div class="highlight"><pre><span class="n">var</span> <span class="n">elain</span> <span class="o">=</span> <span class="p">{</span> <span class="n">syo</span><span class="o">:</span> <span class="s">"tosi"</span> <span class="p">}</span>
 
